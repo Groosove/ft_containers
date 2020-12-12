@@ -1,0 +1,5 @@
+.DS_Store
+
+cmake-debug-building
+
+CMakeList.txt
