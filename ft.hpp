@@ -7,6 +7,8 @@
 #define FT_CONTAINERS_FT_HPP
 
 #include <iostream>
+#include <iterator>
+
 namespace ft {
 	template <class T, class Alloc = std::allocator<T> >
 	class list;
