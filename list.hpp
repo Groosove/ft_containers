@@ -7,9 +7,6 @@
 #define FT_CONTAINERS_LIST_HPP
 
 #include "ft.hpp"
-#include <list>
-
-class iterator;
 
 template <class T, class Alloc>
 class ft::list {

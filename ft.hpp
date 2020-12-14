@@ -8,12 +8,13 @@
 
 #include <iostream>
 #include <iterator>
+#include <deque>
 
 namespace ft {
 	template <class T, class Alloc = std::allocator<T> >
 	class list;
 
-	template <class T, class Alloc = std::allocator<T> >
+	template <class T, class Container = std::deque<T> >
 	class stack;
 
 	template <class T, class Alloc = std::allocator<T> >
