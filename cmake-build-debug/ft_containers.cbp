@@ -83,6 +83,9 @@
 		<Unit filename="/Users/flavon/Desktop/ft_containers/ft.hpp">
 			<Option target="ft_containers"/>
 		</Unit>
+		<Unit filename="/Users/flavon/Desktop/ft_containers/iterators.hpp">
+			<Option target="ft_containers"/>
+		</Unit>
 		<Unit filename="/Users/flavon/Desktop/ft_containers/list.hpp">
 			<Option target="ft_containers"/>
 		</Unit>
