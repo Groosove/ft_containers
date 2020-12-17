@@ -30,8 +30,10 @@ private:
 	}				_List;
 
 	_List* _list;
-	value_type _type;
+	allocator_type _alloc;
 	size_type _size;
+	value_type _type;
+
 	/* iterator */
 	class iterator: public std::iterator<T, std::bidirectional_iterator_tag> {
 	private:
@@ -144,8 +146,8 @@ private:
 public:
 
 	/* Constructor */
-	explicit list(const allocator_type &alloc = allocator_type()): _list(nullptr), _type(alloc), _size(0) {};
-	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _size(n), _ {};
+	explicit list(const allocator_type &alloc = allocator_type()): _list(nullptr), _alloc(alloc), _type(0), _size(0) {};
+	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _size(n), _alloc(alloc), _type(val) {};
 	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 	list (const list<value_type>&x);
 	list &operator=(const list<value_type> &x);
