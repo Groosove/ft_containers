@@ -23,16 +23,16 @@ public:
 	typedef ptrdiff_t 	difference_type;
 
 private:
+
 	typedef struct Node {
-		T *content;
+		value_type *content;
 		Node* next;
 		Node* prev;
 	}				_List;
 
-	_List* _list;
 	allocator_type _alloc;
 	size_type _size;
-	value_type _type;
+	_List *_node;
 
 	/* iterator */
 	class iterator: public std::iterator<T, std::bidirectional_iterator_tag> {
@@ -146,21 +146,39 @@ private:
 public:
 
 	/* Constructor */
-	explicit list(const allocator_type &alloc = allocator_type()): _list(nullptr), _alloc(alloc), _type(0), _size(0) {};
-	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _size(n), _alloc(alloc), _type(val) {};
-	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-	list (const list<value_type>&x);
-	list &operator=(const list<value_type> &x);
+	explicit list(const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(0) {
+		this->_node->data = this->_alloc.allocate(1);
+		_node->prev = _node;
+		_node->next = _node;
+	};
+	
+	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(n) {
+		while(n--) this->push_back(val);
+	};
+	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _alloc(alloc), _size(first - last) {
+		while (first != last)
+			this->push_back(*first++);
+	};
+	list (const list<value_type>&x) { *this = x; };
+	list &operator=(const list<value_type> &x) {
+	if (this->_list.empty())
+		this->clear();
+	for (const_iterator it = x.begin(); it != x.end();++it)
+		this->push_back(*it);
+	return *this;
+	};
 
 	/* Destructor */
-	~list() throw();
+	~list() throw() {
+
+	};
 
 	/* Iterators */
-	iterator begin() { return iterator(_list->next->content); };
-	iterator end() { return iterator(_list->prev->content); };
+	iterator begin() { return iterator(this->_end->next->content); };
+	iterator end() { return iterator(this->_begin->prev->content); };
 
-	const_iterator cbegin() const { return const_iterator(_list->next->content); };
-	const_iterator cend() const { return const_iterator(_list->prev->content); };
+	const_iterator cbegin() const { return const_iterator(this->_end->content); };
+	const_iterator cend() const { return const_iterator(this->_end->content); };
 
 	reverse_iterator rbegin() { return reverse_iterator(_list->prev->content); };
 	reverse_iterator rend() { return reverse_iterator(_list->next->content); };
