@@ -29,8 +29,10 @@ private:
 		Node* next;
 		Node* prev;
 	}				_List;
+	typedef typename allocator_type::template rebind<_List>::other allocator_rebind_type;
 
 	allocator_type _alloc;
+	allocator_rebind_type _alloc_rebind;
 	size_type _size;
 	_List *_node;
 
@@ -143,22 +145,33 @@ private:
 		T & operator*() const { return *(this->_it->content); };
 		T * operator->() const { return this->it->content; }
 	};
+
+	void createList() {
+		this->_node = this->_alloc_rebind.allocate(1);
+		this->_node->data = this->_alloc.allocate(1);
+		this->_node->prev = nullptr;
+		this->_node->next = nullptr;
+		this->_node = this->_begin_node;
+	}
 public:
 
 	/* Constructor */
 	explicit list(const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(0) {
-		this->_node->data = this->_alloc.allocate(1);
-		_node->prev = _node;
-		_node->next = _node;
+		createList();
 	};
 	
-	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(n) {
-		while(n--) this->push_back(val);
+	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(0) {
+		createList();
+		while(n--)
+			this->push_back(val);
 	};
-	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _alloc(alloc), _size(first - last) {
+
+	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _alloc(alloc), _size(0) {
+		createList();
 		while (first != last)
 			this->push_back(*first++);
 	};
+	
 	list (const list<value_type>&x) { *this = x; };
 	list &operator=(const list<value_type> &x) {
 	if (this->_list.empty())
@@ -170,26 +183,26 @@ public:
 
 	/* Destructor */
 	~list() throw() {
-
+		delete _node;
 	};
 
 	/* Iterators */
-	iterator begin() { return iterator(this->_end->next->content); };
-	iterator end() { return iterator(this->_begin->prev->content); };
+	iterator begin() { return iterator(this->_begin_node->content); };
+	iterator end() { return iterator(this->_end_node->content); };
 
-	const_iterator cbegin() const { return const_iterator(this->_end->content); };
-	const_iterator cend() const { return const_iterator(this->_end->content); };
+	const_iterator cbegin() const { return const_iterator(this->_begin_node->content); };
+	const_iterator cend() const { return const_iterator(this->_end_node->content); };
 
-	reverse_iterator rbegin() { return reverse_iterator(_list->prev->content); };
-	reverse_iterator rend() { return reverse_iterator(_list->next->content); };
+	reverse_iterator rbegin() { return reverse_iterator(this->end->content); };
+	reverse_iterator rend() { return reverse_iterator(this->_begin_node->content); };
 
-	const_reverse_iterator crbegin() const { return const_reverse_iterator(_list->prev->content); };
-	const_reverse_iterator crend() const { return const_reverse_iterator(_list->next->content); };
+	const_reverse_iterator crbegin() const { return const_reverse_iterator(this->end->content); };
+	const_reverse_iterator crend() const { return const_reverse_iterator(this->_begin_node->content); };
 
 	/* Capacity */
-	bool empty() const;
-	size_type size() const;
-	size_type max_size() const;
+	bool empty() const { return !this->_size; };
+	size_type size() const { return this->_size; };
+	size_type max_size() const { return sizeof(size_type); };
 
 	/* Element access */
 	reference front();
@@ -202,7 +215,17 @@ public:
 	void assign (size_type n, const value_type& val);
 	void push_front (const value_type& val);
 	void pop_front();
-	void push_back (const value_type& val);
+	void push_back (const value_type& val) {
+		(void)val;
+		_List *node = this->_alloc_rebind.allocate(1);
+		node->data = this->_alloc.allocate(1);
+		_alloc.construct(node, &val);
+		node->next = nullptr;
+		node->prev = this->_node;
+		this->_node->next = node;
+		this->_size += 1;
+	};
+
 	void pop_back();
 	iterator insert (iterator position, const value_type& val);
 	void insert (iterator position, size_type n, const value_type& val);
@@ -226,7 +249,6 @@ public:
 	void sort();
 	template <class Compare> void sort (Compare comp);
 	void reverse();
-
 };
 
 template <class T, class Alloc>
@@ -238,7 +260,7 @@ bool operator!= (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
 	{ return lhs._container != rhs._container; };
 
 template <class T, class Alloc>
-bool operator<  (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+bool operator< (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
 	{ return lhs._container < rhs._container; };
 
 template <class T, class Alloc>
@@ -246,7 +268,7 @@ bool operator<= (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
 	{ return lhs._container <= rhs._container; };
 
 template <class T, class Alloc>
-bool operator>  (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
+bool operator> (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
 	{ return lhs._container > rhs._container; };
 
 template <class T, class Alloc>
