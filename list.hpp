@@ -36,19 +36,27 @@ private:
 	size_type _size;
 	_List *_node;
 
+	void createList() {
+		this->_node = this->_alloc_rebind.allocate(1);
+		this->_node->content = this->_alloc.allocate(1);
+		this->_node->prev = nullptr;
+		this->_node->next = nullptr;
+	}
+
+public:
 	/* iterator */
 	class iterator: public std::iterator<T, std::bidirectional_iterator_tag> {
 	private:
 		_List* _it;
 	public:
 		explicit iterator(_List* it = nullptr): _it(it) {};
-		~iterator() { delete _it; };
-		iterator & operator=(const iterator &it) { this->_it = it; return *this; };
-		iterator(const iterator &it) { this = it; };
+		~iterator() {};
+		iterator & operator=(const iterator &it) { this->_it = it._it; return *this; };
+		iterator(const iterator &it) { *this = it; };
 		iterator & operator++() { this->_it = _it->next; return *this; };
 		iterator operator++(int) {
 			iterator tmp(_it);
-			this->_it += _it->next;
+			this->_it = _it->next;
 			return tmp;
 		};
 		iterator & operator--() { this->_it = _it->prev; return *this; };
@@ -57,8 +65,8 @@ private:
 			this->_it = _it->prev;
 			return tmp;
 		};
-		bool operator==(const iterator &it) const { return this->_it.content == it._it.content; };
-		bool operator!=(const iterator &it) const { return this->_it.content != it._it.content; };
+		bool operator==(const iterator &it) const { return this->_it->content == it._it->content; };
+		bool operator!=(const iterator &it) const { return this->_it->content != it._it->content; };
 		T & operator*() const { return *(this->_it->content); };
 		T * operator->() const { return this->it->content; }
 	};
@@ -146,15 +154,6 @@ private:
 		T * operator->() const { return this->it->content; }
 	};
 
-	void createList() {
-		this->_node = this->_alloc_rebind.allocate(1);
-		this->_node->data = this->_alloc.allocate(1);
-		this->_node->prev = nullptr;
-		this->_node->next = nullptr;
-		this->_node = this->_begin_node;
-	}
-public:
-
 	/* Constructor */
 	explicit list(const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(0) {
 		createList();
@@ -182,13 +181,16 @@ public:
 	};
 
 	/* Destructor */
-	~list() throw() {
-		delete _node;
-	};
+	~list() throw() {};
 
 	/* Iterators */
-	iterator begin() { return iterator(this->_begin_node->content); };
-	iterator end() { return iterator(this->_end_node->content); };
+	iterator begin() { return iterator(this->_node); };
+	iterator end() {
+		iterator it = begin();
+		for (size_type i = 0; i < this->_size; ++i)
+			it++;
+		return it;
+	};
 
 	const_iterator cbegin() const { return const_iterator(this->_begin_node->content); };
 	const_iterator cend() const { return const_iterator(this->_end_node->content); };
@@ -218,8 +220,8 @@ public:
 	void push_back (const value_type& val) {
 		(void)val;
 		_List *node = this->_alloc_rebind.allocate(1);
-		node->data = this->_alloc.allocate(1);
-		_alloc.construct(node, &val);
+		node->content = this->_alloc.allocate(1);
+		_alloc.construct(node->content, val);
 		node->next = nullptr;
 		node->prev = this->_node;
 		this->_node->next = node;
