@@ -20,53 +20,23 @@
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
+      <config projectName="ft_containers" targetName="ft_queue" />
+      <config projectName="ft_containers" targetName="non" />
       <config projectName="ft_containers" targetName="ft_list" />
+      <config projectName="ft_containers" targetName="ft_stack" />
     </generated>
   </component>
-  <component name="CMakeSettings">
+  <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
       <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f89f57f-31ae-419c-9398-40875d2d9ca5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/sources/list.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sources/main.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ft_containers.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.17.3/CMakeCCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.17.3/CMakeCXXCompiler.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_C.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.17.3/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.17.3/CMakeSystem.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdC/CMakeCCompilerId.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.17.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ft_containers.dir/DependInfo.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ft_containers.dir/build.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ft_containers.dir/cmake_clean.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ft_containers.dir/depend.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ft_containers.dir/flags.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ft_containers.dir/link.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/ft_containers.dir/progress.make" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/ft_containers.cbp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iterators.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/iterators.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/list.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/list.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/list.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/list.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +46,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -109,12 +80,27 @@
       <recent name="$PROJECT_DIR$/sources" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+  <component name="RunManager" selected="CMake Application.ft_list">
+    <configuration name="ft_list" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_list" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_list">
       <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ft_queue" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_queue" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_queue">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ft_stack" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_stack" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_stack">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.ft_list" />
+      <item itemvalue="CMake Application.ft_queue" />
+      <item itemvalue="CMake Application.ft_stack" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -133,6 +119,13 @@
       <workItem from="1608674439345" duration="6000" />
       <workItem from="1608674453339" duration="31000" />
       <workItem from="1608674504914" duration="260000" />
+      <workItem from="1608674776021" duration="256000" />
+      <workItem from="1608722998407" duration="1308000" />
+      <workItem from="1608727024942" duration="72000" />
+      <workItem from="1608727128861" duration="13000" />
+      <workItem from="1608727150788" duration="2151000" />
+      <workItem from="1608747319532" duration="1226000" />
+      <workItem from="1608755346313" duration="6101000" />
     </task>
     <servers />
   </component>
@@ -152,56 +145,57 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608674717173">
+    <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608723039845">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2880.1620@0.0.2880.1620" timestamp="1608674717173" />
-    <state width="2838" height="483" key="GridCell.Tab.0.bottom" timestamp="1608664571472">
+    <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2880.1620@0.0.2880.1620" timestamp="1608723039845" />
+    <state width="2838" height="483" key="GridCell.Tab.0.bottom" timestamp="1608763362614">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="483" key="GridCell.Tab.0.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608664571472" />
-    <state width="2838" height="483" key="GridCell.Tab.0.center" timestamp="1608664571471">
+    <state width="2838" height="483" key="GridCell.Tab.0.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608763362614" />
+    <state width="2838" height="483" key="GridCell.Tab.0.center" timestamp="1608763362614">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="483" key="GridCell.Tab.0.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608664571471" />
-    <state width="2838" height="483" key="GridCell.Tab.0.left" timestamp="1608664571470">
+    <state width="2838" height="483" key="GridCell.Tab.0.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608763362614" />
+    <state width="2838" height="483" key="GridCell.Tab.0.left" timestamp="1608763362613">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="483" key="GridCell.Tab.0.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608664571470" />
-    <state width="2838" height="483" key="GridCell.Tab.0.right" timestamp="1608664571471">
+    <state width="2838" height="483" key="GridCell.Tab.0.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608763362613" />
+    <state width="2838" height="483" key="GridCell.Tab.0.right" timestamp="1608763362614">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="483" key="GridCell.Tab.0.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608664571471" />
-    <state width="2838" height="592" key="GridCell.Tab.1.bottom" timestamp="1608664471603">
+    <state width="2838" height="483" key="GridCell.Tab.0.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608763362614" />
+    <state width="2838" height="592" key="GridCell.Tab.1.bottom" timestamp="1608761761238">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="592" key="GridCell.Tab.1.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608664471603" />
-    <state width="2838" height="592" key="GridCell.Tab.1.center" timestamp="1608664471602">
+    <state width="2838" height="592" key="GridCell.Tab.1.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608761761238" />
+    <state width="2838" height="592" key="GridCell.Tab.1.center" timestamp="1608761761238">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="592" key="GridCell.Tab.1.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608664471602" />
-    <state width="2838" height="592" key="GridCell.Tab.1.left" timestamp="1608664471602">
+    <state width="2838" height="592" key="GridCell.Tab.1.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608761761238" />
+    <state width="2838" height="592" key="GridCell.Tab.1.left" timestamp="1608761761237">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="592" key="GridCell.Tab.1.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608664471602" />
-    <state width="2838" height="592" key="GridCell.Tab.1.right" timestamp="1608664471603">
+    <state width="2838" height="592" key="GridCell.Tab.1.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608761761237" />
+    <state width="2838" height="592" key="GridCell.Tab.1.right" timestamp="1608761761238">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
-    <state width="2838" height="592" key="GridCell.Tab.1.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608664471603" />
+    <state width="2838" height="592" key="GridCell.Tab.1.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608761761238" />
     <state x="949" y="449" key="SettingsEditor" timestamp="1608662746752">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state x="949" y="449" key="SettingsEditor/0.0.2880.1620@0.0.2880.1620" timestamp="1608662746752" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/sources/list.cpp</url>
-          <line>9</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state width="500" height="445" key="SwitcherDM" timestamp="1608727454665">
+      <screen x="0" y="0" width="2880" height="1620" />
+    </state>
+    <state width="500" height="445" key="SwitcherDM/0.0.2880.1620@0.0.2880.1620" timestamp="1608727454665" />
+    <state x="1241" y="731" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608760256829">
+      <screen x="0" y="23" width="2880" height="1520" />
+    </state>
+    <state x="1241" y="731" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.2880.1520@0.23.2880.1520" timestamp="1608760256829" />
+    <state x="1105" y="390" key="run.anything.popup" timestamp="1608761727072">
+      <screen x="0" y="23" width="2880" height="1520" />
+    </state>
+    <state x="1105" y="390" key="run.anything.popup/0.23.2880.1520@0.23.2880.1520" timestamp="1608761727072" />
   </component>
 </project>
