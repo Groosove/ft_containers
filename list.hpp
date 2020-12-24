@@ -303,9 +303,15 @@ public:
 		list->prev = node;
 		node->next = list;
 		return position;
+	}
+	void insert (iterator position, size_type n, const value_type& val) {
+		while (n--)
+			insert(position, val);
+	}
+	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last) {
+		while (first != last)
+			insert(position, *first++);
 	};
-	void insert (iterator position, size_type n, const value_type& val);
-	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 
 	iterator erase (iterator position);
 	iterator erase (iterator first, iterator last);

@@ -5,7 +5,7 @@
 
 #include "../ft.hpp"
 #include "../list.hpp"
-
+#include <vector>
 int main() {
 	{
 		ft::list<int> _lst;
@@ -93,5 +93,28 @@ int main() {
 			std::cout << *it << std::endl;
 		std::cout << std::endl;
 	}
+	{
+		ft::list<int> _lst;
+		for (int i = 0; i < 10; ++i)
+			_lst.push_back(i);
+		ft::list<int>::iterator it = ++_lst.begin();
+		const size_t val = 50;
+		_lst.insert(it, 2, val);
+		for (it = _lst.begin(); it != _lst.end(); ++it)
+			std::cout << *it << std::endl;
+		std::cout << std::endl;
+	}
+	{
+		ft::list<int> _lst;
+		for (int i = 0; i < 10; ++i)
+			_lst.push_back(i);
+		ft::list<int>::iterator it = ++_lst.begin();
+		std::vector<int> vr(5, 30);
+		_lst.insert(it, vr.begin(), vr.end());
+		for (it = _lst.begin(); it != _lst.end(); ++it)
+			std::cout << *it << std::endl;
+		std::cout << std::endl;
+	}
+
 }
 
