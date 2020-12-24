@@ -20,9 +20,9 @@
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="ft_containers" targetName="ft_queue" />
       <config projectName="ft_containers" targetName="non" />
       <config projectName="ft_containers" targetName="ft_list" />
+      <config projectName="ft_containers" targetName="ft_queue" />
       <config projectName="ft_containers" targetName="ft_stack" />
     </generated>
   </component>
@@ -33,7 +33,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f89f57f-31ae-419c-9398-40875d2d9ca5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ft.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/ft.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/iterators.hpp" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/list.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/list.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/list.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/list.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,6 +84,16 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.ft_list">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ft_list" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_list" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_list">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -130,7 +144,7 @@
       <workItem from="1608822907425" duration="2070000" />
       <workItem from="1608831890289" duration="2457000" />
       <workItem from="1608836420670" duration="2447000" />
-      <workItem from="1608839820944" duration="6767000" />
+      <workItem from="1608839820944" duration="8307000" />
     </task>
     <servers />
   </component>
@@ -154,53 +168,53 @@
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2880.1620@0.0.2880.1620" timestamp="1608723039845" />
-    <state width="2838" height="482" key="GridCell.Tab.0.bottom" timestamp="1608845275601">
+    <state width="2838" height="592" key="GridCell.Tab.0.bottom" timestamp="1608849218765">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="423" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1608824889963" />
-    <state width="2838" height="482" key="GridCell.Tab.0.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608845275601" />
+    <state width="2838" height="592" key="GridCell.Tab.0.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218765" />
     <state width="2838" height="592" key="GridCell.Tab.0.bottom/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234354" />
-    <state width="2838" height="482" key="GridCell.Tab.0.center" timestamp="1608845275600">
+    <state width="2838" height="592" key="GridCell.Tab.0.center" timestamp="1608849218764">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="423" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1608824889962" />
-    <state width="2838" height="482" key="GridCell.Tab.0.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608845275600" />
+    <state width="2838" height="592" key="GridCell.Tab.0.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218764" />
     <state width="2838" height="592" key="GridCell.Tab.0.center/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234354" />
-    <state width="2838" height="482" key="GridCell.Tab.0.left" timestamp="1608845275599">
+    <state width="2838" height="592" key="GridCell.Tab.0.left" timestamp="1608849218763">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="423" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1608824889959" />
-    <state width="2838" height="482" key="GridCell.Tab.0.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608845275599" />
+    <state width="2838" height="592" key="GridCell.Tab.0.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218763" />
     <state width="2838" height="592" key="GridCell.Tab.0.left/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234353" />
-    <state width="2838" height="482" key="GridCell.Tab.0.right" timestamp="1608845275600">
+    <state width="2838" height="592" key="GridCell.Tab.0.right" timestamp="1608849218764">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="423" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1608824889963" />
-    <state width="2838" height="482" key="GridCell.Tab.0.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608845275600" />
+    <state width="2838" height="592" key="GridCell.Tab.0.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218764" />
     <state width="2838" height="592" key="GridCell.Tab.0.right/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234354" />
-    <state width="2838" height="592" key="GridCell.Tab.1.bottom" timestamp="1608845155131">
+    <state width="2838" height="592" key="GridCell.Tab.1.bottom" timestamp="1608849218766">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="520" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1608824851032" />
-    <state width="2838" height="592" key="GridCell.Tab.1.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608845155131" />
+    <state width="2838" height="592" key="GridCell.Tab.1.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218766" />
     <state width="2838" height="592" key="GridCell.Tab.1.bottom/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234355" />
-    <state width="2838" height="592" key="GridCell.Tab.1.center" timestamp="1608845155130">
+    <state width="2838" height="592" key="GridCell.Tab.1.center" timestamp="1608849218765">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="520" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1608824851031" />
-    <state width="2838" height="592" key="GridCell.Tab.1.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608845155130" />
+    <state width="2838" height="592" key="GridCell.Tab.1.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218765" />
     <state width="2838" height="592" key="GridCell.Tab.1.center/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234355" />
-    <state width="2838" height="592" key="GridCell.Tab.1.left" timestamp="1608845155130">
+    <state width="2838" height="592" key="GridCell.Tab.1.left" timestamp="1608849218765">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="520" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1608824851031" />
-    <state width="2838" height="592" key="GridCell.Tab.1.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608845155130" />
+    <state width="2838" height="592" key="GridCell.Tab.1.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218765" />
     <state width="2838" height="592" key="GridCell.Tab.1.left/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234355" />
-    <state width="2838" height="592" key="GridCell.Tab.1.right" timestamp="1608845155131">
+    <state width="2838" height="592" key="GridCell.Tab.1.right" timestamp="1608849218766">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state width="2518" height="520" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1608824851032" />
-    <state width="2838" height="592" key="GridCell.Tab.1.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608845155131" />
+    <state width="2838" height="592" key="GridCell.Tab.1.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218766" />
     <state width="2838" height="592" key="GridCell.Tab.1.right/0.23.2880.1520@0.23.2880.1520" timestamp="1608767234355" />
     <state x="949" y="449" key="SettingsEditor" timestamp="1608662746752">
       <screen x="0" y="0" width="2880" height="1620" />
@@ -223,16 +237,5 @@
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state x="1105" y="376" width="670" height="676" key="search.everywhere.popup/0.0.2880.1620@0.0.2880.1620" timestamp="1608843337444" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/sources/list.cpp</url>
-          <line>69</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

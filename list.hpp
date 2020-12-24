@@ -8,19 +8,19 @@
 
 #include "ft.hpp"
 #include <list>
-#include "iterators.hpp"
+
 template <class T, class Alloc>
 class ft::list {
 public:
 
-	typedef T 			value_type;
-	typedef Alloc 		allocator_type;
-	typedef T& 			reference;
-	typedef const T& 	const_reference;
-	typedef T* 			pointer;
-	typedef const T* 	const_pointer;
-	typedef size_t 		size_type;
-	typedef ptrdiff_t 	difference_type;
+	typedef T 					value_type;
+	typedef Alloc 				allocator_type;
+	typedef value_type& 		reference;
+	typedef const value_type	&const_reference;
+	typedef value_type			*pointer;
+	typedef const value_type	*const_pointer;
+	typedef size_t 				size_type;
+	typedef ptrdiff_t 			difference_type;
 
 private:
 
@@ -85,8 +85,10 @@ public:
 		};
 		bool operator==(const iterator &it) const { return this->_it->content == it._it->content; };
 		bool operator!=(const iterator &it) const { return this->_it->content != it._it->content; };
-		T & operator*() const { return *(this->_it->content); };
+		T & operator*() const { return *(this->_it->content); }
 		T * operator->() const { return this->it->content; }
+
+		_List *getNode() const { return _it; }
 	};
 
 	/* const_iterator */
@@ -114,6 +116,8 @@ public:
 		bool operator!=(const const_iterator &it) const { return this->_it->content != it._it->content; };
 		T & operator*() const { return *(this->_it->content); };
 		T * operator->() const { return this->it->content; }
+
+		_List *getNode() const { return _it; }
 	};
 
 	/* reverse_iterator */
@@ -142,6 +146,8 @@ public:
 		bool operator!=(const reverse_iterator &it) const { return this->_it.content != it._it.content; };
 		T & operator*() const { return *(this->_it->content); };
 		T * operator->() const { return this->it->content; }
+
+		_List *getNode() const { return _it; }
 	};
 
 	/* const_reverse_iterator */
@@ -168,8 +174,10 @@ public:
 
 		bool operator==(const const_reverse_iterator &it) const { return this->_it->content == it._it->content; };
 		bool operator!=(const const_reverse_iterator &it) const { return this->_it->content != it._it->content; };
-		T & operator*() const { return *(this->_it->content); };
+		T & operator*() const { return *(this->_it->content); }
 		T * operator->() const { return this->it->content; }
+
+		_List *getNode() const { return _it; }
 	};
 
 	/* Constructor */
@@ -208,24 +216,26 @@ public:
 	/* Iterators */
 	iterator begin() { return iterator(this->_begin_node); };
 	iterator end() { return iterator(this->_end_node); };
-
 	const_iterator begin() const { return const_iterator(this->_begin_node); };
 	const_iterator end() const { return const_iterator(this->_end_node); };
 
+	/* Reverse Iterators */
 	reverse_iterator rbegin() { return reverse_iterator(this->_end_node); };
 	reverse_iterator rend() { return reverse_iterator(this->_begin_node); };
-
 	const_reverse_iterator rbegin() const { return const_reverse_iterator(this->_end_node); };
 	const_reverse_iterator rend() const { return const_reverse_iterator(this->_begin_node); };
 
 	/* Capacity */
 	bool empty() const { return !this->_size; };
+
 	size_type size() const { return this->_size; };
+
 	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_List);};
 
 	/* Element access */
 	reference front() { return *this->_begin_node->content; };
 	const_reference front() const { return *this->_begin_node->content; };
+
 	reference back() { return *this->_end_node->prev->content; };
 	const_reference back() const { return *this->_end_node->prev->content; };
 
@@ -237,7 +247,6 @@ public:
 		while (first != last)
 			push_back(*first++);
 	};
-
 	void assign (size_type n, const value_type& val) {
 		if (!this->_size)
 			this->clear();
@@ -256,7 +265,6 @@ public:
 		this->_size += 1;
 		*this->_end_node->content = static_cast<value_type>(this->_size);
 	};
-
 	void push_back (const value_type& val) {
 		_List *node = createNode(val);
 		node->next = this->_end_node;
@@ -278,7 +286,6 @@ public:
 		this->_begin_node = node;
 		this->_begin_node->prev = this->_end_node;
 	};
-
 	void pop_back() {
 		_List *node = this->_end_node->prev;
 		this->_end_node->prev->prev->next = this->_end_node;
@@ -289,14 +296,24 @@ public:
 
 	iterator insert (iterator position, const value_type& val) {
 		_List *node = createNode(val);
+		_List *list = position.getNode();
+
+		list->prev->next = node;
+		node->prev = list->prev;
+		list->prev = node;
+		node->next = list;
 		return position;
 	};
 	void insert (iterator position, size_type n, const value_type& val);
 	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
+
 	iterator erase (iterator position);
 	iterator erase (iterator first, iterator last);
+
 	void swap (list& x);
+
 	void resize (size_type n, value_type val = value_type());
+
 	void clear() {
 		for (u_long i = 0; i < size(); ++i) {
 			_List *node = _begin_node->next;

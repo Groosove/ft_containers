@@ -63,6 +63,7 @@ int main() {
 		it--;
 		std::cout << *it << std::endl << std::endl;
 	}
+
 	{
 		ft::list<int> _lst;
 		for (int i = 0; i < 10; ++i)
@@ -80,6 +81,17 @@ int main() {
 		std::cout << *--it << std::endl;
 		_lst.pop_back();
 		std::cout << *it << std::endl;
+		std::cout << std::endl;
+	}
+	{
+		ft::list<int> _lst;
+		for (int i = 0; i < 10; ++i)
+			_lst.push_back(i);
+		ft::list<int>::iterator it = ++_lst.begin();
+		_lst.insert(it, 50);
+		for (it = _lst.begin(); it != _lst.end(); ++it)
+			std::cout << *it << std::endl;
+		std::cout << std::endl;
 	}
 }
 
