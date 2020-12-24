@@ -115,6 +115,32 @@ int main() {
 			std::cout << *it << std::endl;
 		std::cout << std::endl;
 	}
+	{
+		ft::list<int> _lst;
+		for (int i = 0; i < 10; ++i)
+			_lst.push_back(i);
+		ft::list<int>::iterator it = _lst.begin();
+		ft::list<int>::iterator ite = _lst.begin();
+		for (int i = 0; i < 3; ++i)
+			ite++;
+		_lst.erase(it, ite);
+		for (it = _lst.begin(); it != _lst.end(); ++it)
+			std::cout << *it << std::endl;
+		std::cout << std::endl;
+	}
+	{
+		std::list<int> _lst;
+		for (int i = 0; i < 10; ++i)
+			_lst.push_back(i);
+		std::list<int>::iterator it = _lst.begin();
+		std::list<int>::iterator ite = _lst.begin();
+		for (int i = 0; i < 3; ++i)
+			ite++;
+		_lst.erase(it, ite);
+		for (it = _lst.begin(); it != _lst.end(); ++it)
+			std::cout << *it << std::endl;
+		std::cout << std::endl;
+	}
 
 }
 

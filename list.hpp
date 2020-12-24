@@ -313,8 +313,24 @@ public:
 			insert(position, *first++);
 	};
 
-	iterator erase (iterator position);
-	iterator erase (iterator first, iterator last);
+	iterator erase (iterator position) {
+		_List *node = position.getNode();
+		if (position == begin())
+			pop_front();
+		else if (position == --end())
+			pop_back();
+		else {
+			node->prev->next = node->next;
+			node->next->prev = node->prev;
+			destroyNode(node);
+		}
+		return position;
+	};
+	iterator erase (iterator first, iterator last) {
+		while (first != last)
+			erase(first++);
+		return last;
+	};
 
 	void swap (list& x);
 
