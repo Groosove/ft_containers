@@ -40,10 +40,25 @@ private:
 	void createList() {
 		this->_end_node = this->_alloc_rebind.allocate(1);
 		this->_end_node->content = this->_alloc.allocate(1);
-		this->_end_node->prev = nullptr;
-		this->_end_node->next = nullptr;
+		this->_end_node->next = this->_end_node;
+		this->_end_node->prev = this->_end_node;
 		this->_begin_node = this->_end_node;
 		this->_size = 0;
+	}
+
+	void destroyNode(_List *node) {
+		this->_alloc.destroy(node->content);
+		this->_alloc.deallocate(node->content, 1);
+		this->_alloc_rebind.deallocate(node, 1);
+		this->_size -= 1;
+		*this->_end_node->content = static_cast<value_type>(this->_size);
+	}
+
+	_List* createNode(const value_type &val) {
+		_List *node = this->_alloc_rebind.allocate(1);
+		node->content = this->_alloc.allocate(1);
+		_alloc.construct(node->content, val);
+		return node;
 	}
 
 public:
@@ -161,7 +176,7 @@ public:
 	explicit list(const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(0) {
 		createList();
 	};
-	
+
 	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc) {
 		createList();
 		if (val != value_type())
@@ -176,7 +191,7 @@ public:
 			first++;
 		}
 	};
-	
+
 	list (const list<value_type>&x) { *this = x; };
 	list &operator=(const list<value_type> &x) {
 		if (this->empty())
@@ -211,40 +226,68 @@ public:
 	/* Element access */
 	reference front() { return *this->_begin_node->content; };
 	const_reference front() const { return *this->_begin_node->content; };
-	reference back() { return *this->_end_node->content; };
-	const_reference back() const { return *this->_end_node->content; };
+	reference back() { return *this->_end_node->prev->content; };
+	const_reference back() const { return *this->_end_node->prev->content; };
 
 	/* Modifiers */
 	template <class InputIterator> void assign (InputIterator first, InputIterator last) {
-		
-	};
-	void assign (size_type n, const value_type& val);
-	void push_front (const value_type& val);
-	void pop_front();
-	void push_back (const value_type& val) {
-		_List *node = this->_alloc_rebind.allocate(1);
-		node->content = this->_alloc.allocate(1);
-		_alloc.construct(node->content, val);
-		if (this->_size == 0) {
-			this->_begin_node->content = node->content;
-			this->_size += 1;
-		} else if (this->_size == 1) {
-			node->prev = this->_begin_node;
-			node->next = nullptr;
-			this->_end_node = node;
-			this->_begin_node->next = this->_end_node;
-			this->_size += 1;
-		} else {
-			node->prev = this->_end_node;
-			node->next = nullptr;
-			this->_end_node->next = node;
-			this->_end_node = node;
-			this->_size += 1;
-		}
+		while (first != last)
+			push_back(*first++);
 	};
 
-	void pop_back();
-	iterator insert (iterator position, const value_type& val);
+	void assign (size_type n, const value_type& val) {
+		if (!this->_size)
+			this->clear();
+		createList();
+		for (u_long i = 0; i < n; ++i)
+			push_back(val);
+	};
+
+	void push_front (const value_type& val) {
+		_List *node = createNode(val);
+		node->next = this->_begin_node;
+		node->prev = this->_end_node;
+		this->_begin_node->prev = node;
+		this->_begin_node = node;
+		this->_end_node->next = this->_begin_node;
+		this->_size += 1;
+		*this->_end_node->content = static_cast<value_type>(this->_size);
+	};
+
+	void push_back (const value_type& val) {
+		_List *node = createNode(val);
+		node->next = this->_end_node;
+		node->prev = this->_end_node->prev;
+		this->_end_node->prev->next = node;
+		this->_end_node->prev = node;
+		if (this->_size == 0) {
+			this->_begin_node = node;
+			this->_end_node->next = node;
+			this->_end_node->prev = node;
+		}
+		this->_size += 1;
+		*this->_end_node->content = static_cast<value_type>(this->_size);
+	};
+
+	void pop_front() {
+		_List *node = this->_begin_node->next;
+		destroyNode(this->_begin_node);
+		this->_begin_node = node;
+		this->_begin_node->prev = this->_end_node;
+	};
+
+	void pop_back() {
+		_List *node = this->_end_node->prev;
+		this->_end_node->prev->prev->next = this->_end_node;
+		this->_end_node->prev = this->_end_node->prev->prev;
+		destroyNode(this->_end_node->prev);
+		this->_end_node->prev = node;
+	};
+
+	iterator insert (iterator position, const value_type& val) {
+		_List *node = createNode(val);
+		return position;
+	};
 	void insert (iterator position, size_type n, const value_type& val);
 	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 	iterator erase (iterator position);
@@ -254,7 +297,7 @@ public:
 	void clear() {
 		for (u_long i = 0; i < size(); ++i) {
 			_List *node = _begin_node->next;
-			delete _begin_node;
+			destroyNode(this->_begin_node);
 			_begin_node = node;
 		}
 	};
