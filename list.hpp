@@ -231,6 +231,9 @@ public:
 
 	/* Modifiers */
 	template <class InputIterator> void assign (InputIterator first, InputIterator last) {
+		if (!this->_size)
+			this->clear();
+		createList();
 		while (first != last)
 			push_back(*first++);
 	};
