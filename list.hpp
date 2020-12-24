@@ -332,7 +332,19 @@ public:
 		return last;
 	};
 
-	void swap (list& x);
+	void swap (list<value_type>& x) {
+		_List *bnode = this->_begin_node;
+		this->_begin_node = x._begin_node;
+		x._begin_node = bnode;
+
+		_List *enode = this->_end_node;
+		this->_end_node = x._end_node;
+		x._end_node = enode;
+
+		size_type size = this->_size;
+		this->_size = x.size();
+		x._size = size;
+	};
 
 	void resize (size_type n, value_type val = value_type());
 
