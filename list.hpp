@@ -290,8 +290,7 @@ public:
 		_List *node = this->_end_node->prev;
 		this->_end_node->prev->prev->next = this->_end_node;
 		this->_end_node->prev = this->_end_node->prev->prev;
-		destroyNode(this->_end_node->prev);
-		this->_end_node->prev = node;
+		destroyNode(node);
 	};
 
 	iterator insert (iterator position, const value_type& val) {
@@ -346,13 +345,23 @@ public:
 		x._size = size;
 	};
 
-	void resize (size_type n, value_type val = value_type());
+	void resize (size_type n, value_type val = value_type()) {
+		if (this->_size > n) {
+			for (; this->_size > n; )
+					erase(iterator(this->_end_node->prev));
+		} else {
+			for (; this->_size < n ; )
+					push_back(val);
+		}
+	};
 
 	void clear() {
-		for (u_long i = 0; i < size(); ++i) {
-			_List *node = _begin_node->next;
+		while (this->_size != 0) {
+			_List *node = this->_begin_node->next;
 			destroyNode(this->_begin_node);
-			_begin_node = node;
+			this->_begin_node = node;
+			this->_begin_node->prev = this->_end_node;
+			this->_end_node->next = this->_begin_node;
 		}
 	};
 
