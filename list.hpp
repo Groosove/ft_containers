@@ -94,14 +94,12 @@ private:
 		_List *leftHalfList;
 		_List *rightHalfRight;
 
-		if (head == end())
+		if (head == _end_node)
 			return;
 		splitList(head, &leftHalfList, &rightHalfRight);
 
 		listSort(&leftHalfList);
 		listSort(&rightHalfRight);
-
-
 	}
 
 public:
@@ -396,9 +394,7 @@ public:
 	template <class BinaryPredicate> void unique (BinaryPredicate binary_pred);
 	void merge (list<value_type>& x);
 	template <class Compare> void merge (list<value_type>& x, Compare comp);
-	void sort() {
-		listSort(&_end_node->next);
-	};
+	void sort() { listSort(&_end_node->next); };
 	template <class Compare> void sort (Compare comp);
 	void reverse();
 };
