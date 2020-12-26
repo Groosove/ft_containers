@@ -83,6 +83,27 @@ private:
 		return size;
 	}
 
+	void splitList(_List *head, _List **leftHalfList, _List **rightHalfRight ) {
+		_List *left;
+		_List *right;
+		left = head;
+		right = head->next;
+	}
+	void listSort(_List **node) {
+		_List *head = *node;
+		_List *leftHalfList;
+		_List *rightHalfRight;
+
+		if (head == end())
+			return;
+		splitList(head, &leftHalfList, &rightHalfRight);
+
+		listSort(&leftHalfList);
+		listSort(&rightHalfRight);
+
+
+	}
+
 public:
 	/* iterator */
 	class iterator: public ft::iterator<std::bidirectional_iterator_tag, value_type> {
@@ -366,12 +387,18 @@ public:
 			if (*it == val)
 				erase(it);
 	};
-	template <class Predicate> void remove_if (Predicate pred);
+	template <class Predicate> void remove_if (Predicate pred) {
+		for (iterator it = begin(); it != end(); ++it)
+			if (pred(*it))
+				erase(it);
+	};
 	void unique();
 	template <class BinaryPredicate> void unique (BinaryPredicate binary_pred);
 	void merge (list<value_type>& x);
 	template <class Compare> void merge (list<value_type>& x, Compare comp);
-	void sort();
+	void sort() {
+		listSort(&_end_node->next);
+	};
 	template <class Compare> void sort (Compare comp);
 	void reverse();
 };

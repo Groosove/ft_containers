@@ -6,6 +6,24 @@
 #include "../ft.hpp"
 #include "../list.hpp"
 #include <vector>
+#include <cmath>
+
+bool single_digit (const int& value) { return (value<10); }
+
+// a predicate implemented as a class:
+struct is_odd {
+	bool operator()(const int &value) { return (value % 2) == 1; }
+};
+
+bool same_integral_part (double first, double second)
+{ return ( int(first)==int(second) ); }
+
+// a binary predicate implemented as a class:
+struct is_near {
+	bool operator() (double first, double second)
+	{ return (fabs(first-second)<5.0); }
+};
+
 int main() {
 	{
 		ft::list<int> _lst;
@@ -143,26 +161,26 @@ int main() {
 		std::cout << std::endl;
 	}
 	{
-		std::list<int> first (3,100);   // three ints with a value of 100
-		std::list<int> second (5,200);  // five ints with a value of 200
+		std::list<int> first(3, 100);   // three ints with a value of 100
+		std::list<int> second(5, 200);  // five ints with a value of 200
 
 		first.swap(second);
 
 		std::cout << "first contains:";
-		for (std::list<int>::iterator it=first.begin(); it!=first.end(); it++)
+		for (std::list<int>::iterator it = first.begin(); it != first.end(); it++)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 
 		std::cout << "second contains:";
-		for (std::list<int>::iterator it=second.begin(); it!=second.end(); it++)
+		for (std::list<int>::iterator it = second.begin(); it != second.end(); it++)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
 	{
 		size_t size = 3;
-		ft::list<int> first (size,100);   // three ints with a value of 100
+		ft::list<int> first(size, 100);   // three ints with a value of 100
 		size = 5;
-		ft::list<int> second (size,200);  // five ints with a value of 200
+		ft::list<int> second(size, 200);  // five ints with a value of 200
 
 		first.swap(second);
 
@@ -179,12 +197,12 @@ int main() {
 
 	{
 		std::list<int> mylist;
-		for (int i=1; i<10; ++i) mylist.push_back(i);
+		for (int i = 1; i < 10; ++i) mylist.push_back(i);
 		mylist.resize(5);
-		mylist.resize(8,100);
+		mylist.resize(8, 100);
 		mylist.resize(12);
 		std::cout << "mylist contains:";
-		for (std::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+		for (std::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
@@ -193,7 +211,7 @@ int main() {
 		for (int i = 1; i < 10; ++i)
 			mylist.push_back(i);
 		mylist.resize(5);
-		mylist.resize(8,100);
+		mylist.resize(8, 100);
 		mylist.resize(12);
 		std::cout << "mylist contains:";
 		for (ft::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
@@ -210,30 +228,30 @@ int main() {
 		std::list<int> mylist1, mylist2;
 		std::list<int>::iterator it;
 
-		for (int i=1; i<=4; ++i)
+		for (int i = 1; i <= 4; ++i)
 			mylist1.push_back(i);
 
-		for (int i=1; i<=3; ++i)
-			mylist2.push_back(i*10);
+		for (int i = 1; i <= 3; ++i)
+			mylist2.push_back(i * 10);
 
 		it = mylist1.begin();
 		++it;
 
-		mylist1.splice (it, mylist2);
+		mylist1.splice(it, mylist2);
 
-		mylist2.splice (mylist2.begin(),mylist1, it);
+		mylist2.splice(mylist2.begin(), mylist1, it);
 		it = mylist1.begin();
-		std::advance(it,3);
+		std::advance(it, 3);
 
-		mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
+		mylist1.splice(mylist1.begin(), mylist1, it, mylist1.end());
 		std::cout << "mylist1 contains:";
-		for (it=mylist1.begin(); it!=mylist1.end(); ++it)
+		for (it = mylist1.begin(); it != mylist1.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << std::endl;
 		std::cout << "myList1 size: " << mylist1.size() << std::endl;
 
 		std::cout << "mylist2 contains:";
-		for (it=mylist2.begin(); it!=mylist2.end(); ++it)
+		for (it = mylist2.begin(); it != mylist2.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << std::endl;
 		std::cout << "myList2 size: " << mylist2.size() << std::endl << std::endl;
@@ -242,56 +260,125 @@ int main() {
 		ft::list<int> mylist1, mylist2;
 		ft::list<int>::iterator it;
 
-		for (int i=1; i<=4; ++i)
+		for (int i = 1; i <= 4; ++i)
 			mylist1.push_back(i);
 
-		for (int i=1; i<=3; ++i)
-			mylist2.push_back(i*10);
+		for (int i = 1; i <= 3; ++i)
+			mylist2.push_back(i * 10);
 
 		it = mylist1.begin();
 		++it;
 
-		mylist1.splice (it, mylist2);
+		mylist1.splice(it, mylist2);
 
-		mylist2.splice (mylist2.begin(), mylist1, it);
+		mylist2.splice(mylist2.begin(), mylist1, it);
 		it = mylist1.begin();
-		std::advance(it,3);
+		std::advance(it, 3);
 
-		mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
+		mylist1.splice(mylist1.begin(), mylist1, it, mylist1.end());
 		std::cout << "mylist1 contains:";
-		for (it=mylist1.begin(); it!=mylist1.end(); ++it)
+		for (it = mylist1.begin(); it != mylist1.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << std::endl;
 		std::cout << "myList1 size: " << mylist1.size() << std::endl;
 
 		std::cout << "mylist2 contains:";
-		for (it=mylist2.begin(); it != mylist2.end(); ++it)
+		for (it = mylist2.begin(); it != mylist2.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << std::endl;
-		std::cout << "myList2 size: " <<  mylist2.size() << std::endl << std::endl;
+		std::cout << "myList2 size: " << mylist2.size() << std::endl << std::endl;
 	}
 
 	{
-		int myints[]= {17,89,7,14, 89};
-		std::list<int> mylist (myints,myints+4);
+		int myints[] = {17, 89, 7, 14, 89};
+		std::list<int> mylist(myints, myints + 4);
 
 		mylist.remove(89);
 
 		std::cout << "mylist contains:";
-		for (std::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+		for (std::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
 	{
-		int myints[]= {17,89,7,14, 89};
-		ft::list<int> mylist (myints,myints+4);
+		int myints[] = {17, 89, 7, 14, 89};
+		ft::list<int> mylist(myints, myints + 4);
 
 		mylist.remove(89);
 
 		std::cout << "mylist contains:";
-		for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+		for (ft::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}
+
+	{
+		int myints[] = {15, 36, 7, 17, 20, 39, 4, 1};
+		std::list<int> mylist(myints, myints + 8);   // 15 36 7 17 20 39 4 1
+
+		mylist.remove_if(single_digit);           // 15 36 17 20 39
+
+		mylist.remove_if(is_odd());               // 36 20
+
+		std::cout << "mylist contains:";
+		for (std::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+	{
+		int myints[] = {15, 36, 7, 17, 20, 39, 4, 1};
+		ft::list<int> mylist(myints, myints + 8);   // 15 36 7 17 20 39 4 1
+
+		mylist.remove_if(single_digit);           // 15 36 17 20 39
+
+		mylist.remove_if(is_odd());               // 36 20
+
+		std::cout << "mylist contains:";
+		for (ft::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+	{
+		double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,
+							 12.77, 73.35, 72.25, 15.3,  72.25 };
+		std::list<double> mylist (mydoubles,mydoubles+10);
+
+		mylist.sort();             //  2.72,  3.14, 12.15, 12.77, 12.77,
+									// 15.3,  72.25, 72.25, 73.0,  73.35
+
+//		mylist.unique();           //  2.72,  3.14, 12.15, 12.77
+									// 15.3,  72.25, 73.0,  73.35
+
+//		mylist.unique (same_integral_part);  //  2.72,  3.14, 12.15
+											// 15.3,  72.25, 73.0
+
+//		mylist.unique (is_near());           //  2.72, 12.15, 72.25
+
+		std::cout << "mylist contains:";
+		for (std::list<double>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+	{
+		double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,
+							 12.77, 73.35, 72.25, 15.3,  72.25 };
+		ft::list<double> mylist (mydoubles,mydoubles+10);
+
+		mylist.sort();             //  2.72,  3.14, 12.15, 12.77, 12.77,
+									// 15.3,  72.25, 72.25, 73.0,  73.35
+
+//		mylist.unique();          			 //  2.72,  3.14, 12.15, 12.77
+											// 15.3,  72.25, 73.0,  73.35
+
+//		mylist.unique (same_integral_part);  //  2.72,  3.14, 12.15
+											// 15.3,  72.25, 73.0
+
+//		mylist.unique (is_near());           //  2.72, 12.15, 72.25
+
+		std::cout << "mylist contains:";
+		for (ft::list<double>::iterator it = mylist.begin(); it != mylist.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+	return 0;
 }
-
