@@ -225,17 +225,18 @@ int main() {
 		it = mylist1.begin();
 		std::advance(it,3);
 
-//		mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
-
+		mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
 		std::cout << "mylist1 contains:";
 		for (it=mylist1.begin(); it!=mylist1.end(); ++it)
 			std::cout << ' ' << *it;
-		std::cout << '\n';
+		std::cout << std::endl;
+		std::cout << "myList1 size: " << mylist1.size() << std::endl;
 
 		std::cout << "mylist2 contains:";
 		for (it=mylist2.begin(); it!=mylist2.end(); ++it)
 			std::cout << ' ' << *it;
-		std::cout << '\n';
+		std::cout << std::endl;
+		std::cout << "myList2 size: " << mylist2.size() << std::endl << std::endl;
 	}
 	{
 		ft::list<int> mylist1, mylist2;
@@ -252,18 +253,43 @@ int main() {
 
 		mylist1.splice (it, mylist2);
 
-//		mylist2.splice (mylist2.begin(), mylist1, it);
+		mylist2.splice (mylist2.begin(), mylist1, it);
 		it = mylist1.begin();
 		std::advance(it,3);
 
-//		mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
+		mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
 		std::cout << "mylist1 contains:";
 		for (it=mylist1.begin(); it!=mylist1.end(); ++it)
 			std::cout << ' ' << *it;
-		std::cout << '\n';
+		std::cout << std::endl;
+		std::cout << "myList1 size: " << mylist1.size() << std::endl;
 
 		std::cout << "mylist2 contains:";
-		for (it=mylist2.begin(); it!=mylist2.end(); ++it)
+		for (it=mylist2.begin(); it != mylist2.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << std::endl;
+		std::cout << "myList2 size: " <<  mylist2.size() << std::endl << std::endl;
+	}
+
+	{
+		int myints[]= {17,89,7,14, 89};
+		std::list<int> mylist (myints,myints+4);
+
+		mylist.remove(89);
+
+		std::cout << "mylist contains:";
+		for (std::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << '\n';
+	}
+	{
+		int myints[]= {17,89,7,14, 89};
+		ft::list<int> mylist (myints,myints+4);
+
+		mylist.remove(89);
+
+		std::cout << "mylist contains:";
+		for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
 			std::cout << ' ' << *it;
 		std::cout << '\n';
 	}

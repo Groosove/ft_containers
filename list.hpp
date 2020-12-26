@@ -339,20 +339,33 @@ public:
 
 	/* Operations */
 	void splice (iterator position, list& x) {
-		_List *node = position.getNode();
-		_List *beginNode = x._end_node->next;
-		_List *endNode = x._end_node;
-
-		linkNode(node->prev, beginNode);
-		linkNode(endNode->prev, node);
-		linkNode(x._end_node, x._end_node);
-		changeSize(countSize());
+		splice(position, x, x.begin(), x.end());
 	};
-	void splice (iterator position, list& x, iterator i);
-//		_List *node = position.getNode();
-//		insertNode(i.getNode(), node->prev, node->next);
-	void splice (iterator position, list& x, iterator first, iterator last);
-	void remove (const value_type& val);
+	void splice (iterator position, list& x, iterator i) {
+		(void) x;
+		_List *toNode = i.getNode();
+		_List *node = position.getNode();
+		linkNode(toNode->prev, toNode->next);
+		insertNode(toNode, node->prev, node);
+		changeSize(+1);
+	};
+	void splice (iterator position, list& x, iterator first, iterator last) {
+		_List *node = position.getNode();
+		_List *firstNode = first.getNode();
+		_List *lastNode = last.getNode();
+		_List *tmp2 = firstNode->prev;
+
+		linkNode(node->prev, firstNode);
+		linkNode(lastNode->prev, node);
+		linkNode(tmp2, lastNode);
+		changeSize(countSize() - _size);
+		x.changeSize(x.countSize() - x.size());
+	}
+	void remove (const value_type& val) {
+		for (iterator it = begin(); it != end(); ++it)
+			if (*it == val)
+				erase(it);
+	};
 	template <class Predicate> void remove_if (Predicate pred);
 	void unique();
 	template <class BinaryPredicate> void unique (BinaryPredicate binary_pred);
