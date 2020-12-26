@@ -34,7 +34,6 @@ private:
 	allocator_type _alloc;
 	allocator_rebind_type _alloc_rebind;
 	size_type _size;
-	_List *_begin_node;
 	_List *_end_node;
 
 	void createList() {
@@ -42,7 +41,6 @@ private:
 		this->_end_node->content = this->_alloc.allocate(1);
 		this->_end_node->next = this->_end_node;
 		this->_end_node->prev = this->_end_node;
-		this->_begin_node = this->_end_node;
 		this->_size = 0;
 	}
 
@@ -50,15 +48,32 @@ private:
 		this->_alloc.destroy(node->content);
 		this->_alloc.deallocate(node->content, 1);
 		this->_alloc_rebind.deallocate(node, 1);
-		this->_size -= 1;
-		*this->_end_node->content = static_cast<value_type>(this->_size);
+		changeSize(-1);
 	}
 
 	_List* createNode(const value_type &val) {
 		_List *node = this->_alloc_rebind.allocate(1);
 		node->content = this->_alloc.allocate(1);
 		_alloc.construct(node->content, val);
+		changeSize(+1);
 		return node;
+	}
+
+	inline void insertNode(_List *insertNode, _List *prevNode, _List *nextNode) {
+		insertNode->prev = prevNode;
+		insertNode->next = nextNode;
+		prevNode->next = insertNode;
+		nextNode->prev = insertNode;
+	}
+
+	inline void linkNode(_List *prevNode, _List *nextNode) {
+		prevNode->next = nextNode;
+		nextNode->prev = prevNode;
+	};
+
+	inline void changeSize(int value) {
+		this->_size += value;
+		*this->_end_node->content = static_cast<value_type>(this->_size);
 	}
 
 public:
@@ -181,18 +196,17 @@ public:
 	};
 
 	/* Constructor */
-	explicit list(const allocator_type &alloc = allocator_type()): _alloc(alloc), _size(0) {
-		createList();
-	};
-
-	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()): _alloc(alloc) {
+	explicit list(const allocator_type &alloc = allocator_type())
+		: _alloc(alloc), _size(0) { createList(); };
+	explicit list (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
+		: _alloc(alloc), _size(0) {
 		createList();
 		if (val != value_type())
 			while(n--)
 				this->push_back(val);
 	};
-
-	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()): _alloc(alloc) {
+	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+		: _alloc(alloc), _size(0) {
 		createList();
 		while (first != last) {
 			this->push_back(*first);
@@ -200,6 +214,7 @@ public:
 		}
 	};
 
+	/* Assignation operator */
 	list (const list<value_type>&x) { *this = x; };
 	list &operator=(const list<value_type> &x) {
 		if (this->empty())
@@ -214,29 +229,26 @@ public:
 	~list() throw() {};
 
 	/* Iterators */
-	iterator begin() { return iterator(this->_begin_node); };
-	iterator end() { return iterator(this->_end_node); };
-	const_iterator begin() const { return const_iterator(this->_begin_node); };
-	const_iterator end() const { return const_iterator(this->_end_node); };
+	iterator 		begin() { return iterator(this->_end_node->next); };
+	iterator 		end() { return iterator(this->_end_node); };
+	const_iterator 	begin() const { return const_iterator(this->_end_node->next); };
+	const_iterator 	end() const { return const_iterator(this->_end_node); };
 
 	/* Reverse Iterators */
-	reverse_iterator rbegin() { return reverse_iterator(this->_end_node); };
-	reverse_iterator rend() { return reverse_iterator(this->_begin_node); };
-	const_reverse_iterator rbegin() const { return const_reverse_iterator(this->_end_node); };
-	const_reverse_iterator rend() const { return const_reverse_iterator(this->_begin_node); };
+	reverse_iterator 		rbegin() { return reverse_iterator(this->_end_node); };
+	reverse_iterator 		rend() { return reverse_iterator(this->_end_node->next); };
+	const_reverse_iterator 	rbegin() const { return const_reverse_iterator(this->_end_node); };
+	const_reverse_iterator	rend() const { return const_reverse_iterator(this->_end_node->next); };
 
 	/* Capacity */
-	bool empty() const { return !this->_size; };
-
-	size_type size() const { return this->_size; };
-
-	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_List);};
+	bool 		empty() const { return !this->_size; };
+	size_type 	size() const { return this->_size; };
+	size_type 	max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_List);};
 
 	/* Element access */
-	reference front() { return *this->_begin_node->content; };
-	const_reference front() const { return *this->_begin_node->content; };
-
-	reference back() { return *this->_end_node->prev->content; };
+	reference 		front() { return *this->_end_node->next->content; };
+	const_reference front() const { return *this->_end_node->next->content; };
+	reference 		back() { return *this->_end_node->prev->content; };
 	const_reference back() const { return *this->_end_node->prev->content; };
 
 	/* Modifiers */
@@ -254,75 +266,42 @@ public:
 		for (u_long i = 0; i < n; ++i)
 			push_back(val);
 	};
-
 	void push_front (const value_type& val) {
 		_List *node = createNode(val);
-		node->next = this->_begin_node;
-		node->prev = this->_end_node;
-		this->_begin_node->prev = node;
-		this->_begin_node = node;
-		this->_end_node->next = this->_begin_node;
-		this->_size += 1;
-		*this->_end_node->content = static_cast<value_type>(this->_size);
+		insertNode(node, this->_end_node, this->_end_node->next);
 	};
 	void push_back (const value_type& val) {
 		_List *node = createNode(val);
-		node->next = this->_end_node;
-		node->prev = this->_end_node->prev;
-		this->_end_node->prev->next = node;
-		this->_end_node->prev = node;
-		if (this->_size == 0) {
-			this->_begin_node = node;
-			this->_end_node->next = node;
-			this->_end_node->prev = node;
-		}
-		this->_size += 1;
-		*this->_end_node->content = static_cast<value_type>(this->_size);
+		insertNode(node, this->_end_node->prev, this->_end_node);
 	};
-
 	void pop_front() {
-		_List *node = this->_begin_node->next;
-		destroyNode(this->_begin_node);
-		this->_begin_node = node;
-		this->_begin_node->prev = this->_end_node;
+		_List *node = this->_end_node->next;
+		linkNode(node->prev, node->next);
+		destroyNode(node);
 	};
 	void pop_back() {
 		_List *node = this->_end_node->prev;
-		this->_end_node->prev->prev->next = this->_end_node;
-		this->_end_node->prev = this->_end_node->prev->prev;
+		linkNode(node->prev, node->next);
 		destroyNode(node);
 	};
-
 	iterator insert (iterator position, const value_type& val) {
 		_List *node = createNode(val);
 		_List *list = position.getNode();
-
-		list->prev->next = node;
-		node->prev = list->prev;
-		list->prev = node;
-		node->next = list;
+		insertNode(node, list->prev, list);
 		return position;
-	}
+	};
 	void insert (iterator position, size_type n, const value_type& val) {
 		while (n--)
 			insert(position, val);
-	}
+	};
 	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last) {
 		while (first != last)
 			insert(position, *first++);
 	};
-
 	iterator erase (iterator position) {
 		_List *node = position.getNode();
-		if (position == begin())
-			pop_front();
-		else if (position == --end())
-			pop_back();
-		else {
-			node->prev->next = node->next;
-			node->next->prev = node->prev;
-			destroyNode(node);
-		}
+		linkNode(node->prev, node->next);
+		destroyNode(node);
 		return position;
 	};
 	iterator erase (iterator first, iterator last) {
@@ -330,51 +309,42 @@ public:
 			erase(first++);
 		return last;
 	};
-
 	void swap (list<value_type>& x) {
-		_List *bnode = this->_begin_node;
-		this->_begin_node = x._begin_node;
-		x._begin_node = bnode;
-
-		_List *enode = this->_end_node;
+		_List *end_node = this->_end_node;
 		this->_end_node = x._end_node;
-		x._end_node = enode;
+		x._end_node = end_node;
 
 		size_type size = this->_size;
 		this->_size = x.size();
 		x._size = size;
 	};
-
 	void resize (size_type n, value_type val = value_type()) {
-		if (this->_size > n) {
-			for (; this->_size > n; )
-					erase(iterator(this->_end_node->prev));
-		} else {
-			for (; this->_size < n ; )
-					push_back(val);
-		}
+		for (; this->_size > n; )
+			erase(iterator(this->_end_node->prev));
+		for (; this->_size < n ; )
+			push_back(val);
 	};
-
 	void clear() {
-		while (this->_size != 0) {
-			_List *node = this->_begin_node->next;
-			destroyNode(this->_begin_node);
-			this->_begin_node = node;
-			this->_begin_node->prev = this->_end_node;
-			this->_end_node->next = this->_begin_node;
-		}
+		while (_size != 0)
+			pop_back();
+		pop_back();
 	};
 
 	/* Operations */
-	void splice (iterator position, list& x);
+	void splice (iterator position, list& x) {
+		_List *beginNode = x.begin().getNode();
+		_List *endNode = x.end().getNode();
+		_List *node = position.getNode();
+		node->prev;
+	}
 	void splice (iterator position, list& x, iterator i);
 	void splice (iterator position, list& x, iterator first, iterator last);
 	void remove (const value_type& val);
 	template <class Predicate> void remove_if (Predicate pred);
 	void unique();
 	template <class BinaryPredicate> void unique (BinaryPredicate binary_pred);
-	void merge (list& x);
-	template <class Compare> void merge (list& x, Compare comp);
+	void merge (list<value_type>& x);
+	template <class Compare> void merge (list<value_type>& x, Compare comp);
 	void sort();
 	template <class Compare> void sort (Compare comp);
 	void reverse();

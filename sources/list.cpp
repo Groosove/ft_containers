@@ -69,7 +69,7 @@ int main() {
 		for (int i = 0; i < 10; ++i)
 			_lst.push_back(i);
 		ft::list<int>::iterator it = _lst.end();
-		std::cout << *--it << std::endl;
+		std::cout << *it << std::endl;
 		_lst.pop_back();
 		std::cout << *it << std::endl << std::endl;
 	}
@@ -78,11 +78,12 @@ int main() {
 		for (int i = 0; i < 10; ++i)
 			_lst.push_back(i);
 		std::list<int>::iterator it = _lst.end();
-		std::cout << *--it << std::endl;
+		std::cout << *++it << std::endl;
 		_lst.pop_back();
 		std::cout << *it << std::endl;
 		std::cout << std::endl;
 	}
+
 	{
 		ft::list<int> _lst;
 		for (int i = 0; i < 10; ++i)
@@ -202,6 +203,20 @@ int main() {
 		mylist.clear();
 		mylist.push_back(100);
 		std::cout << mylist.size() << std::endl;
+	}
+	{
+		ft::list<int> _list;
+		ft::list<int> _snd_lst;
+		for (int i = 0; i < 10; ++ i) _list.push_back(i);
+		for (int i = 1; i < 4; ++i ) _snd_lst.push_back(i * 10);
+		ft::list<int>::iterator it = ++_list.begin();
+		_list.splice(it, _snd_lst);
+		for (ft::list<int>::iterator ite = _list.begin(); ite != _list.end(); ++ite)
+			std::cout << ' ' << *ite;
+		std::cout << std::endl;
+	}
+	{
+
 	}
 }
 
