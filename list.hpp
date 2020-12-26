@@ -76,6 +76,13 @@ private:
 		*this->_end_node->content = static_cast<value_type>(this->_size);
 	}
 
+	inline size_type countSize() {
+		size_type size = 0;
+		for (iterator it = begin(); it != end(); ++it)
+			size += 1;
+		return size;
+	}
+
 public:
 	/* iterator */
 	class iterator: public ft::iterator<std::bidirectional_iterator_tag, value_type> {
@@ -332,12 +339,18 @@ public:
 
 	/* Operations */
 	void splice (iterator position, list& x) {
-		_List *beginNode = x.begin().getNode();
-		_List *endNode = x.end().getNode();
 		_List *node = position.getNode();
-		node->prev;
-	}
+		_List *beginNode = x._end_node->next;
+		_List *endNode = x._end_node;
+
+		linkNode(node->prev, beginNode);
+		linkNode(endNode->prev, node);
+		linkNode(x._end_node, x._end_node);
+		changeSize(countSize());
+	};
 	void splice (iterator position, list& x, iterator i);
+//		_List *node = position.getNode();
+//		insertNode(i.getNode(), node->prev, node->next);
 	void splice (iterator position, list& x, iterator first, iterator last);
 	void remove (const value_type& val);
 	template <class Predicate> void remove_if (Predicate pred);
