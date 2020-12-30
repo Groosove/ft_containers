@@ -400,10 +400,8 @@ int main() {
 
 		first.merge(second,mycomparison);
 
-		std::cout << "first contains:";
-		for (std::list<double>::iterator it=first.begin(); it!=first.end(); ++it)
-			std::cout << ' ' << *it;
-		std::cout << std::endl;
+		std::cout << "first contains: ";
+		print_list(first);
 	}
 	{
 		ft::list<double> first, second;
@@ -427,10 +425,8 @@ int main() {
 
 		first.merge(second, mycomparison);
 
-		std::cout << "first contains:";
-		for (ft::list<double>::iterator it = first.begin(); it != first.end(); ++it)
-			std::cout << ' ' << *it;
-		std::cout << std::endl;
+		std::cout << "first contains: ";
+		print_list(first);
 	}
 	{
 		std::list<int> mylist;
@@ -439,11 +435,8 @@ int main() {
 
 		mylist.reverse();
 
-		std::cout << "mylist contains:";
-		for (std::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
-			std::cout << ' ' << *it;
-
-		std::cout << '\n';
+		std::cout << "mylist contains: ";
+		print_list(mylist);
 	}
 	{
 		ft::list<int> mylist;

@@ -12,18 +12,13 @@
 template <class T, class Alloc>
 class ft::list {
 public:
-
 	typedef T 					value_type;
 	typedef Alloc 				allocator_type;
 	typedef value_type& 		reference;
 	typedef const value_type	&const_reference;
-	typedef value_type			*pointer;
-	typedef const value_type	*const_pointer;
 	typedef size_t 				size_type;
-	typedef ptrdiff_t 			difference_type;
 
 private:
-
 	typedef struct Node {
 		value_type *content;
 		Node* next;
