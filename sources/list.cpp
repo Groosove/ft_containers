@@ -8,6 +8,14 @@
 #include <vector>
 #include <cmath>
 
+template< class T >
+void print_list(T & list) {
+	for (typename T::iterator it = list.begin(); it != list.end(); ++it) {
+		std::cout << *it << ' ';
+	}
+	std::cout << std::endl;
+}
+
 bool single_digit (const int& value) { return (value<10); }
 
 // a predicate implemented as a class:
@@ -15,23 +23,21 @@ struct is_odd {
 	bool operator()(const int &value) { return (value % 2) == 1; }
 };
 
-bool same_integral_part (double first, double second)
-{ return ( int(first)==int(second) ); }
+bool same_integral_part (double first, double second) { return ( int(first)==int(second) ); }
 
 // a binary predicate implemented as a class:
 struct is_near {
-	bool operator() (double first, double second)
-	{ return (fabs(first-second)<5.0); }
+	bool operator() (double first, double second) { return (fabs(first-second)<5.0); }
 };
+
+bool mycomparison (double first, double second) { return ( int(first)<int(second) ); }
 
 int main() {
 	{
 		ft::list<int> _lst;
 		for (int i = 0; i < 10; ++i)
 			_lst.push_front(i);
-		ft::list<int>::iterator it = _lst.begin();
-		while (it != _lst.end())
-			std::cout << *it++ << std::endl;
+		print_list(_lst);
 
 		std::cout << std::endl << _lst.front() << std::endl;
 		std::cout << _lst.back() << std::endl << std::endl;
@@ -41,21 +47,14 @@ int main() {
 		std::cout << _lst.max_size() << std::endl << std::endl;
 
 		_oList.assign(7, 10);
-		std::list<int>::iterator oIt = _oList.begin();
-		while (oIt != _oList.end())
-			std::cout << *oIt++ << std::endl;
-		std::cout << *oIt++ << std::endl;
+		print_list(_oList);
 
 		std::cout << std::endl;
 		ft::list<int> _aList;
 		const int value = 10;
 		const size_t size = 7;
 		_aList.assign(size, value);
-		ft::list<int>::iterator _aIt = _aList.begin();
-		while (_aIt != _aList.end())
-			std::cout << *_aIt++ << std::endl;
-		std::cout << *_aIt++ << std::endl;
-		std::cout << std::endl;
+		print_list(_aList);
 	}
 	{
 		ft::list<int> _lst;
@@ -81,7 +80,6 @@ int main() {
 		it--;
 		std::cout << *it << std::endl << std::endl;
 	}
-
 	{
 		ft::list<int> _lst;
 		for (int i = 0; i < 10; ++i)
@@ -378,6 +376,86 @@ int main() {
 		std::cout << "mylist contains:";
 		for (ft::list<double>::iterator it = mylist.begin(); it != mylist.end(); ++it)
 			std::cout << ' ' << *it;
+		std::cout << '\n' << std::endl;
+	}
+	{
+		std::list<double> first, second;
+
+		first.push_back (3.1);
+		first.push_back (2.2);
+		first.push_back (2.9);
+
+		second.push_back (3.7);
+		second.push_back (7.1);
+		second.push_back (1.4);
+
+		first.sort();
+		second.sort();
+
+		first.merge(second);
+
+		// (second is now empty)
+
+		second.push_back (2.1);
+
+		first.merge(second,mycomparison);
+
+		std::cout << "first contains:";
+		for (std::list<double>::iterator it=first.begin(); it!=first.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << std::endl;
+	}
+	{
+		ft::list<double> first, second;
+
+		first.push_back (3.1);
+		first.push_back (2.2);
+		first.push_back (2.9);
+
+		second.push_back (3.7);
+		second.push_back (7.1);
+		second.push_back (1.4);
+
+		first.sort();
+		second.sort();
+
+		first.merge(second);
+
+		// (second is now empty)
+
+		second.push_back (2.1);
+
+		first.merge(second, mycomparison);
+
+		std::cout << "first contains:";
+		for (ft::list<double>::iterator it = first.begin(); it != first.end(); ++it)
+			std::cout << ' ' << *it;
+		std::cout << std::endl;
+	}
+	{
+		std::list<int> mylist;
+
+		for (int i=1; i<10; ++i) mylist.push_back(i);
+
+		mylist.reverse();
+
+		std::cout << "mylist contains:";
+		for (std::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+			std::cout << ' ' << *it;
+
+		std::cout << '\n';
+	}
+	{
+		ft::list<int> mylist;
+
+		for (int i=1; i<10; ++i) mylist.push_back(i);
+
+		mylist.reverse();
+
+		std::cout << "mylist contains:";
+		for (ft::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
+			std::cout << ' ' << *it;
+
 		std::cout << '\n';
 	}
 	return 0;

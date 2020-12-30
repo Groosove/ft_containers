@@ -60,10 +60,8 @@ private:
 	}
 
 	inline void insertNode(_List *insertNode, _List *prevNode, _List *nextNode) {
-		insertNode->prev = prevNode;
-		insertNode->next = nextNode;
-		prevNode->next = insertNode;
-		nextNode->prev = insertNode;
+		linkNode(prevNode, insertNode);
+		linkNode(insertNode, nextNode);
 	}
 
 	inline void linkNode(_List *prevNode, _List *nextNode) {
@@ -122,6 +120,15 @@ private:
 			linkNode(this->_end_node, secondList);
 			return secondList;
 		}
+	}
+
+	void reverseList(_List *curNode) {
+		_List *tmp = curNode->next;
+		curNode->next = curNode->prev;
+		curNode->prev = tmp;
+		if (curNode == this->_end_node)
+			return;
+		reverseList(curNode->prev);
 	}
 
 public:
@@ -388,6 +395,7 @@ public:
 		_List *node = position.getNode();
 		linkNode(toNode->prev, toNode->next);
 		insertNode(toNode, node->prev, node);
+		x.changeSize(-1);
 		changeSize(+1);
 	};
 	void splice (iterator position, list<value_type> &x, iterator first, iterator last) {
@@ -427,11 +435,20 @@ public:
 	};
 	void merge (list<value_type>& x) { merge(x, nonCompare); };
 	template <class Compare> void merge (list<value_type>& x, Compare comp) {
+		iterator itX = x.begin();
+		iterator iteX = x.end();
+		iterator itThis = begin();
+		iterator iteThis = end();
 
+		while (itX != iteX) {
+			while (itThis != iteThis && comp(*itX, *itThis) == 0)
+				++itThis;
+			splice(itThis, x, itX++);
+		}
 	};
 	void sort() { sort(nonCompare); };
 	template <class Compare> void sort (Compare comp) { listSort(_end_node->next, comp); };
-	void reverse();
+	void reverse() { reverseList(this->_end_node->next); };
 
 };
 
