@@ -323,7 +323,7 @@ int main() {
 		std::cout << "mylist contains:";
 		for (std::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
 			std::cout << ' ' << *it;
-		std::cout << '\n';
+		std::cout << std::endl;
 	}
 	{
 		int myints[] = {15, 36, 7, 17, 20, 39, 4, 1};
@@ -336,7 +336,7 @@ int main() {
 		std::cout << "mylist contains:";
 		for (ft::list<int>::iterator it = mylist.begin(); it != mylist.end(); ++it)
 			std::cout << ' ' << *it;
-		std::cout << '\n';
+		std::cout << std::endl << std::endl;
 	}
 	{
 		double mydoubles[]={ 12.15,  2.72, 73.0,  12.77,  3.14,
@@ -346,13 +346,13 @@ int main() {
 		mylist.sort();             //  2.72,  3.14, 12.15, 12.77, 12.77,
 									// 15.3,  72.25, 72.25, 73.0,  73.35
 
-//		mylist.unique();           //  2.72,  3.14, 12.15, 12.77
+		mylist.unique();           //  2.72,  3.14, 12.15, 12.77
 									// 15.3,  72.25, 73.0,  73.35
 
-//		mylist.unique (same_integral_part);  //  2.72,  3.14, 12.15
+		mylist.unique (same_integral_part);  //  2.72,  3.14, 12.15
 											// 15.3,  72.25, 73.0
 
-//		mylist.unique (is_near());           //  2.72, 12.15, 72.25
+		mylist.unique (is_near());           //  2.72, 12.15, 72.25
 
 		std::cout << "mylist contains:";
 		for (std::list<double>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
@@ -367,13 +367,13 @@ int main() {
 		mylist.sort();             //  2.72,  3.14, 12.15, 12.77, 12.77,
 									// 15.3,  72.25, 72.25, 73.0,  73.35
 
-//		mylist.unique();          			 //  2.72,  3.14, 12.15, 12.77
+		mylist.unique();          			 //  2.72,  3.14, 12.15, 12.77
 											// 15.3,  72.25, 73.0,  73.35
 
-//		mylist.unique (same_integral_part);  //  2.72,  3.14, 12.15
+		mylist.unique (same_integral_part);  //  2.72,  3.14, 12.15
 											// 15.3,  72.25, 73.0
 
-//		mylist.unique (is_near());           //  2.72, 12.15, 72.25
+		mylist.unique (is_near());           //  2.72, 12.15, 72.25
 
 		std::cout << "mylist contains:";
 		for (ft::list<double>::iterator it = mylist.begin(); it != mylist.end(); ++it)

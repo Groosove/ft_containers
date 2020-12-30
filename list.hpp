@@ -83,23 +83,45 @@ private:
 		return size;
 	}
 
-	void splitList(_List *head, _List **leftHalfList, _List **rightHalfRight ) {
-		_List *left;
-		_List *right;
-		left = head;
-		right = head->next;
+	inline static bool
+		nonCompare(const value_type &first, const value_type& second) { return first < second; };
+	inline static bool
+		nonPredicate(const value_type &first, const value_type& second) { return first == second; };
+	template < typename Compare > inline void
+		listSort(_List * const curNode, Compare func) { recursiveSort(curNode, func); }
+
+	_List *splitList(_List * const leftNode, _List * const rightNode) {
+		if (leftNode->next == this->_end_node || leftNode->next->next == this->_end_node) {
+			_List *tmp = rightNode->next;
+			linkNode(rightNode, this->_end_node);
+			return tmp;
+		}
+		return splitList(leftNode->next->next, rightNode->next);
 	}
-	void listSort(_List **node) {
-		_List *head = *node;
-		_List *leftHalfList;
-		_List *rightHalfRight;
 
-		if (head == _end_node)
-			return;
-		splitList(head, &leftHalfList, &rightHalfRight);
-
-		listSort(&leftHalfList);
-		listSort(&rightHalfRight);
+	template < typename Compare > _List *
+		recursiveSort(_List * const currentNode, Compare func) {
+		if (currentNode == this->_end_node || currentNode->next == this->_end_node)
+			return currentNode;
+		_List *secondNode = splitList(currentNode, currentNode);
+		return mergeSort(recursiveSort(currentNode, func),
+				   		recursiveSort(secondNode, func), func);
+	}
+	template < typename Compare > _List *
+		mergeSort(_List * const firstList, _List * const secondList, Compare func) {
+		if (firstList == this->_end_node) return secondList;
+		if (secondList == this->_end_node) return firstList;
+		if (func(*firstList->content, *secondList->content)) {
+			firstList->next = mergeSort(firstList->next, secondList, func);
+			firstList->next->prev = firstList;
+			linkNode(this->_end_node, firstList);
+			return firstList;
+		} else {
+			secondList->next = mergeSort(firstList, secondList->next, func);
+			secondList->next->prev = secondList;
+			linkNode(this->_end_node, secondList);
+			return secondList;
+		}
 	}
 
 public:
@@ -357,10 +379,10 @@ public:
 	};
 
 	/* Operations */
-	void splice (iterator position, list& x) {
+	void splice (iterator position, list<value_type> &x) {
 		splice(position, x, x.begin(), x.end());
 	};
-	void splice (iterator position, list& x, iterator i) {
+	void splice (iterator position, list<value_type> &x, iterator i) {
 		(void) x;
 		_List *toNode = i.getNode();
 		_List *node = position.getNode();
@@ -368,7 +390,7 @@ public:
 		insertNode(toNode, node->prev, node);
 		changeSize(+1);
 	};
-	void splice (iterator position, list& x, iterator first, iterator last) {
+	void splice (iterator position, list<value_type> &x, iterator first, iterator last) {
 		_List *node = position.getNode();
 		_List *firstNode = first.getNode();
 		_List *lastNode = last.getNode();
@@ -390,13 +412,27 @@ public:
 			if (pred(*it))
 				erase(it);
 	};
-	void unique();
-	template <class BinaryPredicate> void unique (BinaryPredicate binary_pred);
-	void merge (list<value_type>& x);
-	template <class Compare> void merge (list<value_type>& x, Compare comp);
-	void sort() { listSort(&_end_node->next); };
-	template <class Compare> void sort (Compare comp);
+	void unique() { unique(nonPredicate); };
+	template <class BinaryPredicate> void unique (BinaryPredicate binary_pred) {
+		iterator it = begin();
+		iterator nextIt = ++begin();
+		while (nextIt != end()) {
+			if (binary_pred(*it, *nextIt))
+				nextIt = ++erase(nextIt);
+			else {
+				++it;
+				++nextIt;
+			}
+		}
+	};
+	void merge (list<value_type>& x) { merge(x, nonCompare); };
+	template <class Compare> void merge (list<value_type>& x, Compare comp) {
+
+	};
+	void sort() { sort(nonCompare); };
+	template <class Compare> void sort (Compare comp) { listSort(_end_node->next, comp); };
 	void reverse();
+
 };
 
 template <class T, class Alloc>
