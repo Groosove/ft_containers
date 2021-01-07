@@ -17,7 +17,6 @@ public:
 	typedef value_type& 		reference;
 	typedef const value_type	&const_reference;
 	typedef size_t 				size_type;
-
 private:
 	typedef struct Node {
 		value_type *content;
