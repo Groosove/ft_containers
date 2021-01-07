@@ -18,17 +18,17 @@ public:
 	typedef value_type& 		reference;
 	typedef const value_type	&const_reference;
 	typedef size_t 				size_type;
+
 private:
 	value_type *_arr;
 	allocator_type _alloc;
 	size_type _size;
+
 public:
 	/* Constructor */
 	explicit vector (const allocator_type& alloc = allocator_type());
-	explicit vector (size_type n, const value_type& val = value_type(),
-				  const allocator_type& alloc = allocator_type());
-	template <class InputIterator> vector (InputIterator first, InputIterator last,
-					const allocator_type& alloc = allocator_type());
+	explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type());
+	template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 	vector (const vector& x);
 
 	/* Destructor */
@@ -38,14 +38,10 @@ public:
 	vector& operator= (const vector& x);
 
 	/* iterator */
-	class iterator: public ft::iterator<std::random_access_iterator_tag, value_type> {
-
-	};
+	class iterator: public ft::iterator<std::random_access_iterator_tag, value_type> {};
 
 	/* const iterator */
-	class const_iterator: public ft::iterator<std::random_access_iterator_tag, value_type> {
-
-	};
+	class const_iterator: public ft::iterator<std::random_access_iterator_tag, value_type> {};
 
 	/* reverse iterator */
 	class reverse_iterator: public ft::reverse_iterator<iterator> {};
@@ -95,6 +91,7 @@ public:
 	void clear();
 
 };
+
 template <class T, class Alloc> bool operator==
 	(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs);
 
