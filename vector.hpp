@@ -160,10 +160,10 @@ public:
 	class const_reverse_iterator: public ft::reverse_iterator<const_iterator> {};
 
 	/* iterators */
-	iterator begin();
-	const_iterator begin() const;
-	iterator end();
-	const_iterator end() const;
+	iterator begin() { return iterator(this->_arr); };
+	const_iterator begin() const { return const_iterator(this->_arr); };
+	iterator end() { return iterator(this->_arr + this->_size); };
+	const_iterator end() const { return const_iterator(this->_arr + this->_size); };
 	reverse_iterator rbegin();
 	const_reverse_iterator rbegin() const;
 	reverse_iterator rend();
@@ -174,7 +174,7 @@ public:
 	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(pointer); };
 	void resize (size_type n, value_type val = value_type());
 	size_type capacity() const;
-	bool empty() const;
+	bool empty() const { return _arr == nullptr; };
 	void reserve (size_type n);
 
 	/* Element access */
