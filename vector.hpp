@@ -10,6 +10,7 @@
 
 #include <vector>
 #include "ft.hpp"
+
 template <class T, class Alloc>
 class ft::vector {
 public:
@@ -40,7 +41,8 @@ private:
 		pointer arr = _alloc.allocate(_capacity);
 		for (size_type i = 0; i < _size; ++i)
 			_alloc.construct(arr + i, *(_arr + i));
-		clear();
+		for (size_type i = 0; i != _size; ++i)
+			_alloc.destroy(_arr + i);
 		_arr = arr;
 	}
 
@@ -88,8 +90,6 @@ public:
 		explicit iterator(pointer it = nullptr) : _it(it) {};
 		~iterator() {};
 		iterator & operator=(const iterator &it) {
-			if (this->_it != nullptr)
-				delete [] this->_it;
 			this->_it = it._it;
 			return *this;
 		}
@@ -109,10 +109,12 @@ public:
 
 		iterator operator+(difference_type val) const { return iterator(_it + val); };
 		iterator operator-(difference_type val) const { return iterator(_it - val); };
+		difference_type operator+(iterator &it) const { return _it + it._it; }
+		difference_type operator-(iterator &it) const { return _it - it._it; }
 		iterator &operator+=(difference_type val) { _it += val; return *this; };
 		iterator &operator-=(difference_type val) { _it = val; return *this; };
 		const_reference operator[](const_reference ref) { return _it[ref]; };
-		const_reference operator*() { return *this->_it; }
+		reference operator*() { return *this->_it; }
 		pointer operator->() { return this->_it; }
 
 		bool operator==(const iterator &other) const { return _it == other.getElem(); };
@@ -155,6 +157,8 @@ public:
 		const_iterator operator-(difference_type val) const { return const_iterator(_it - val); };
 		const_iterator &operator+=(difference_type val) { _it += val; return *this; };
 		const_iterator &operator-=(difference_type val) { _it = val; return *this; };
+		difference_type operator+(iterator it) const { return _it - it._it; }
+		difference_type operator-(iterator it) const { return _it - it._it; }
 		const_reference operator[](const_reference ref) { return _it[ref]; };
 		const_reference operator*() { return *this->_it; }
 		pointer operator->() { return this->_it; }
@@ -186,10 +190,10 @@ public:
 
 	/* Capacity */
 	size_type size() const { return _size; };
-	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(pointer); };
+	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_arr[0]); };
 	void resize (size_type n, value_type val = value_type());
 	size_type capacity() const { return _capacity; };
-	bool empty() const { return _arr == nullptr; };
+	bool empty() const { return _size == 0; };
 	void reserve (size_type n);
 
 	/* Element access */
@@ -199,8 +203,16 @@ public:
 	const_reference operator[] (size_type n) const {
 		return *(_arr + n);
 	};
-	reference at (size_type n);
-	const_reference at (size_type n) const;
+	reference at (size_type n) {
+		if (n >= _size)
+			std::out_of_range("index out of range");
+		return *(_arr + n);
+	};
+	const_reference at (size_type n) const {
+		if (n >= _size)
+			std::out_of_range("index out of range");
+		return *(_arr + n);
+	};
 	reference front() { return *_arr; };
 	const_reference front() const { return *_arr; };
 	reference back() { return *(_arr + _size - 1); };
@@ -215,16 +227,40 @@ public:
 		_alloc.construct(_arr + _size, val);
 		_size++;
 	};
-	void pop_back();
-	iterator insert (iterator position, const value_type& val);
-	void insert (iterator position, size_type n, const value_type& val);
+	void pop_back() {
+		_alloc.destroy(_arr + _size - 1);
+		--_size;
+	};
+	iterator insert (iterator position, const value_type& val) {
+		if (_size + 1 == _capacity)
+			reallocVector();
+		size_type ite = end().getElem() - _arr;
+		size_type pos = position.getElem() - _arr;
+		for (size_type i = pos; i != ite; ++i)
+			_arr[i + 1] = _arr[i];
+		_alloc.construct(_arr + pos, val);
+		_size += 1;
+		return position;
+	};
+	void insert (iterator position, size_type n, const value_type& val) {
+		if (_size + 1 == _capacity)
+			reallocVector();
+		size_type ite = end().getElem() - _arr + n;
+		size_type pos = position.getElem() - _arr;
+		for (size_type i = pos; i != ite; ++i)
+			_arr[i + 1] = _arr[i];
+		for (size_type i = 0; i != pos; ++i)
+			_alloc.construct(&_arr[i], val);
+		_size += n;
+	};
 	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
 	iterator erase (iterator position);
 	iterator erase (iterator first, iterator last);
 	void swap (vector& x);
 	void clear() {
-		for (size_type i = 0; i != size(); ++i)
+		for (size_type i = 0; i != _size; ++i)
 			_alloc.destroy(_arr + i);
+		_size = 0;
 	};
 
 };
