@@ -23,10 +23,10 @@
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="ft_containers" targetName="non" />
-      <config projectName="ft_containers" targetName="ft_vector" />
-      <config projectName="ft_containers" targetName="ft_list" />
       <config projectName="ft_containers" targetName="ft_queue" />
+      <config projectName="ft_containers" targetName="non" />
+      <config projectName="ft_containers" targetName="ft_list" />
+      <config projectName="ft_containers" targetName="ft_vector" />
       <config projectName="ft_containers" targetName="ft_stack" />
     </generated>
   </component>
@@ -38,7 +38,6 @@
   <component name="ChangeListManager">
     <list default="true" id="4f89f57f-31ae-419c-9398-40875d2d9ca5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/vector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/vector.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vector.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/vector.hpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

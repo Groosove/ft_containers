@@ -191,7 +191,12 @@ public:
 	/* Capacity */
 	size_type size() const { return _size; };
 	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_arr[0]); };
-	void resize (size_type n, value_type val = value_type());
+	void resize (size_type n, value_type val = value_type()) {
+		for (; this->_size > n; )
+			pop_back();
+		for (; this->_size < n ; )
+			push_back(val);
+	};
 	size_type capacity() const { return _capacity; };
 	bool empty() const { return _size == 0; };
 	void reserve (size_type n);
