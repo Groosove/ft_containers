@@ -234,8 +234,18 @@ public:
 	const_reference back() const { return *(_arr + _size - 1); };
 
 	/* Modifiers */
-	template <class InputIterator> void assign (InputIterator first, InputIterator last);
-	void assign (size_type n, const value_type& val);
+	template <class InputIterator> void assign (InputIterator first, InputIterator last) {
+		if (_arr)
+			clear();
+		for (; first != last; ++first)
+			push_back(*first);
+	};
+	void assign (size_type n, const value_type& val) {
+		if (_arr)
+			clear();
+		for (; n != 0 ; --n)
+			push_back(val);
+	};
 	void push_back (const value_type& val) {
 		if (_capacity == 0) {
 			_capacity = 1;
@@ -274,9 +284,38 @@ public:
 			position = insert(position, *last);
 		}
 	};
-	iterator erase (iterator position);
-	iterator erase (iterator first, iterator last);
-	void swap (vector& x);
+	iterator erase (iterator position) {
+		iterator tmp = position;
+		iterator ite = end();
+		for (; tmp != ite; ++tmp)
+			*tmp = *(tmp + 1);
+		--this->_size;
+		return position + 1;
+	};
+	iterator erase (iterator first, iterator last) {
+		for (; first != last; ) {
+			first = erase(first);
+			first--;
+			last--;
+		}
+		return first;
+	};
+	void swap (vector& x) {
+		pointer arr = x._arr;
+		size_type size = x._size;
+		size_type capacity = x._capacity;
+		allocator_type alloc = x._alloc;
+
+		x._arr = _arr;
+		x._size = _size;
+		x._capacity = _capacity;
+		x._alloc = _alloc;
+
+		_arr = arr;
+		_size = size;
+		_capacity = capacity;
+		_alloc = alloc;
+	};
 	void clear() {
 		for (size_type i = 0; i != _size; ++i)
 			_alloc.destroy(_arr + i);

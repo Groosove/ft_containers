@@ -178,5 +178,90 @@ int main() {
 		myvector.insert (myvector.begin(), myarray, myarray+3);
 		std::cout << "myvector contains:"; print_vector(myvector);
 	}
+	{
+		std::cout << std::endl << "ASSIGN CHECK: " << std::endl;
+		std::vector<int> first;
+		std::vector<int> second;
+		std::vector<int> third;
+
+		first.assign (7,100);
+
+		std::vector<int>::iterator it;
+		it=first.begin() + 1;
+
+		second.assign (it, first.end() - 1);
+		int myints[] = {1776, 7, 4};
+		third.assign (myints,myints + 3);
+
+		std::cout << "Size of first: " << int (first.size()) << '\n';
+		std::cout << "Size of second: " << int (second.size()) << '\n';
+		std::cout << "Size of third: " << int (third.size()) << '\n';
+		print_vector(first);
+		print_vector(second);
+		print_vector(third);
+	}
+	{
+		ft::vector<int> first;
+		ft::vector<int> second;
+		ft::vector<int> third;
+
+		size_t size = 7;
+		first.assign (size,100);
+
+		ft::vector<int>::iterator it;
+		it = first.begin() + 1;
+
+		second.assign (it,first.end() - 1);
+		int myints[] = {1776, 7, 4};
+		third.assign (myints,myints + 3);
+
+		std::cout << "Size of first: " << int (first.size()) << '\n';
+		std::cout << "Size of second: " << int (second.size()) << '\n';
+		std::cout << "Size of third: " << int (third.size()) << '\n';
+		print_vector(first);
+		print_vector(second);
+		print_vector(third);
+	}
+	{
+		std::cout << std::endl << "ERASE CHECK: " << std::endl;
+		std::vector<int> myvector;
+
+		for (int i=1; i<=10; i++) myvector.push_back(i);
+
+		std::vector<int>::iterator it = myvector.begin() + 5;
+		myvector.erase (it);
+		myvector.erase (myvector.begin(),myvector.begin()+3);
+
+		std::cout << "myvector contains:"; print_vector(myvector);
+	}
+	{
+		ft::vector<int> myvector;
+
+		for (int i = 1; i <= 10; i++) myvector.push_back(i);
+
+		myvector.erase (myvector.begin() + 5);
+		myvector.erase (myvector.begin(),myvector.begin() + 3);
+
+		std::cout << "myvector contains:"; print_vector(myvector);
+	}
+	{
+		std::cout << std::endl << "SWAP CHECK: " << std::endl;
+		std::vector<int> foo (3,100);
+		std::vector<int> bar (5,200);
+		foo.swap(bar);
+
+		std::cout << "foo contains:"; print_vector(foo);
+		std::cout << "bar contains:"; print_vector(bar);
+	}
+	{
+		size_t size = 3;
+		ft::vector<int> foo (size,100);   // three ints with a value of 100
+		size = 5;
+		ft::vector<int> bar (size,200);   // five ints with a value of 200
+		foo.swap(bar);
+
+		std::cout << "foo contains:"; print_vector(foo);
+		std::cout << "bar contains:"; print_vector(bar);
+	}
 	return 0;
 }
