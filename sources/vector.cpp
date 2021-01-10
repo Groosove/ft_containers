@@ -67,16 +67,17 @@ int main() {
 		ft::vector<int>::iterator ite = my_vector.end();
 		ft::vector<int>::iterator it = my_vector.begin();
 
-		std::cout << (it <= ite ? "OK" : "KO") << std::endl;
-		std::cout << (it < ite ? "OK" : "KO") << std::endl;
-		std::cout << (it >= ite ? "OK" : "KO") << std::endl;
-		std::cout << (it > ite ? "OK" : "KO") << std::endl;
-		std::cout << (it == ite ? "OK" : "KO") << std::endl;
-		std::cout << (it != ite ? "OK" : "KO") << std::endl;
+		std::cout << std::endl << "ITERATOR COMPARE: " << std::endl;
+		std::cout << "<= " << (it <= ite ? "OK" : "KO") << std::endl;
+		std::cout << "< " << (it < ite ? "OK" : "KO") << std::endl;
+		std::cout << ">= " << (it >= ite ? "OK" : "KO") << std::endl;
+		std::cout << "> " << (it > ite ? "OK" : "KO") << std::endl;
+		std::cout << "== " << (it == ite ? "OK" : "KO") << std::endl;
+		std::cout << "!= " <<(it != ite ? "OK" : "KO") << std::endl;
 
+		std::cout << "ITERATOR += and -=: " << std::endl;
 		it += my_vector.size();
 		std::cout << (it == ite ? "OK" : "KO") << std::endl;
-		std::cout << (it - my_vector.size() == my_vector.begin() ? "OK" : "KO") << std::endl;\
 		std::cout << (it - my_vector.size() == my_vector.begin() ? "OK" : "KO") << std::endl;
 	}
 	/* clear check */
@@ -93,27 +94,56 @@ int main() {
 		std::cout << (my_vector.empty() ? "OK" : "KO") << std::endl;
 	}
 
-//	/* resize check */
-//	{
-//		std::cout << std::endl << "RESIZE CHECK: " << std::endl;
-//		std::vector<int> myvector;
-//		for (int i = 1;i < 10; ++i)
-//			myvector.push_back(i);
-//		myvector.resize(5);
-//		myvector.resize(8,100);
-//		myvector.resize(12);
-//		std::cout << "myvector contains:"; print_vector(myvector);
-//	}
-//	{
-//		ft::vector<int> myvector;
-//		for (int i = 1;i < 10; ++i)
-//			myvector.push_back(i);
-//		myvector.resize(5);
-//		myvector.resize(8,100);
-//		myvector.resize(12);
-//		std::cout << "myvector contains:"; print_vector(myvector);
-//	}
-
+	/* resize check */
+	{
+		std::cout << std::endl << "RESIZE CHECK: " << std::endl;
+		std::vector<int> myvector;
+		for (int i = 1;i < 10; ++i)
+			myvector.push_back(i);
+		myvector.resize(5);
+		myvector.resize(8,100);
+		myvector.resize(12);
+		std::cout << "myvector contains:"; print_vector(myvector);
+	}
+	{
+		ft::vector<int> myvector;
+		for (int i = 1;i < 10; ++i)
+			myvector.push_back(i);
+		myvector.resize(5);
+		myvector.resize(8,100);
+		myvector.resize(12);
+		std::cout << "myvector contains:"; print_vector(myvector);
+	}
+	/* reverse check */
+	{
+		std::cout << std::endl << "REVERSE CHECK" << std::endl;
+		std::vector<int> bar;
+		std::vector<int>::size_type sz;
+		sz = bar.capacity();
+		bar.reserve(100);   // this is the only difference with foo above
+		std::cout << "making bar grow:\n";
+		for (int i=0; i<100; ++i) {
+			bar.push_back(i);
+			if (sz!=bar.capacity()) {
+				sz = bar.capacity();
+				std::cout << "capacity changed: " << sz << '\n';
+			}
+		}
+	}
+	{
+		ft::vector<int> bar;
+		ft::vector<int>::size_type sz;
+		sz = bar.capacity();
+		bar.reserve(100);   // this is the only difference with foo above
+		std::cout << "making bar grow:\n";
+		for (int i=0; i<100; ++i) {
+			bar.push_back(i);
+			if (sz!=bar.capacity()) {
+				sz = bar.capacity();
+				std::cout << "capacity changed: " << sz << '\n';
+			}
+		}
+	}
 	/* insert check */
 	{
 		std::vector<int> myvector (3,100);
@@ -124,10 +154,10 @@ int main() {
 
 		myvector.insert (it,2,300);
 		it = myvector.begin();
-//		std::vector<int> anothervector (2,400);
-//		myvector.insert (it+2,anothervector.begin(),anothervector.end());
-//		int myarray [] = { 501,502,503 };
-//		myvector.insert (myvector.begin(), myarray, myarray+3);
+		std::vector<int> anothervector (2,400);
+		myvector.insert (it+2,anothervector.begin(),anothervector.end());
+		int myarray [] = { 501,502,503 };
+		myvector.insert (myvector.begin(), myarray, myarray+3);
 
 		std::cout << "myvector contains:"; print_vector(myvector);
 	}
@@ -142,10 +172,10 @@ int main() {
 		size = 2;
 		myvector.insert (it, size, 300);
 		it = myvector.begin();
-//		std::vector<int> anothervector (2,400);
-//		myvector.insert (it + 2, anothervector.begin(), anothervector.end());
-//		int myarray [] = { 501,502,503 };E
-//		myvector.insert (myvector.begin(), myarray, myarray+3);
+		std::vector<int> anothervector (2,400);
+		myvector.insert (it + 2, anothervector.begin(), anothervector.end());
+		int myarray [] = { 501,502,503 };
+		myvector.insert (myvector.begin(), myarray, myarray+3);
 		std::cout << "myvector contains:"; print_vector(myvector);
 	}
 	return 0;

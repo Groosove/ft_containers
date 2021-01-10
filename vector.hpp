@@ -24,10 +24,10 @@ public:
 	typedef ptrdiff_t 			difference_type;
 
 private:
-	pointer _arr;
+	pointer 		_arr;
 	allocator_type _alloc;
-	size_type _size;
-	size_type _capacity;
+	size_type 		_size;
+	size_type 		_capacity;
 
 	pointer createVector(const_reference val) {
 		pointer arr = _alloc.allocate(_capacity);
@@ -43,25 +43,26 @@ private:
 			_alloc.construct(arr + i, *(_arr + i));
 		for (size_type i = 0; i != _size; ++i)
 			_alloc.destroy(_arr + i);
+		if (_capacity)
+			_alloc.deallocate(_arr, _capacity);
 		_arr = arr;
 	}
 
 public:
 	/* Constructor */
 	explicit vector (const allocator_type& alloc = allocator_type())
-		: _alloc(alloc), _size(0), _capacity(1) { _arr = createVector(value_type()); };
+		: _arr(nullptr), _alloc(alloc), _size(0), _capacity(0) { };
 	explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		: _alloc(alloc), _size(n), _capacity(_size) { _arr = createVector(val); };
 	template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
-		: _alloc(alloc), _size(0), _capacity(1) {
-		_arr = createVector(value_type());
+		: _arr(nullptr), _alloc(alloc), _size(0), _capacity(0) {
 		while (first != last) {
 			push_back(*first);
 			first++;
 		}
 	};
 
-	vector (const vector& x) : _alloc(x._alloc), _size(x._size) {
+	vector (const vector& x) : _alloc(x._alloc), _size(x._size), _capacity(x._capacity) {
 		_arr = _alloc.allocate(_size);
 		for (size_type i = 0; i < _size; ++i)
 			_alloc.construct(_arr + i, *(x._arr + i));
@@ -76,8 +77,10 @@ public:
 			clear();
 		_size = x._size;
 		_alloc = x._alloc;
-		_arr = _alloc.allocate(_size);
-		for (size_type i = 0; i < _size; ++i)
+		_capacity = x._capacity;
+		if (_capacity)
+			_arr = _alloc.allocate(_capacity);
+		for (size_type i = 0; i < _capacity; ++i)
 			_alloc.construct(_arr + i, *(x._arr + i));
 		return *this;
 	};
@@ -127,7 +130,7 @@ public:
 	};
 
 	/* const iterator */
-	class const_iterator: public ft::iterator<std::random_access_iterator_tag, value_type> {
+	class const_iterator: public ft::iterator<std::random_access_iterator_tag, const value_type> {
 	private:
 		pointer _it;
 	public:
@@ -199,15 +202,22 @@ public:
 	};
 	size_type capacity() const { return _capacity; };
 	bool empty() const { return _size == 0; };
-	void reserve (size_type n);
+	void reserve (size_type n) {
+		if (_capacity >= n)
+			return;
+		pointer arr = _alloc.allocate(n);
+		size_type size = _size;
+		for (size_type i = 0; i != _capacity; ++i)
+			_alloc.construct(&arr[i], _arr[i]);
+		clear();
+		_arr = arr;
+		_size = size;
+		_capacity = n;
+	};
 
 	/* Element access */
-	reference operator[] (size_type n) {
-		return *(_arr + n);
-	};
-	const_reference operator[] (size_type n) const {
-		return *(_arr + n);
-	};
+	reference operator[] (size_type n) { return _arr[n]; };
+	const_reference operator[] (size_type n) const { return _arr[n]; };
 	reference at (size_type n) {
 		if (n >= _size)
 			std::out_of_range("index out of range");
@@ -227,45 +237,53 @@ public:
 	template <class InputIterator> void assign (InputIterator first, InputIterator last);
 	void assign (size_type n, const value_type& val);
 	void push_back (const value_type& val) {
-		if (_size == _capacity)
-			reallocVector();
-		_alloc.construct(_arr + _size, val);
-		_size++;
+		if (_capacity == 0) {
+			_capacity = 1;
+			_size = 1;
+			_arr = createVector(val);
+		}
+		else {
+			if (_size == _capacity)
+				reallocVector();
+			_alloc.construct(_arr + _size, val);
+			_size++;
+		}
 	};
 	void pop_back() {
 		_alloc.destroy(_arr + _size - 1);
 		--_size;
 	};
 	iterator insert (iterator position, const value_type& val) {
-		if (_size + 1 == _capacity)
-			reallocVector();
 		size_type ite = end().getElem() - _arr;
-		size_type pos = position.getElem() - _arr;
-		for (size_type i = pos; i != ite; ++i)
-			_arr[i + 1] = _arr[i];
+		size_type pos = position.getElem() - begin().getElem();
+		if (_size + 1  > _capacity)
+			reallocVector();
+		for (size_type i = ite; i != pos; --i)
+			_arr[i] = _arr[i - 1];
 		_alloc.construct(_arr + pos, val);
 		_size += 1;
-		return position;
+		return iterator(_arr + pos);
 	};
 	void insert (iterator position, size_type n, const value_type& val) {
-		if (_size + 1 == _capacity)
-			reallocVector();
-		size_type ite = end().getElem() - _arr + n;
-		size_type pos = position.getElem() - _arr;
-		for (size_type i = pos; i != ite; ++i)
-			_arr[i + 1] = _arr[i];
-		for (size_type i = 0; i != pos; ++i)
-			_alloc.construct(&_arr[i], val);
-		_size += n;
+		while (n--)
+			position = insert(position, val);
 	};
-	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last);
+	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last) {
+		while (last != first) {
+			last--;
+			position = insert(position, *last);
+		}
+	};
 	iterator erase (iterator position);
 	iterator erase (iterator first, iterator last);
 	void swap (vector& x);
 	void clear() {
 		for (size_type i = 0; i != _size; ++i)
 			_alloc.destroy(_arr + i);
+		if (_capacity)
+			_alloc.deallocate(_arr, _capacity);
 		_size = 0;
+		_capacity = 0;
 	};
 
 };
