@@ -64,8 +64,12 @@ private:
 	};
 
 	inline void changeSize(int value) {
-		this->_size += value;
-		*this->_end_node->content = static_cast<value_type>(this->_size);
+
+		if (value == -1)
+			--_size;
+		else
+			_size += static_cast<size_type>(value);
+//		*this->_end_node->content = static_cast<value_type>(this->_size);
 	}
 
 	inline size_type countSize() {
@@ -401,8 +405,8 @@ public:
 		linkNode(node->prev, firstNode);
 		linkNode(lastNode->prev, node);
 		linkNode(tmp2, lastNode);
-		changeSize(countSize() - _size);
-		x.changeSize(x.countSize() - x.size());
+		changeSize(static_cast<int>(countSize() - _size));
+		x.changeSize(static_cast<int>(x.countSize() - x.size()));
 	}
 	void remove (const value_type& val) {
 		for (iterator it = begin(); it != end(); ++it)
@@ -446,28 +450,45 @@ public:
 
 };
 
-template <class T, class Alloc>
-bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
-	{return lhs._container == rhs._container; };
+template <class T, class Alloc> bool operator==
+		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
+	typename ft::list<T, Alloc>::const_iterator l_it = lhs.begin();
+	typename ft::list<T, Alloc>::const_iterator l_ite = lhs.end();
+	typename ft::list<T, Alloc>::const_iterator r_it = rhs.begin();
+	typename ft::list<T, Alloc>::const_iterator r_ite = rhs.end();
 
-template <class T, class Alloc>
-bool operator!= (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
-	{ return lhs._container != rhs._container; };
+	for (; l_it == r_it; ++l_it, ++r_it) NULL;
 
-template <class T, class Alloc>
-bool operator< (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
-	{ return lhs._container < rhs._container; };
+	return (l_it == l_ite && r_it == r_ite);
+};
 
-template <class T, class Alloc>
-bool operator<= (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
-	{ return lhs._container <= rhs._container; };
+template <class T, class Alloc> bool operator!=
+		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return !(lhs == rhs); };
 
-template <class T, class Alloc>
-bool operator> (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
-	{ return lhs._container > rhs._container; };
+template <class T, class Alloc> bool operator<
+		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
+	typename ft::list<T, Alloc>::const_iterator l_it = lhs.begin();
+	typename ft::list<T, Alloc>::const_iterator l_ite = lhs.end();
+	typename ft::list<T, Alloc>::const_iterator r_it = rhs.begin();
+	typename ft::list<T, Alloc>::const_iterator r_ite = rhs.end();
 
-template <class T, class Alloc>
-bool operator>= (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs)
-	{ return lhs._container >= rhs._container; };
+	for (; l_it != l_ite && r_it != r_ite; ++l_it, ++r_it) if (l_it < r_it) return true;
+	if (l_it != l_ite) return false;
+	if (r_it != r_ite) return true;
+	return false;
+
+};
+
+template <class T, class Alloc> bool operator<=
+		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return !(rhs < lhs); };
+
+template <class T, class Alloc> bool operator>
+		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return (rhs < lhs); };
+
+template <class T, class Alloc> bool operator>=
+		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return !(lhs < rhs); };
+
+template <class T, class Alloc> void
+swap (ft::list<T,Alloc>& x, ft::list<T,Alloc>& y) { x.swap(y); };
 
 #endif

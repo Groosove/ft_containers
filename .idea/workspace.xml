@@ -23,11 +23,13 @@
   </component>
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
     <generated>
-      <config projectName="ft_containers" targetName="ft_queue" />
       <config projectName="ft_containers" targetName="non" />
-      <config projectName="ft_containers" targetName="ft_list" />
-      <config projectName="ft_containers" targetName="ft_vector" />
-      <config projectName="ft_containers" targetName="ft_stack" />
+      <config projectName="ft_containers" targetName="ft_containers" />
+      <config projectName="ft_containers" targetName="gmock" />
+      <config projectName="ft_containers" targetName="gtest_main" />
+      <config projectName="ft_containers" targetName="Google_Tests_run" />
+      <config projectName="ft_containers" targetName="gmock_main" />
+      <config projectName="ft_containers" targetName="gtest" />
     </generated>
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
@@ -37,9 +39,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4f89f57f-31ae-419c-9398-40875d2d9ca5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/sources/googletest" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sources/test.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ft.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/list.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/queue.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/list.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/list.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/queue.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/queue.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/stack.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/stack.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/vector.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/vector.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vector.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/vector.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stack.hpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vector.hpp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,37 +97,55 @@
       <recent name="$PROJECT_DIR$/sources" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.ft_vector">
+  <component name="RunManager" selected="Google Test.Google_Tests_run">
+    <configuration name="Google_Tests_run" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ft_list" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_list" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_list">
+    <configuration name="ft_containers" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_containers" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_containers">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ft_queue" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_queue" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_queue">
+    <configuration name="gmock" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="gmock" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ft_stack" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_stack" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_stack">
+    <configuration name="gmock_main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="gmock_main" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ft_vector" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="ft_vector" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="ft_vector">
+    <configuration name="gtest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gtest_main" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="gtest_main" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.ft_list" />
-      <item itemvalue="CMake Application.ft_queue" />
-      <item itemvalue="CMake Application.ft_stack" />
-      <item itemvalue="CMake Application.ft_vector" />
+      <item itemvalue="CMake Application.gmock" />
+      <item itemvalue="CMake Application.gmock_main" />
+      <item itemvalue="CMake Application.gtest" />
+      <item itemvalue="CMake Application.gtest_main" />
+      <item itemvalue="CMake Application.ft_containers" />
+      <item itemvalue="Google Test.Google_Tests_run" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -191,34 +220,34 @@
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
     <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2880.1620@0.0.2880.1620" timestamp="1608723039845" />
-    <state width="2518" height="424" key="GridCell.Tab.0.bottom" timestamp="1610302646976">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="1398" height="240" key="GridCell.Tab.0.bottom" timestamp="1610322390638">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="240" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1610059453612" />
+    <state width="1398" height="240" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1610322390638" />
     <state width="2518" height="424" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1610302646976" />
     <state width="2838" height="482" key="GridCell.Tab.0.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095475" />
     <state width="2518" height="381" key="GridCell.Tab.0.bottom/0.23.2560.1340@0.23.2560.1340" timestamp="1609024264798" />
     <state width="2838" height="441" key="GridCell.Tab.0.bottom/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025342" />
-    <state width="2518" height="424" key="GridCell.Tab.0.center" timestamp="1610302646976">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="1398" height="240" key="GridCell.Tab.0.center" timestamp="1610322390634">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="240" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1610059453611" />
+    <state width="1398" height="240" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1610322390634" />
     <state width="2518" height="424" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1610302646976" />
     <state width="2838" height="482" key="GridCell.Tab.0.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095474" />
     <state width="2518" height="381" key="GridCell.Tab.0.center/0.23.2560.1340@0.23.2560.1340" timestamp="1609024264798" />
     <state width="2838" height="441" key="GridCell.Tab.0.center/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025341" />
-    <state width="2518" height="424" key="GridCell.Tab.0.left" timestamp="1610302646975">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="1398" height="240" key="GridCell.Tab.0.left" timestamp="1610322390633">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="240" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1610059453611" />
+    <state width="1398" height="240" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1610322390633" />
     <state width="2518" height="424" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1610302646975" />
     <state width="2838" height="482" key="GridCell.Tab.0.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095473" />
     <state width="2518" height="381" key="GridCell.Tab.0.left/0.23.2560.1340@0.23.2560.1340" timestamp="1609024264797" />
     <state width="2838" height="441" key="GridCell.Tab.0.left/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025341" />
-    <state width="2518" height="424" key="GridCell.Tab.0.right" timestamp="1610302646976">
-      <screen x="0" y="0" width="2560" height="1440" />
+    <state width="1398" height="240" key="GridCell.Tab.0.right" timestamp="1610322390635">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="240" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1610059453612" />
+    <state width="1398" height="240" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1610322390635" />
     <state width="2518" height="424" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1610302646976" />
     <state width="2838" height="482" key="GridCell.Tab.0.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095474" />
     <state width="2518" height="381" key="GridCell.Tab.0.right/0.23.2560.1340@0.23.2560.1340" timestamp="1609024264798" />
@@ -273,6 +302,10 @@
       <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state x="823" y="429" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.23.2560.1340@0.23.2560.1340" timestamp="1608995490997" />
+    <state x="608" y="246" key="refactoring.ChangeSignatureDialog" timestamp="1610317198711">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="608" y="246" key="refactoring.ChangeSignatureDialog/0.0.1440.900@0.0.1440.900" timestamp="1610317198711" />
     <state x="1105" y="391" key="run.anything.popup" timestamp="1608837794352">
       <screen x="0" y="0" width="2880" height="1620" />
     </state>
@@ -290,7 +323,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/sources/vector.cpp</url>
-          <line>242</line>
+          <line>1553</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
       </breakpoints>
