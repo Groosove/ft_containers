@@ -12,10 +12,15 @@
 template <class T, class Alloc>
 class ft::list {
 public:
+	class iterator;
+	class const_iterator;
+	class reverse_iterator;
+	class const_reverse_iterator;
 	typedef T 					value_type;
 	typedef Alloc 				allocator_type;
 	typedef value_type& 		reference;
 	typedef const value_type	&const_reference;
+	typedef value_type *		pointer;
 	typedef size_t 				size_type;
 private:
 	typedef struct Node {
@@ -69,7 +74,6 @@ private:
 			--_size;
 		else
 			_size += static_cast<size_type>(value);
-//		*this->_end_node->content = static_cast<value_type>(this->_size);
 	}
 
 	inline size_type countSize() {
@@ -153,6 +157,9 @@ public:
 		};
 		bool operator==(const iterator &it) const { return this->_it->content == it._it->content; };
 		bool operator!=(const iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const const_iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const const_iterator &it) const { return this->_it->content != it.getNode()->content; };
 		T & operator*() const { return *(this->_it->content); }
 		T * operator->() const { return this->it->content; }
 
@@ -166,6 +173,7 @@ public:
 	public:
 		explicit const_iterator(_List* it = nullptr) : _it(it) {};
 		const_iterator(const const_iterator &it) { *this = it; };
+		const_iterator(const iterator &it) { *this = it; };
 		~const_iterator() {};
 		const_iterator& operator=(const const_iterator &it)  { this->_it = it._it; return *this; };
 		const_iterator & operator++() { this->_it = _it->next; return *this; };
@@ -182,6 +190,9 @@ public:
 		};
 		bool operator==(const const_iterator &it) const { return this->_it->content == it._it->content; };
 		bool operator!=(const const_iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const iterator &it) const { return this->_it->content != it.getNode()->content; };
 		T & operator*() const { return *(this->_it->content); };
 		T * operator->() const { return this->it->content; }
 
@@ -195,12 +206,12 @@ public:
 	public:
 		explicit reverse_iterator(_List* it = nullptr): _it(it) {};
 		~reverse_iterator() {};
-		reverse_iterator & operator=(const reverse_iterator &it) { this->_it = it; return *this; };
-		reverse_iterator(const reverse_iterator &it) { this = it; };
+		reverse_iterator(const reverse_iterator &it) { *this = it; };
+		reverse_iterator & operator=(const reverse_iterator &it) { this->_it = it._it; return *this; };
 		reverse_iterator & operator++() { this->_it = _it->prev; return *this; };
 		reverse_iterator operator++(int) {
 			reverse_iterator tmp(_it);
-			this->_it += _it->prev;
+			this->_it = _it->prev;
 			return tmp;
 		};
 		reverse_iterator & operator--() { this->_it = _it->next; return *this; };
@@ -210,8 +221,11 @@ public:
 			return tmp;
 		};
 
-		bool operator==(const reverse_iterator &it) const { return this->_it.content == it._it.content; };
-		bool operator!=(const reverse_iterator &it) const { return this->_it.content != it._it.content; };
+		bool operator==(const reverse_iterator &it) const { return this->_it->content == it._it->content; };
+		bool operator!=(const reverse_iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const const_reverse_iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const const_reverse_iterator &it) const { return this->_it->content != it.getNode()->content; };
 		T & operator*() const { return *(this->_it->content); };
 		T * operator->() const { return this->it->content; }
 
@@ -227,6 +241,7 @@ public:
 		~const_reverse_iterator() {};
 		const_reverse_iterator & operator=(const const_reverse_iterator &it) { this->_it = it._it; return *this; };
 		const_reverse_iterator(const const_reverse_iterator &it) { *this = it; };
+		const_reverse_iterator(const reverse_iterator &it) { *this = it; };
 		const_reverse_iterator & operator++() { this->_it = _it->prev; return *this; };
 		const_reverse_iterator operator++(int) {
 			const_reverse_iterator tmp(_it);
@@ -242,8 +257,11 @@ public:
 
 		bool operator==(const const_reverse_iterator &it) const { return this->_it->content == it._it->content; };
 		bool operator!=(const const_reverse_iterator &it) const { return this->_it->content != it._it->content; };
-		T & operator*() const { return *(this->_it->content); }
-		T * operator->() const { return this->it->content; }
+
+		bool operator==(const reverse_iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const reverse_iterator &it) const { return this->_it->content != it.getNode()->content; };
+		reference operator*() const { return *(this->_it->content); }
+		pointer operator->() const { return this->it->content; }
 
 		_List *getNode() const { return _it; }
 	};
@@ -258,7 +276,7 @@ public:
 			while(n--)
 				this->push_back(val);
 	};
-	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
 		: _alloc(alloc), _size(0) {
 		createList();
 		while (first != last) {
@@ -305,12 +323,12 @@ public:
 	const_reference back() const { return *this->_end_node->prev->content; };
 
 	/* Modifiers */
-	template <class InputIterator> void assign (InputIterator first, InputIterator last) {
+	template <class InputIterator> void assign (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
 		if (!this->_size)
 			this->clear();
 		createList();
-		while (first != last)
-			push_back(*first++);
+		for (; first != last; ++first)
+			push_back(*first);
 	};
 	void assign (size_type n, const value_type& val) {
 		if (!this->_size)
@@ -347,9 +365,9 @@ public:
 		while (n--)
 			insert(position, val);
 	};
-	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last) {
-		while (first != last)
-			insert(position, *first++);
+	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
+		for (;first != last; ++first)
+			insert(position, *first);
 	};
 	iterator erase (iterator position) {
 		_List *node = position.getNode();
@@ -450,7 +468,7 @@ public:
 
 };
 
-template <class T, class Alloc> bool operator==
+template <class T, class Alloc> bool ft::operator==
 		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
 	typename ft::list<T, Alloc>::const_iterator l_it = lhs.begin();
 	typename ft::list<T, Alloc>::const_iterator l_ite = lhs.end();
@@ -462,33 +480,33 @@ template <class T, class Alloc> bool operator==
 	return (l_it == l_ite && r_it == r_ite);
 };
 
-template <class T, class Alloc> bool operator!=
+template <class T, class Alloc> bool ft::operator!=
 		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return !(lhs == rhs); };
 
-template <class T, class Alloc> bool operator<
+template <class T, class Alloc> bool ft::operator<
 		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
 	typename ft::list<T, Alloc>::const_iterator l_it = lhs.begin();
 	typename ft::list<T, Alloc>::const_iterator l_ite = lhs.end();
 	typename ft::list<T, Alloc>::const_iterator r_it = rhs.begin();
 	typename ft::list<T, Alloc>::const_iterator r_ite = rhs.end();
 
-	for (; l_it != l_ite && r_it != r_ite; ++l_it, ++r_it) if (l_it < r_it) return true;
-	if (l_it != l_ite) return false;
-	if (r_it != r_ite) return true;
-	return false;
+	if (lhs.size() != rhs.size()) return false;
+
+	for (; l_it != l_ite; ++l_it, ++r_it) if (*l_it != *r_it) return false;
+
+	return true;
 
 };
 
-template <class T, class Alloc> bool operator<=
+template <class T, class Alloc> bool ft::operator<=
 		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return !(rhs < lhs); };
 
-template <class T, class Alloc> bool operator>
+template <class T, class Alloc> bool ft::operator>
 		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return (rhs < lhs); };
 
-template <class T, class Alloc> bool operator>=
+template <class T, class Alloc> bool ft::operator>=
 		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return !(lhs < rhs); };
 
-template <class T, class Alloc> void
-swap (ft::list<T,Alloc>& x, ft::list<T,Alloc>& y) { x.swap(y); };
+template <class T, class Alloc> void ft::swap (ft::list<T,Alloc>& x, ft::list<T,Alloc>& y) { x.swap(y); };
 
 #endif

@@ -5,10 +5,8 @@
 
 #include "list.hpp"
 #include "stack.hpp"
-
-//int main() {
-//	{
-//		std::stack<int> tmp2;
+#include "iostream"
+//	}	std::stack<int> tmp2;
 //		ft::stack<int> tmp;
 //
 //		std::cout << "Original stack method empty(): " << tmp2.empty()
