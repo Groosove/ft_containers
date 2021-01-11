@@ -204,20 +204,6 @@ std::vector<int>::const_iterator tmps;
 vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
 }
 
-/* THIS TEST NORMALLY SHOULD NOT COMPILE */
-/*
-TEST_F(VectorIteratorTest, IteratorConstInputInputTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-	ft::vector<int>::const_iterator itf =		f.begin();
-	ft::vector<int>::const_iterator itfe =	f.end();
-	ft::vector<int>::iterator tmpf;
-	std::vector<int>::const_iterator its =	s.begin();
-	std::vector<int>::const_iterator itse =	s.end();
-	std::vector<int>::iterator tmps;
-	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
-}*/
-
 TEST_F(VectorIteratorTest, IteratorReverseReverseTest) {
 std::vector<int> s(sample.begin(), sample.end());
 ft::vector<int> f(sample.begin(), sample.end());
@@ -296,8 +282,8 @@ size_t capf = f.capacity();
 s.clear();
 f.clear();
 
-EXPECT_EQ(capf, f.capacity()) << "capacity should remain the same after clear";
 EXPECT_EQ(caps, s.capacity());
+EXPECT_EQ(capf, f.capacity()) << "capacity should remain the same after clear";
 EXPECT_EQ(0, f.size());
 EXPECT_EQ(0, s.size());
 }
@@ -378,7 +364,7 @@ ft::vector<int> f(sample.begin(), sample.end());
 int nouse = 0;
 
 for (size_t i = 0; i < 10; ++i) {
-EXPECT_EQ(f.at(i), s.at(i)) << "at() fails on " << i << " iteration";
+	EXPECT_EQ(f.at(i), s.at(i)) << "at() fails on " << i << " iteration";
 }
 EXPECT_THROW(nouse += s.at(10), std::out_of_range) << "at() does not throw std::out_of_range";
 EXPECT_THROW(nouse += f.at(10), std::out_of_range) << "at() does not throw std::out_of_range";

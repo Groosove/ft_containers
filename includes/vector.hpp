@@ -77,19 +77,17 @@ public:
 	};
 
 	/* Destructor */
-	~vector() { clear(); };
+	~vector() {
+		clear();
+		if (_capacity)
+			_alloc.deallocate(_arr, _capacity);
+		_capacity = 0;
+	};
 
 	/* Assignation operator */
 	vector& operator= (const vector& x) {
-		if (_size != 0)
-			clear();
-		_size = x._size;
-		_alloc = x._alloc;
-		_capacity = x._capacity;
-		if (_capacity)
-			_arr = _alloc.allocate(_capacity);
-		for (size_type i = 0; i < _capacity; ++i)
-			_alloc.construct(_arr + i, *(x._arr + i));
+		clear();
+		insert(begin(), x.begin(), x.end());
 		return *this;
 	};
 
@@ -150,13 +148,16 @@ public:
 		pointer _it;
 	public:
 		explicit const_iterator(pointer it = nullptr) : _it(it) {};
-		~const_iterator() { delete [] this->_it; };
+		~const_iterator() {};
 		const_iterator & operator=(const_iterator const &it) {
-			if (this->_it != nullptr)
-				delete [] this->_it;
 			this->_it = it._it;
 			return *this;
 		}
+		const_iterator & operator=(iterator const &it) {
+			this->_it = it.getElem();
+			return *this;
+		}
+		const_iterator(const_iterator const &it) { *this = it; }
 		const_iterator(iterator const &it) { *this = it; }
 		const_iterator & operator++() { this->_it = _it + 1; return *this; };
 		const_iterator operator++(int) {
@@ -228,24 +229,24 @@ public:
 		difference_type operator-(reverse_iterator &it) const { return _it + it._it; }
 		reverse_iterator &operator+=(difference_type val) { _it -= val; return *this; };
 		reverse_iterator &operator-=(difference_type val) { _it += val; return *this; };
-		const_reference operator[](const_reference ref) { return _it[ref]; };
+		const_reference operator[](const_reference ref) const { return *(_it - ref); };
 		reference operator*() { return *this->_it; }
-		const_pointer operator->() { return this->_it; }
+		pointer operator->() { return this->_it; }
 
 		bool operator==(const reverse_iterator &other) const { return _it == other.getElem(); };
 		bool operator!=(const reverse_iterator &other) const { return _it != other.getElem(); };
-		bool operator<=(const reverse_iterator &other) const { return _it <= other.getElem(); };
-		bool operator>=(const reverse_iterator &other) const { return _it >= other.getElem(); };
-		bool operator<(const reverse_iterator &other) const { return _it < other.getElem(); };
-		bool operator>(const reverse_iterator &other) const { return _it > other.getElem(); };
+		bool operator<=(const reverse_iterator &other) const { return _it >= other.getElem(); };
+		bool operator>=(const reverse_iterator &other) const { return _it <= other.getElem(); };
+		bool operator<(const reverse_iterator &other) const { return _it > other.getElem(); };
+		bool operator>(const reverse_iterator &other) const { return _it < other.getElem(); };
 
 		bool operator==(const const_reverse_iterator &other) const { return _it == other.getElem(); };
 		bool operator!=(const const_reverse_iterator &other) const { return _it != other.getElem(); };
-		bool operator<=(const const_reverse_iterator &other) const { return _it <= other.getElem(); };
-		bool operator>=(const const_reverse_iterator &other) const { return _it >= other.getElem(); };
-		bool operator<(const const_reverse_iterator &other) const { return _it < other.getElem(); };
-		bool operator>(const const_reverse_iterator &other) const { return _it > other.getElem(); };
-		const_pointer getElem() const { return this->_it; }
+		bool operator<=(const const_reverse_iterator &other) const { return _it >= other.getElem(); };
+		bool operator>=(const const_reverse_iterator &other) const { return _it <= other.getElem(); };
+		bool operator<(const const_reverse_iterator &other) const { return _it > other.getElem(); };
+		bool operator>(const const_reverse_iterator &other) const { return _it < other.getElem(); };
+		pointer getElem() const { return this->_it; }
 	};
 
 	/* const reverse iterator */
@@ -259,7 +260,12 @@ public:
 			this->_it = it._it;
 			return *this;
 		}
+		const_reverse_iterator & operator=(const reverse_iterator &it) {
+			this->_it = it.getElem();
+			return *this;
+		}
 		const_reverse_iterator(reverse_iterator const &it) { *this = it; }
+		const_reverse_iterator(const_reverse_iterator const &it) { *this = it; }
 		const_reverse_iterator & operator++() { this->_it = _it - 1; return *this; };
 		reverse_iterator operator++(int) {
 			reverse_iterator tmp(_it);
@@ -273,54 +279,55 @@ public:
 			return tmp;
 		};
 
-		const_reverse_iterator operator+(difference_type val) const { return const_reverse_iterator(_it + val); };
-		const_reverse_iterator operator-(difference_type val) const { return const_reverse_iterator(_it - val); };
+		const_reverse_iterator operator+(difference_type val) const { return const_reverse_iterator(_it - val); };
+		const_reverse_iterator operator-(difference_type val) const { return const_reverse_iterator(_it + val); };
 		difference_type operator+(const_reverse_iterator &it) const { return _it - it._it; }
 		difference_type operator-(const_reverse_iterator &it) const { return _it + it._it; }
 		const_reverse_iterator &operator+=(difference_type val) { _it -= val; return *this; };
 		const_reverse_iterator &operator-=(difference_type val) { _it += val; return *this; };
-		const_reference operator[](const_reference ref) { return _it[ref]; };
+		const_reference operator[](const_reference ref) { return *(_it - ref); };
 		reference operator*() { return *this->_it; }
-		const_pointer operator->() { return this->_it; }
+		pointer operator->() { return this->_it; }
 
 		bool operator==(const reverse_iterator &other) const { return _it == other.getElem(); };
 		bool operator!=(const reverse_iterator &other) const { return _it != other.getElem(); };
-		bool operator<=(const reverse_iterator &other) const { return _it <= other.getElem(); };
-		bool operator>=(const reverse_iterator &other) const { return _it >= other.getElem(); };
-		bool operator<(const reverse_iterator &other) const { return _it < other.getElem(); };
-		bool operator>(const reverse_iterator &other) const { return _it > other.getElem(); };
+		bool operator<=(const reverse_iterator &other) const { return _it >= other.getElem(); };
+		bool operator>=(const reverse_iterator &other) const { return _it <= other.getElem(); };
+		bool operator<(const reverse_iterator &other) const { return _it > other.getElem(); };
+		bool operator>(const reverse_iterator &other) const { return _it < other.getElem(); };
 
 		bool operator==(const const_reverse_iterator &other) const { return _it == other.getElem(); };
 		bool operator!=(const const_reverse_iterator &other) const { return _it != other.getElem(); };
-		bool operator<=(const const_reverse_iterator &other) const { return _it <= other.getElem(); };
-		bool operator>=(const const_reverse_iterator &other) const { return _it >= other.getElem(); };
-		bool operator<(const const_reverse_iterator &other) const { return _it < other.getElem(); };
-		bool operator>(const const_reverse_iterator &other) const { return _it > other.getElem(); };
-		const_pointer getElem() const { return this->_it; }
+		bool operator<=(const const_reverse_iterator &other) const { return _it >= other.getElem(); };
+		bool operator>=(const const_reverse_iterator &other) const { return _it <= other.getElem(); };
+		bool operator<(const const_reverse_iterator &other) const { return _it > other.getElem(); };
+		bool operator>(const const_reverse_iterator &other) const { return _it < other.getElem(); };
+		pointer getElem() const { return this->_it; }
 	};
 
 	/* iterators */
-	iterator begin() { return iterator(this->_arr); };
-	const_iterator begin() const { return const_iterator(this->_arr); };
-	iterator end() { return iterator(this->_arr + this->_size); };
-	const_iterator end() const { return const_iterator(this->_arr + this->_size); };
-	reverse_iterator rbegin() { return reverse_iterator(this->_arr + this->_size - 1); };
-	const_reverse_iterator rbegin() const { return const_reverse_iterator(this->_arr + this->_size - 1); };
-	reverse_iterator rend() { return reverse_iterator(this->_arr); };
-	const_reverse_iterator rend() const { return const_reverse_iterator(this->_arr); };
+	iterator 		begin() { return iterator(this->_arr); };
+	const_iterator 	begin() const { return const_iterator(this->_arr); };
+	iterator 		end() { return iterator(this->_arr + this->_size); };
+	const_iterator 	end() const { return const_iterator(this->_arr + this->_size); };
+
+	reverse_iterator 		rbegin() { return reverse_iterator(this->_arr + this->_size - 1); };
+	const_reverse_iterator 	rbegin() const { return const_reverse_iterator(this->_arr + this->_size - 1); };
+	reverse_iterator 		rend() { return reverse_iterator(this->_arr - 1); };
+	const_reverse_iterator 	rend() const { return const_reverse_iterator(this->_arr - 1); };
 
 	/* Capacity */
-	size_type size() const { return _size; };
-	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_arr[0]); };
-	void resize (size_type n, value_type val = value_type()) {
+	size_type 	size() const { return _size; };
+	size_type 	max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_arr[0]); };
+	void 		resize (size_type n, value_type val = value_type()) {
 		for (; this->_size > n; )
 			pop_back();
 		for (; this->_size < n ; )
 			push_back(val);
 	};
-	size_type capacity() const { return _capacity; };
-	bool empty() const { return _size == 0; };
-	void reserve (size_type n) {
+	size_type 	capacity() const { return _capacity; };
+	bool 		empty() const { return _size == 0; };
+	void 		reserve (size_type n) {
 		if (_capacity >= n)
 			return;
 		pointer arr = _alloc.allocate(n);
@@ -338,13 +345,13 @@ public:
 	const_reference operator[] (size_type n) const { return _arr[n]; };
 	reference at (size_type n) {
 		if (n >= _size)
-			std::out_of_range("index out of range");
-		return *(_arr + n);
+			throw std::out_of_range("index out of range");
+		return _arr[n];
 	};
 	const_reference at (size_type n) const {
 		if (n >= _size)
-			std::out_of_range("index out of range");
-		return *(_arr + n);
+			throw std::out_of_range("index out of range");
+		return _arr[n];
 	};
 	reference front() { return *_arr; };
 	const_reference front() const { return *_arr; };
@@ -410,7 +417,7 @@ public:
 		for (; tmp != ite; ++tmp)
 			*tmp = *(tmp + 1);
 		--this->_size;
-		return position + 1;
+		return position;
 	};
 	iterator erase (iterator first, iterator last) {
 		for (; first != last; ) {
@@ -439,10 +446,7 @@ public:
 	void clear() {
 		for (size_type i = 0; i != _size; ++i)
 			_alloc.destroy(_arr + i);
-		if (_capacity)
-			_alloc.deallocate(_arr, _capacity);
 		_size = 0;
-		_capacity = 0;
 	};
 
 };
