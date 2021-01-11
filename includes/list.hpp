@@ -176,6 +176,7 @@ public:
 		const_iterator(const iterator &it) { *this = it; };
 		~const_iterator() {};
 		const_iterator& operator=(const const_iterator &it)  { this->_it = it._it; return *this; };
+		const_iterator& operator=(const iterator &it)  { this->_it = it.getNode(); return *this; };
 		const_iterator & operator++() { this->_it = _it->next; return *this; };
 		const_iterator operator++(int) {
 			const_iterator tmp(_it);
@@ -240,6 +241,7 @@ public:
 		explicit const_reverse_iterator(_List* it = nullptr): _it(it) {};
 		~const_reverse_iterator() {};
 		const_reverse_iterator & operator=(const const_reverse_iterator &it) { this->_it = it._it; return *this; };
+		const_reverse_iterator & operator=(const reverse_iterator &it) { this->_it = it.getNode(); return *this; };
 		const_reverse_iterator(const const_reverse_iterator &it) { *this = it; };
 		const_reverse_iterator(const reverse_iterator &it) { *this = it; };
 		const_reverse_iterator & operator++() { this->_it = _it->prev; return *this; };
@@ -306,10 +308,10 @@ public:
 	const_iterator 	end() const { return const_iterator(this->_end_node); };
 
 	/* Reverse Iterators */
-	reverse_iterator 		rbegin() { return reverse_iterator(this->_end_node); };
-	reverse_iterator 		rend() { return reverse_iterator(this->_end_node->next); };
-	const_reverse_iterator 	rbegin() const { return const_reverse_iterator(this->_end_node); };
-	const_reverse_iterator	rend() const { return const_reverse_iterator(this->_end_node->next); };
+	reverse_iterator 		rbegin() { return reverse_iterator(this->_end_node->prev); };
+	reverse_iterator 		rend() { return reverse_iterator(this->_end_node); };
+	const_reverse_iterator 	rbegin() const { return const_reverse_iterator(this->_end_node->prev); };
+	const_reverse_iterator	rend() const { return const_reverse_iterator(this->_end_node); };
 
 	/* Capacity */
 	bool 		empty() const { return !this->_size; };
@@ -359,7 +361,7 @@ public:
 		_List *node = createNode(val);
 		_List *list = position.getNode();
 		insertNode(node, list->prev, list);
-		return position;
+		return iterator(node);
 	};
 	void insert (iterator position, size_type n, const value_type& val) {
 		while (n--)
@@ -371,9 +373,10 @@ public:
 	};
 	iterator erase (iterator position) {
 		_List *node = position.getNode();
+		_List *tmp = node->next;
 		linkNode(node->prev, node->next);
 		destroyNode(node);
-		return position;
+		return iterator(tmp);
 	};
 	iterator erase (iterator first, iterator last) {
 		while (first != last)
@@ -398,7 +401,6 @@ public:
 	void clear() {
 		while (_size != 0)
 			pop_back();
-		pop_back();
 	};
 
 	/* Operations */
@@ -440,9 +442,10 @@ public:
 	template <class BinaryPredicate> void unique (BinaryPredicate binary_pred) {
 		iterator it = begin();
 		iterator nextIt = ++begin();
-		while (nextIt != end()) {
+		iterator ite = end();
+		while (nextIt != ite) {
 			if (binary_pred(*it, *nextIt))
-				nextIt = ++erase(nextIt);
+				nextIt = erase(nextIt);
 			else {
 				++it;
 				++nextIt;

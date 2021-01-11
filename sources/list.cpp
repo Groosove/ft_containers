@@ -1444,20 +1444,22 @@ protected:
 	virtual void SetUp() {
 		double mydoubles[] = { 12.15,  2.72, 73.0,  12.77,  3.14,
 							   12.77, 73.35, 72.25, 15.3,  72.25 };
-		f.insert(f.begin(), mydoubles,mydoubles+10);
-		s.insert(s.begin(), mydoubles,mydoubles+10);
+		f.insert(f.begin(), mydoubles,mydoubles + 10);
+		s.insert(s.begin(), mydoubles,mydoubles + 10);
 	}
 	ft::list<double> f;
 	std::list<double> s;
 };
 
 TEST_F(ListSortTest, sort) {
+	print_list(f);
+	print_list(s);
 	f.sort();
 	s.sort();
+	print_list(f);
+	print_list(s);
 	EXPECT_EQ(f.size(), s.size());
 	checkListEqual(f.begin(), f.end(), s.begin(), s.end());
-//	print_list(f);
-//	print_list(s);
 }
 
 TEST_F(ListSortTest, sortEmpty) {
