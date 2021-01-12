@@ -9,7 +9,7 @@ set(TEST_FILES
         vector.cpp
         stack.cpp
         queue.cpp
-        )
+        map.cpp)
 
 add_executable(Google_Tests_run ${TEST_FILES})
 target_link_libraries(Google_Tests_run gtest gtest_main testlib)

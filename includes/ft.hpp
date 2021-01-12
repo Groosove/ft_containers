@@ -79,7 +79,7 @@ namespace ft {
 	template <class T, class Container> bool operator>  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
 	template <class T, class Container> bool operator>= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
 
-	template <class T, class Alloc = std::allocator<T> >
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
 	class map;
 }
 
