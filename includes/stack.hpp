@@ -31,33 +31,17 @@ public:
 	const value_type & top() const { return this->_container.back(); };
 	void push(const value_type& val) { this->_container.push_back(val); };
 	void pop() { this->_container.pop_back(); };
+	container_type getContainer() const { return _container; }
 
-protected:
+private:
 	container_type _container;
 };
 
-template <class T, class Container>
-bool operator== (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
-	{ return lhs._container == rhs._container; };
-
-template <class T, class Container>
-bool operator!= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
-	{ return lhs._container != rhs._container; };
-
-template <class T, class Container>
-bool operator<  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
-	{ return lhs._container < rhs._container; };
-
-template <class T, class Container>
-bool operator<= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
-	{ return lhs._container <= rhs._container; };
-
-template <class T, class Container>
-bool operator>  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
-	{ return lhs._container > rhs._container; };
-
-template <class T, class Container>
-bool operator>= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs)
-	{ return lhs._container >= rhs._container; };
+template <class T, class Container> bool ft::operator== (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() == rhs.getContainer(); };
+template <class T, class Container> bool ft::operator!= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() != rhs.getContainer(); };
+template <class T, class Container> bool ft::operator<  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() < rhs.getContainer(); };
+template <class T, class Container> bool ft::operator<= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() <= rhs.getContainer(); };
+template <class T, class Container> bool ft::operator>  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() > rhs.getContainer(); };
+template <class T, class Container> bool ft::operator>= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() >= rhs.getContainer(); };
 
 #endif

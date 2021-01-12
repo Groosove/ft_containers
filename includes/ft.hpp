@@ -51,22 +51,33 @@ namespace ft {
 	template <class T, class Alloc> bool operator>=(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs);
 	template <class T, class Alloc> void swap (ft::list<T,Alloc>& x, ft::list<T,Alloc>& y);
 
-
-	template <class T, class Container = ft::list<T> >
-	class stack;
-
 	template <class T, class Container = ft::list<T> >
 	class queue;
+	template <class T, class Container> bool operator== (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs);
+	template <class T, class Container> bool operator!= (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs);
+	template <class T, class Container> bool operator<  (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs);
+	template <class T, class Container> bool operator<= (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs);
+	template <class T, class Container> bool operator>  (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs);
+	template <class T, class Container> bool operator>= (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs);
 
 	template <class T, class Alloc = std::allocator<T> >
 	class vector;
 	template <class T, class Alloc> bool operator<=(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs);
 	template <class T, class Alloc> bool operator> (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs);
 	template <class T, class Alloc> bool operator>= (const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs);
-	template <class T, class Alloc> void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y);
 	template <class T, class Alloc> bool operator==(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs);
 	template <class T, class Alloc> bool operator!=(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs);
 	template <class T, class Alloc> bool operator<(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs);
+	template <class T, class Alloc> void swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y);
+
+	template <class T, class Container = ft::vector<T> >
+	class stack;
+	template <class T, class Container> bool operator== (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
+	template <class T, class Container> bool operator!= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
+	template <class T, class Container> bool operator<  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
+	template <class T, class Container> bool operator<= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
+	template <class T, class Container> bool operator>  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
+	template <class T, class Container> bool operator>= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs);
 
 	template <class T, class Alloc = std::allocator<T> >
 	class map;

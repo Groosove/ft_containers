@@ -111,7 +111,7 @@ private:
 		mergeSort(_List * const firstList, _List * const secondList, Compare func) {
 		if (firstList == this->_end_node) return secondList;
 		if (secondList == this->_end_node) return firstList;
-		if (func(*firstList->content, *secondList->content)) {
+		if (!func(*secondList->content, *firstList->content)) {
 			firstList->next = mergeSort(firstList->next, secondList, func);
 			firstList->next->prev = firstList;
 			linkNode(this->_end_node, firstList);
@@ -466,7 +466,12 @@ public:
 		}
 	};
 	void sort() { sort(nonCompare); };
-	template <class Compare> void sort (Compare comp) { listSort(_end_node->next, comp); };
+	template <class Compare> void sort (Compare comp) {
+		listSort(_end_node->next, comp);
+		_List *node = _end_node->next;
+		while (node->next != _end_node) node = node->next;
+		_end_node->prev = node;
+	};
 	void reverse() { reverseList(this->_end_node->next); };
 
 };
@@ -476,11 +481,12 @@ template <class T, class Alloc> bool ft::operator==
 	typename ft::list<T, Alloc>::const_iterator l_it = lhs.begin();
 	typename ft::list<T, Alloc>::const_iterator l_ite = lhs.end();
 	typename ft::list<T, Alloc>::const_iterator r_it = rhs.begin();
-	typename ft::list<T, Alloc>::const_iterator r_ite = rhs.end();
 
-	for (; l_it == r_it; ++l_it, ++r_it) NULL;
+	if (lhs.size() != rhs.size()) return false;
 
-	return (l_it == l_ite && r_it == r_ite);
+	for (; l_it != l_ite; ++l_it, ++r_it) if (*l_it != *r_it) return false;
+
+	return true;
 };
 
 template <class T, class Alloc> bool ft::operator!=
@@ -493,11 +499,12 @@ template <class T, class Alloc> bool ft::operator<
 	typename ft::list<T, Alloc>::const_iterator r_it = rhs.begin();
 	typename ft::list<T, Alloc>::const_iterator r_ite = rhs.end();
 
-	if (lhs.size() != rhs.size()) return false;
+	for (; l_it != l_ite && r_it != r_ite; ++l_it, ++r_it)
+		if (*l_it < *r_it) return true;
 
-	for (; l_it != l_ite; ++l_it, ++r_it) if (*l_it != *r_it) return false;
+	if (l_it != l_ite) return false;
 
-	return true;
+	return (r_it != r_ite);
 
 };
 

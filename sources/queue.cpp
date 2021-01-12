@@ -3,42 +3,105 @@
 // Copyright (c) 2020 All rights reserved.
 //
 
-#include "list.hpp"
+#include "gtest/gtest.h"
 #include "queue.hpp"
-//int main() {
-//	{
-//		std::queue<int> tmp2;
-//		ft::queue<int> tmp;
-//		std::cout << "Original queue method empty(): " << tmp2.empty() << std::endl;
-//		std::cout << "My realization queue method empty(): " << tmp.empty() << std::endl;
-//
-//		tmp2.push(5);
-//		tmp.push(5);
-//
-//		std::cout << "Original queue method size(): " << tmp2.size() << std::endl;
-//		std::cout << "My realization method size(): " << tmp.size() << std::endl;
-//
-//		for (int i = 0; i < 10; ++i) { tmp2.push(i); tmp.push(i); }
-//
-//		std::cout << "Original queue method front(): " << tmp2.front() << std::endl;
-//		std::cout << "My realization method front(): " << tmp.front() << std::endl;
-//
-//		std::cout << "Original queue method size(): " << tmp2.size() << std::endl;
-//		std::cout << "My realization method size(): " << tmp.size() << std::endl;
-//
-//		std::cout << "Original queue method pop(): " << std::endl; tmp2.pop();
-//		std::cout << "My realization method pop(): " << std::endl; tmp.pop();
-//
-//		std::cout << "Original queue method front(): " << tmp2.front() << std::endl;
-//		std::cout << "My realization method front(): " << tmp.front() << std::endl;
-//
-//		std::cout << "Original queue method size(): " << tmp2.size() << std::endl;
-//		std::cout << "My realization method size(): " << tmp.size() << std::endl;
-//
-//		std::cout << "Original queue method back(): " << tmp2.back() << std::endl;
-//		std::cout << "My realization method back(): " << tmp.back() << std::endl;
-//	}
-//
-//	return 0;
-//}
+#include "list.hpp"
+#include <queue>
+#include <list>
+
+class QueueFullTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+		for (int i = 0; i < 100; ++i) {
+			svec.push_back(std::to_string(i));
+			fvec.push_back(std::to_string(i));
+		}
+	}
+
+	std::list<std::string> svec;
+	ft::list<std::string> fvec;
+
+};
+
+TEST_F(QueueFullTest, testFunctional) {
+	std::queue<std::string> s;
+	ft::queue<std::string> f;
+
+	EXPECT_EQ(s.empty(), f.empty());
+	EXPECT_EQ(s.size(), f.size());
+
+	s.push("23");
+	f.push("23");
+	EXPECT_EQ(s.empty(), f.empty());
+	EXPECT_EQ(s.size(), f.size());
+
+	s.push("213");
+	f.push("213");
+	EXPECT_EQ(s.empty(), f.empty());
+	EXPECT_EQ(s.size(), f.size());
+
+	s.pop();
+	f.pop();
+	EXPECT_EQ(s.empty(), f.empty());
+	EXPECT_EQ(s.size(), f.size());
+
+	s.pop();
+	f.pop();
+	EXPECT_EQ(s.empty(), f.empty());
+	EXPECT_EQ(s.size(), f.size());
+
+	std::queue<std::string, std::list<std::string>> s2(svec);
+	ft::queue<std::string, ft::list<std::string>>  f2(fvec);
+	EXPECT_EQ(s2.empty(), f2.empty());
+	EXPECT_EQ(s2.size(), f2.size());
+
+	s2.push("23");
+	f2.push("23");
+	EXPECT_EQ(s2.empty(), f2.empty());
+	EXPECT_EQ(s2.size(), f2.size());
+
+	s2.push("213");
+	f2.push("213");
+	EXPECT_EQ(s2.empty(), f2.empty());
+	EXPECT_EQ(s2.size(), f2.size());
+
+	while (!s2.empty()) {
+		s2.pop();
+		f2.pop();
+		EXPECT_EQ(s2.empty(), f2.empty());
+		EXPECT_EQ(s2.size(), f2.size());
+	}
+
+}
+
+TEST_F(QueueFullTest, testOperators) {
+	std::queue<std::string, std::list<std::string> > s1, s2;
+	ft::queue<std::string, ft::list<std::string> > f1, f2;
+
+	s1.push("123");
+	s1.push("321");
+	s2.push("123");
+
+	f1.push("123");
+	f1.push("321");
+	f2.push("123");
+
+	EXPECT_EQ(s1, s1);
+	EXPECT_EQ(f1, f1);
+
+	EXPECT_NE(s1, s2);
+	EXPECT_NE(f1, f2);
+
+	EXPECT_LT(s2, s1);
+	EXPECT_LT(f2, f1);
+
+	EXPECT_LE(s2, s1);
+	EXPECT_LE(f2, f1);
+
+	EXPECT_GT(s1, s2);
+	EXPECT_GT(f1, f2);
+
+	EXPECT_GE(s1, s2);
+	EXPECT_GE(f1, f2);
+}
 
