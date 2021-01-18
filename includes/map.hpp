@@ -8,8 +8,6 @@
 
 #include "ft.hpp"
 #include <map>
-#include "iteratorMap.hpp"
-
 
 template <class Key, class T, class Compare, class Alloc>
 class ft::map {
@@ -30,8 +28,9 @@ public:
 	typedef typename allocator_type::size_type			size_type;
 	typedef typename allocator_type::difference_type	difference_type;
 	class value_compare : public std::binary_function<value_type, value_type, bool> {
-	private:
+	protected:
 		key_compare comp;
+
 		explicit value_compare(key_compare &c) : comp(c) {};
 	public:
 		bool operator()(const value_type& x, const value_type& y) const { return comp(x.first, y.first); };
@@ -46,24 +45,84 @@ private:
 		pointer content;
 	}	_MapNode;
 
+	typedef typename allocator_type::template rebind<_MapNode>::other allocator_rebind_type;
+	_MapNode *_node;
+	size_type _size;
+
+	allocator_rebind_type allocator_rebind;
+	allocator_type alloc;
 
 public:
 
+	/* iterator */
+	class iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
+	private:
+		_MapNode* _it;
+	public:
+		explicit iterator(_MapNode* it = nullptr): _it(it) {};
+		~iterator() {};
+		iterator & operator=(const iterator &it) { this->_it = it._it; return *this; };
+		iterator(const iterator &it) { *this = it; };
+		iterator & operator++() {
+			if (_it->right) { _it = _it->right; return *this; }
+
+		};
+		iterator operator++(int) {
+			iterator tmp(_it);
+			this->_it = _it->next;
+			return tmp;
+		};
+		iterator & operator--() { this->_it = _it->prev; return *this; };
+		iterator operator--(int) {
+			iterator tmp(_it);
+			this->_it = _it->prev;
+			return tmp;
+		};
+		bool operator==(const iterator &it) const { return this->_it->content == it._it->content; };
+		bool operator!=(const iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const const_iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const const_iterator &it) const { return this->_it->content != it.getNode()->content; };
+		T & operator*() const { return *(this->_it->content); }
+		T * operator->() const { return this->it->content; }
+
+		_MapNode *getNode() const { return _it; }
+	};
+
+	/* const_iterator */
+	class const_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type const> {
+
+	};
+
+	/* reverse_iterator */
+	class reverse_iterator : public std::reverse_iterator<iterator> {
+
+	};
+
+	/* const_reverse_iterator */
+	class const_reverse_iterator : public std::reverse_iterator<iterator> {
+
+	};
+
 	/* Constructor */
 	explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
-	template <class InputIterator> map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+	template <class InputIterator> map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {
+
+	};
 
 	/* Copy constructor */
-	map (const map& x);
+	map (const map& x) { *this = x; };
 
 	/* Assignation operator */
-	map& operator= (const map& x);
+	map& operator= (const map& x) {
+
+	};
 
 	/* Destructor */
-	~map();
+	~map() {};
 
 	/* Iterators */
-	iterator		begin();
+	iterator		begin() { return iterator(); };
 	const_iterator 	begin() const;
 	iterator		end();
 	const_iterator	end() const;
@@ -71,6 +130,7 @@ public:
 	const_iterator 	cend() const;
 	reverse_iterator rbegin();
 
+	/* Reverse Iterators */
 	const_reverse_iterator	rbegin() const;
 	reverse_iterator 		rend();
 	const_reverse_iterator	rend() const;
@@ -91,7 +151,6 @@ public:
 
 	/* Modifiers */
 
-
 	std::pair<iterator, bool> insert (const value_type& val);
 	iterator insert (iterator position, const value_type& val);
 	template <class InputIterator> void insert (InputIterator first, InputIterator last);
@@ -100,10 +159,12 @@ public:
 	void erase (iterator first, iterator last);
 	void swap (map& x);
 	void clear();
+
 	/* Observers */
 
 	key_compare key_comp() const;
 	value_compare value_comp() const;
+
 
 	/* Operations */
 	iterator find (const key_type& k);

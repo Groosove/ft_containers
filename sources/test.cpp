@@ -1,16 +1,28 @@
 //
-// ft_containers
-//
-// Created by Артур Лутфуллин on 11.01.2021.
-// Copyright (c) 2021 Артур Лутфуллин. All right reserved. 
+// Created by Fenix Lavon on 1/18/21.
+// Copyright (c) 2021 All rights reserved.
 //
 
-#include "gtest/gtest.h"
+#include <map>
+#include <iostream>
 
-int main(int argc, char **argv) {
-	::testing::InitGoogleTest(&argc, argv);
+int main() {
+	std::map<std::string, int> _map;
 
-	int result = RUN_ALL_TESTS();
+	_map.insert(std::pair<std::string, int>("a", 0));
+	_map.insert(std::pair<std::string, int>("g", -1));
+	_map.insert(std::pair<std::string, int>("c", 2));
+	_map.insert(std::pair<std::string, int>("k", -4));
+	_map.insert(std::pair<std::string, int>("b", 1));
+	_map.insert(std::pair<std::string, int>("f", 5));
+	_map.insert(std::pair<std::string, int>("j", -3));
+	_map.insert(std::pair<std::string, int>("d", 3));
+	_map.insert(std::pair<std::string, int>("h", -2));
+	_map.insert(std::pair<std::string, int>("e", 4));
+	_map.insert(std::pair<std::string, int>("l", -5));
 
-	return result;
+	std::map<std::string, int>::iterator _it = _map.begin();
+	for (int i = 0; i < 11; ++i, ++_it) {
+		std::cout << _it->first << " " << _it->second << std::endl;
+	}
 }
