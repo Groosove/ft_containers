@@ -11,11 +11,11 @@
 template <class T, class Container>
 class ft::queue {
 public:
-	typedef Container	container_type;
-	typedef T			value_type;
-	typedef T&			reference;
-	typedef const T&	const_reference;
-	typedef size_t		size_type;
+	typedef Container				container_type;
+	typedef T						value_type;
+	typedef value_type &			reference;
+	typedef const value_type &		const_reference;
+	typedef size_t					size_type;
 
 	/* Constructor */
 	explicit queue (const container_type& container = container_type()) { this->_container = container; }

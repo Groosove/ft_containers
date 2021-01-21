@@ -5,24 +5,43 @@
 
 #include <map>
 #include <iostream>
+#include "map.hpp"
 
 int main() {
-	std::map<std::string, int> _map;
+	{
+		std::map<int, std::string> _map;
+		_map.insert(std::pair<int, std::string>(13, "a"));
+//		_map.insert(std::pair<int, std::string>(6, "c"));
+//		_map.insert(std::pair<int, std::string>(11, "d"));
+//		_map.insert(std::pair<int, std::string>(22, "e"));
+//		_map.insert(std::pair<int, std::string>(27, "b"));
+//		_map.insert(std::pair<int, std::string>(25, "f"));
+//		_map.insert(std::pair<int, std::string>(1, "g"));
+//		_map.insert(std::pair<int, std::string>(15, "h"));
+//		_map.insert(std::pair<int, std::string>(17, "i"));
+//		_map.insert(std::pair<int, std::string>(8, "j"));
 
-	_map.insert(std::pair<std::string, int>("a", 0));
-	_map.insert(std::pair<std::string, int>("g", -1));
-	_map.insert(std::pair<std::string, int>("c", 2));
-	_map.insert(std::pair<std::string, int>("k", -4));
-	_map.insert(std::pair<std::string, int>("b", 1));
-	_map.insert(std::pair<std::string, int>("f", 5));
-	_map.insert(std::pair<std::string, int>("j", -3));
-	_map.insert(std::pair<std::string, int>("d", 3));
-	_map.insert(std::pair<std::string, int>("h", -2));
-	_map.insert(std::pair<std::string, int>("e", 4));
-	_map.insert(std::pair<std::string, int>("l", -5));
+		std::map<int, std::string>::iterator _it = _map.begin();
+		std::map<int, std::string>::iterator _ite = _map.end();
+		for (; _it != _ite ;  ++_it)
+			std::cout << _it->first << " " << _it->second << std::endl;
+	}
+	{
+		ft::map<int, std::string> _map;
+		_map.insert(std::pair<int, std::string>(13, "a"));
+		_map.insert(std::pair<int, std::string>(6, "c"));
+		_map.insert(std::pair<int, std::string>(22, "e"));
+		_map.insert(std::pair<int, std::string>(11, "d"));
+		_map.insert(std::pair<int, std::string>(27, "b"));
+		_map.insert(std::pair<int, std::string>(25, "f"));
+		_map.insert(std::pair<int, std::string>(1, "g"));
+		_map.insert(std::pair<int, std::string>(15, "h"));
+		_map.insert(std::pair<int, std::string>(17, "i"));
+		_map.insert(std::pair<int, std::string>(8, "j"));
 
-	std::map<std::string, int>::iterator _it = _map.begin();
-	for (int i = 0; i < 11; ++i, ++_it) {
-		std::cout << _it->first << " " << _it->second << std::endl;
+		ft::map<int, std::string>::iterator _it = _map.begin();
+		ft::map<int, std::string>::iterator _ite = _map.end();
+		for (size_t i = 0; _it != _ite, i != _map.size() ;  ++_it, ++i)
+			std::cout << _it->first << " " << _it->second << std::endl;
 	}
 }
