@@ -41,7 +41,8 @@
     <list default="true" id="4f89f57f-31ae-419c-9398-40875d2d9ca5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/map.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/includes/map.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/vector.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/includes/vector.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/map.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/map.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +62,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="0-Debug-map_check" />
   </component>
   <component name="ProjectId" id="1lycnabKBuc7kcPH1kartzXFfN6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -89,7 +93,7 @@
       <recent name="$PROJECT_DIR$/sources" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.map_check">
+  <component name="RunManager" selected="CMake Application.Google_run">
     <configuration name="QueueFullTest.testFunctional" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="QueueFullTest" TEST_METHOD="testFunctional" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -157,18 +161,18 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Google Test.QueueFullTest.testFunctional" />
+      <item itemvalue="Google Test.QueueFullTest.testOperators" />
+      <item itemvalue="Google Test.VectorComprasionTest" />
+      <item itemvalue="Google Test.VectorComprasionTest.equalSimple" />
+      <item itemvalue="Google Test.VectorEraseTest.eraseIterator1" />
+      <item itemvalue="Google Test.VectorIteratorTest.IteratorInputConstInputTest" />
       <item itemvalue="CMake Application.Google_run" />
       <item itemvalue="CMake Application.gmock" />
       <item itemvalue="CMake Application.gmock_main" />
       <item itemvalue="CMake Application.gtest" />
       <item itemvalue="CMake Application.gtest_main" />
       <item itemvalue="CMake Application.map_check" />
-      <item itemvalue="Google Test.VectorIteratorTest.IteratorInputConstInputTest" />
-      <item itemvalue="Google Test.QueueFullTest.testFunctional" />
-      <item itemvalue="Google Test.QueueFullTest.testOperators" />
-      <item itemvalue="Google Test.VectorComprasionTest" />
-      <item itemvalue="Google Test.VectorComprasionTest.equalSimple" />
-      <item itemvalue="Google Test.VectorEraseTest.eraseIterator1" />
     </list>
     <recent_temporary>
       <list>
@@ -241,7 +245,8 @@
       <workItem from="1611166461218" duration="3000" />
       <workItem from="1611166633834" duration="231000" />
       <workItem from="1611254375200" duration="6791000" />
-      <workItem from="1611308906144" duration="4980000" />
+      <workItem from="1611308906144" duration="7988000" />
+      <workItem from="1611322329845" duration="112000" />
     </task>
     <servers />
   </component>
@@ -271,35 +276,35 @@
     </state>
     <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2880.1620@0.0.2880.1620" timestamp="1608723039845" />
     <state x="804" y="413" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1340@0.23.2560.1340" timestamp="1610361679675" />
-    <state width="2518" height="419" key="GridCell.Tab.0.bottom" timestamp="1611314266532">
+    <state width="2518" height="419" key="GridCell.Tab.0.bottom" timestamp="1611318471553">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state width="1398" height="240" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1610322390638" />
-    <state width="2518" height="419" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1611314266532" />
+    <state width="2518" height="419" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1611318471553" />
     <state width="2838" height="482" key="GridCell.Tab.0.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095475" />
     <state width="2518" height="517" key="GridCell.Tab.0.bottom/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355250" />
     <state width="2838" height="441" key="GridCell.Tab.0.bottom/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025342" />
-    <state width="2518" height="419" key="GridCell.Tab.0.center" timestamp="1611314266531">
+    <state width="2518" height="419" key="GridCell.Tab.0.center" timestamp="1611318471553">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state width="1398" height="240" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1610322390634" />
-    <state width="2518" height="419" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1611314266531" />
+    <state width="2518" height="419" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1611318471553" />
     <state width="2838" height="482" key="GridCell.Tab.0.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095474" />
     <state width="2518" height="517" key="GridCell.Tab.0.center/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355248" />
     <state width="2838" height="441" key="GridCell.Tab.0.center/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025341" />
-    <state width="2518" height="419" key="GridCell.Tab.0.left" timestamp="1611314266531">
+    <state width="2518" height="419" key="GridCell.Tab.0.left" timestamp="1611318471552">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state width="1398" height="240" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1610322390633" />
-    <state width="2518" height="419" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1611314266531" />
+    <state width="2518" height="419" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1611318471552" />
     <state width="2838" height="482" key="GridCell.Tab.0.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095473" />
     <state width="2518" height="517" key="GridCell.Tab.0.left/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355247" />
     <state width="2838" height="441" key="GridCell.Tab.0.left/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025341" />
-    <state width="2518" height="419" key="GridCell.Tab.0.right" timestamp="1611314266532">
+    <state width="2518" height="419" key="GridCell.Tab.0.right" timestamp="1611318471553">
       <screen x="0" y="0" width="2560" height="1440" />
     </state>
     <state width="1398" height="240" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1610322390635" />
-    <state width="2518" height="419" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1611314266532" />
+    <state width="2518" height="419" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1611318471553" />
     <state width="2838" height="482" key="GridCell.Tab.0.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095474" />
     <state width="2518" height="517" key="GridCell.Tab.0.right/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355249" />
     <state width="2838" height="441" key="GridCell.Tab.0.right/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025342" />

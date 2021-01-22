@@ -39,8 +39,8 @@ private:
 		return arr;
 	}
 
-	void reallocVector() {
-		_capacity = _size * 2;
+	void reallocVector(size_type range = 0) {
+		_capacity = (_size + range) * 2;
 		pointer arr = _alloc.allocate(_capacity);
 		for (size_type i = 0; i < _size; ++i)
 			_alloc.construct(arr + i, *(_arr + i));
@@ -403,15 +403,7 @@ public:
 		pointer pos = position.getElem();
 		if (_size + n  > _capacity) {
 			difference_type index = end().getElem() - pos;
-			_capacity = (_size + n) * 2;
-			pointer arr = _alloc.allocate(_capacity);
-			for (size_type i = 0; i < _size; ++i)
-				_alloc.construct(arr + i, *(_arr + i));
-			for (size_type i = 0; i != _size; ++i)
-				_alloc.destroy(_arr + i);
-			if (_capacity)
-				_alloc.deallocate(_arr, _capacity);
-			_arr = arr;
+			reallocVector(n);
 			pos =  end().getElem() - index;
 		}
 		std::memmove(pos + n, pos, static_cast<size_type>((end().getElem() - pos)) * sizeof(value_type));
@@ -424,15 +416,7 @@ public:
 		pointer pos = position.getElem();
 		if (_size + range  > _capacity) {
 			difference_type index = end().getElem() - pos;
-			_capacity = (_size + range) * 2;
-			pointer arr = _alloc.allocate(_capacity);
-			for (size_type i = 0; i < _size; ++i)
-				_alloc.construct(arr + i, *(_arr + i));
-			for (size_type i = 0; i != _size; ++i)
-				_alloc.destroy(_arr + i);
-			if (_capacity)
-				_alloc.deallocate(_arr, _capacity);
-			_arr = arr;
+			reallocVector(range);
 			pos =  end().getElem() - index;
 		}
 		std::memmove(pos + range, pos, static_cast<size_type>((end().getElem() - pos)) * sizeof(value_type));

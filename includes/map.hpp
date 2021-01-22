@@ -58,7 +58,7 @@ private:
 	allocator_rebind_type _allocator_rebind;
 	allocator_type _alloc;
 
-	_MapNode * createNode(Node *parent, const_reference val, bool color) {
+	_MapNode * createNode(Node *parent, const_reference val, bool color, size_type size) {
 		Node *newNode = _allocator_rebind.allocate(1);
 		newNode->left = nullptr;
 		newNode->right = nullptr;
@@ -66,35 +66,23 @@ private:
 		newNode->content = _alloc.allocate(1);
 		_alloc.construct(newNode->content, val);
 		newNode->color = color;
+		_size += size;
 		return newNode;
 	}
 
 	std::pair<iterator, bool> _insertTree(Node *node, const_reference val) {
-		std::pair<iterator, bool> ret;
-		if (_size == 0) {
-			_node = createNode(nullptr, val, black);
-			++_size;
-			return std::pair<iterator, bool>(begin(), true);
-		}
 		int comp = _compare(val.first, node->content->first) + _compare(node->content->first, val.first) * 2;
-		if (comp == 0) return std::make_pair(node, false);
-		else if (comp == 1 && node->left == nullptr) {
-			Node *newNode = createNode(node, val, red);
-			node->left = newNode;
-			ret = std::make_pair(newNode, true);
-			++_size;
-		}
-		else if (comp == 2 && node->right == nullptr) {
-			Node *newNode = createNode(node, val, red);
-			node->right = newNode;
-			ret = std::make_pair(newNode, true);
-			++_size;
-		}
-		if (comp == 1)
+
+		if (comp == 0)
+			return std::make_pair(node, false);
+		else if (comp == 1 && node->left)
 			return _insertTree(node->left, val);
-		else if (comp == 2)
+		else if (comp == 2 && node->right)
 			return _insertTree(node->right, val);
-		return ret;
+		
+		Node *newNode = createNode(node, val, red, 1);
+		(comp == 1) ? node->left = newNode : node->right = newNode;
+		return std::make_pair(newNode, true);
 	}
 
 	_MapNode *getMinNode(Node *currentNode) {
@@ -403,7 +391,13 @@ public:
 
 	/* Modifiers */
 
-	std::pair<iterator, bool> insert (const_reference val) { return _insertTree(_node, val); };
+	std::pair<iterator, bool> insert (const_reference val) {
+		if (_size == 0) {
+			_node = createNode(nullptr, val, black, 1);
+			return std::make_pair(_node, true);
+		}
+		return _insertTree(_node, val);
+	};
 	iterator insert (iterator position, const value_type& val);
 	template <class InputIterator> void insert (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0);
 	void erase (iterator position);
