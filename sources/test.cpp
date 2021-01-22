@@ -8,9 +8,9 @@
 #include "map.hpp"
 
 int main() {
-	{
-		std::map<int, std::string> _map;
-		_map.insert(std::pair<int, std::string>(13, "a"));
+//	{
+//		std::map<int, std::string> _map;
+//		_map.insert(std::pair<int, std::string>(13, "a"));
 //		_map.insert(std::pair<int, std::string>(6, "c"));
 //		_map.insert(std::pair<int, std::string>(11, "d"));
 //		_map.insert(std::pair<int, std::string>(22, "e"));
@@ -20,12 +20,14 @@ int main() {
 //		_map.insert(std::pair<int, std::string>(15, "h"));
 //		_map.insert(std::pair<int, std::string>(17, "i"));
 //		_map.insert(std::pair<int, std::string>(8, "j"));
-
-		std::map<int, std::string>::iterator _it = _map.begin();
-		std::map<int, std::string>::iterator _ite = _map.end();
-		for (; _it != _ite ;  ++_it)
-			std::cout << _it->first << " " << _it->second << std::endl;
-	}
+//
+//		std::map<int, std::string>::iterator _it = _map.begin();
+//		std::map<int, std::string>::iterator _ite = _map.end();
+//		for (; _it != _ite ;  ++_it)
+//			std::cout << _it->first << " " << _it->second << std::endl;
+//
+//		std::cout << std::endl;
+//	}
 	{
 		ft::map<int, std::string> _map;
 		_map.insert(std::pair<int, std::string>(13, "a"));
@@ -39,9 +41,9 @@ int main() {
 		_map.insert(std::pair<int, std::string>(17, "i"));
 		_map.insert(std::pair<int, std::string>(8, "j"));
 
-		ft::map<int, std::string>::iterator _it = _map.begin();
-		ft::map<int, std::string>::iterator _ite = _map.end();
-		for (size_t i = 0; _it != _ite, i != _map.size() ;  ++_it, ++i)
+		ft::map<int, std::string>::iterator _it = _map.end();
+		ft::map<int, std::string>::iterator _ite = _map.begin();
+		for (size_t i = 0; _it != _ite, i != _map.size() ;  --_it, ++i)
 			std::cout << _it->first << " " << _it->second << std::endl;
 	}
 }

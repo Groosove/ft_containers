@@ -69,128 +69,6 @@ private:
 		return newNode;
 	}
 
-protected:
-	_MapNode *getMinNode(Node *currentNode) {
-		if (currentNode->left)
-			return getMinNode(currentNode->left);
-		return currentNode;
-	}
-
-	_MapNode *getMaxNode(Node *currentNode) {
-		if (currentNode->right)
-			return getMaxNode(currentNode->right);
-		return currentNode;
-	}
-
-public:
-
-	/* iterator */
-	class iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
-	private:
-		_MapNode* _it;
-	public:
-		explicit iterator(_MapNode* it = nullptr): _it(it) {};
-		~iterator() {};
-		iterator & operator=(const iterator &it) { this->_it = it._it; return *this; };
-		iterator(const iterator &it) { *this = it; };
-		iterator & operator++() {
-			_it = getMinNode(_it);
-			return *this;
-		};
-		iterator operator++(int) {
-			iterator tmp(_it);
-			operator++();
-			return tmp;
-		};
-		iterator & operator--() { this->_it = _it->prev; return *this; };
-		iterator operator--(int) {
-			iterator tmp(_it);
-			operator--();
-			return tmp;
-		};
-		bool operator==(const iterator &it) const { return this->_it->content == it._it->content; };
-		bool operator!=(const iterator &it) const { return this->_it->content != it._it->content; };
-
-		bool operator==(const const_iterator &it) const { return this->_it->content == it.getNode()->content; };
-		bool operator!=(const const_iterator &it) const { return this->_it->content != it.getNode()->content; };
-		reference operator*() const { return *(this->_it->content); }
-		pointer operator->() const { return this->_it->content; }
-
-		_MapNode *getNode() const { return _it; }
-
-	private:
-		_MapNode *getMinNode(Node *currentNode) {
-			if (currentNode->left)
-				return getMinNode(currentNode->left);
-			return currentNode;
-		}
-
-		_MapNode *getMaxNode(Node *currentNode) {
-			if (currentNode->right)
-				return getMaxNode(currentNode->right);
-			return currentNode;
-		}
-	};
-
-	/* const_iterator */
-	class const_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type const> {
-
-	};
-
-	/* reverse_iterator */
-	class reverse_iterator : public std::reverse_iterator<iterator> {
-
-	};
-
-	/* const_reverse_iterator */
-	class const_reverse_iterator : public std::reverse_iterator<iterator> {
-
-	};
-
-	/* Constructor */
-	explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-	: _compare(comp), _alloc(alloc) {};
-
-	template <class InputIterator>
-	map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
-	: _compare(comp), _alloc(alloc) { for (; first != last; ++first) insert(first); };
-
-	/* Copy constructor */
-	map (const map& x);
-
-	/* Assignation operator */
-	map& operator= (const map& x);
-
-	/* Destructor */
-	~map() {};
-
-	/* Iterators */
-	iterator		begin() { return iterator(getMinNode(_node)); };
-	const_iterator 	begin() const { return const_iterator(getMinNode(_node)); };
-	iterator		end() { return iterator(getMaxNode(_node)); };
-	const_iterator	end() const { return const_iterator(getMaxNode(_node)); };
-	const_iterator 	cbegin() const;
-	const_iterator 	cend() const;
-	reverse_iterator rbegin();
-
-	/* Reverse Iterators */
-	const_reverse_iterator	rbegin() const;
-	reverse_iterator 		rend();
-	const_reverse_iterator	rend() const;
-	const_reverse_iterator	crbegin() const;
-	const_reverse_iterator	crend() const;
-
-	/* Capacity */
-	bool empty() const { return _size == 0; };
-	size_type size() const { return _size; };
-	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_node); };
-
-	/* Element access */
-	mapped_type& operator[] (const key_type& k);
-	mapped_type& at (const key_type& k);
-	const mapped_type& at (const key_type& k) const;
-
-	/* Modifiers */
 	std::pair<iterator, bool> _insertTree(Node *node, const_reference val) {
 		std::pair<iterator, bool> ret;
 		if (_size == 0) {
@@ -218,6 +96,313 @@ public:
 			return _insertTree(node->right, val);
 		return ret;
 	}
+
+	_MapNode *getMinNode(Node *currentNode) {
+		if (currentNode->left)
+			return getMinNode(currentNode->left);
+		return currentNode;
+	}
+
+	_MapNode *getMaxNode(Node *currentNode) {
+		if (currentNode->right)
+			return getMaxNode(currentNode->right);
+		return currentNode;
+	}
+
+public:
+
+	/* iterator */
+	class iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
+	private:
+		_MapNode* _it;
+	public:
+		explicit iterator(_MapNode* it = nullptr): _it(it) {};
+		~iterator() {};
+		iterator & operator=(const iterator &it) { this->_it = it._it; return *this; };
+		iterator(const iterator &it) { *this = it; };
+		iterator & operator++() {
+			_it = nextNode(_it);
+			return *this;
+		};
+		iterator operator++(int) {
+			iterator tmp(_it);
+			operator++();
+			return tmp;
+		};
+		iterator & operator--() { _it = prevNode(_it); return *this; };
+		iterator operator--(int) {
+			iterator tmp(_it);
+			operator--();
+			return tmp;
+		};
+		bool operator==(const iterator &it) const { return this->_it->content == it._it->content; };
+		bool operator!=(const iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const const_iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const const_iterator &it) const { return this->_it->content != it.getNode()->content; };
+		reference operator*() const { return *(this->_it->content); }
+		pointer operator->() const { return this->_it->content; }
+
+		_MapNode *getNode() const { return _it; }
+
+	private:
+		_MapNode *findLowNode(_MapNode *currentNode) {
+			if (currentNode->left)
+				return findLowNode(currentNode->left);
+			return currentNode;
+		}
+
+		_MapNode *findHighNode(_MapNode *currentNode) {
+			if (currentNode->right)
+				return findHighNode(currentNode->right);
+			return currentNode;
+		}
+
+		_MapNode *nextNode(_MapNode* currentNode) {
+			if (currentNode->right)
+				return findLowNode(currentNode->right);
+			else if (currentNode->parent && currentNode->parent->left == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+
+		_MapNode *prevNode(_MapNode* currentNode) {
+			if (currentNode->left)
+				return findHighNode(currentNode->left);
+			else if (currentNode->parent && currentNode->parent->right == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+	};
+
+	/* const_iterator */
+	class const_iterator : public std::iterator<std::bidirectional_iterator_tag, value_type const> {
+	private:
+		_MapNode * _it;
+	public:
+		explicit const_iterator(_MapNode* it = nullptr) : _it(it) {};
+		const_iterator(const const_iterator &it) { *this = it; };
+		const_iterator(const iterator &it) { *this = it; };
+		~const_iterator() {};
+		const_iterator& operator=(const const_iterator &it)  { this->_it = it._it; return *this; };
+		const_iterator& operator=(const iterator &it)  { this->_it = it.getNode(); return *this; };
+		const_iterator & operator++() { _it = nextNode(_it); return *this; };
+		const_iterator operator++(int) {
+			const_iterator tmp(_it);
+			operator++();
+			return tmp;
+		};
+		const_iterator & operator--() { _it = prevNode(_it); return *this; };
+		const_iterator operator--(int) {
+			const_iterator tmp(_it);
+			operator--();
+			return tmp;
+		};
+		bool operator==(const const_iterator &it) const { return this->_it->content == it._it->content; };
+		bool operator!=(const const_iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const iterator &it) const { return this->_it->content != it.getNode()->content; };
+		T & operator*() const { return *(this->_it->content); };
+		T * operator->() const { return this->it->content; }
+
+		_MapNode *getNode() const { return _it; }
+	private:
+		_MapNode *findLowNode(_MapNode *currentNode) {
+			if (currentNode->left)
+				return findLowNode(currentNode->left);
+			return currentNode;
+		}
+
+		_MapNode *findHighNode(_MapNode *currentNode) {
+			if (currentNode->right)
+				return findHighNode(currentNode->right);
+			return currentNode;
+		}
+
+		_MapNode *nextNode(_MapNode* currentNode) {
+			if (currentNode->right)
+				return findLowNode(currentNode->right);
+			else if (currentNode->parent && currentNode->parent->left == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+
+		_MapNode *prevNode(_MapNode* currentNode) {
+			if (currentNode->left)
+				return findHighNode(currentNode->left);
+			else if (currentNode->parent && currentNode->parent->right == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+	};
+
+	/* reverse_iterator */
+	class reverse_iterator : public std::reverse_iterator<iterator> {
+	private:
+		_MapNode* _it;
+	public:
+		explicit reverse_iterator(_MapNode* it = nullptr): _it(it) {};
+		~reverse_iterator() {};
+		reverse_iterator(const reverse_iterator &it) { *this = it; };
+		reverse_iterator & operator=(const reverse_iterator &it) { this->_it = it._it; return *this; };
+		reverse_iterator & operator++() { _it = prevNode(_it); return *this; };
+		reverse_iterator operator++(int) {
+			reverse_iterator tmp(_it);
+			operator++();
+			return tmp;
+		};
+		reverse_iterator & operator--() { _it = nextNode(_it); return *this; };
+		reverse_iterator operator--(int) {
+			reverse_iterator tmp(_it);
+			operator--();
+			return tmp;
+		};
+
+		bool operator==(const reverse_iterator &it) const { return this->_it->content == it._it->content; };
+		bool operator!=(const reverse_iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const const_reverse_iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const const_reverse_iterator &it) const { return this->_it->content != it.getNode()->content; };
+		T & operator*() const { return *(this->_it->content); };
+		T * operator->() const { return this->it->content; }
+
+		_MapNode *getNode() const { return _it; }
+	private:
+		_MapNode *findLowNode(_MapNode *currentNode) {
+			if (currentNode->left)
+				return findLowNode(currentNode->left);
+			return currentNode;
+		}
+
+		_MapNode *findHighNode(_MapNode *currentNode) {
+			if (currentNode->right)
+				return findHighNode(currentNode->right);
+			return currentNode;
+		}
+
+		_MapNode *nextNode(_MapNode* currentNode) {
+			if (currentNode->right)
+				return findLowNode(currentNode->right);
+			else if (currentNode->parent && currentNode->parent->left == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+
+		_MapNode *prevNode(_MapNode* currentNode) {
+			if (currentNode->left)
+				return findHighNode(currentNode->left);
+			else if (currentNode->parent && currentNode->parent->right == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+	};
+
+	/* const_reverse_iterator */
+	class const_reverse_iterator : public std::reverse_iterator<iterator> {
+	private:
+		_MapNode* _it;
+	public:
+		explicit const_reverse_iterator(_MapNode* it = nullptr): _it(it) {};
+		~const_reverse_iterator() {};
+		const_reverse_iterator & operator=(const const_reverse_iterator &it) { this->_it = it._it; return *this; };
+		const_reverse_iterator & operator=(const reverse_iterator &it) { this->_it = it.getNode(); return *this; };
+		const_reverse_iterator(const const_reverse_iterator &it) { *this = it; };
+		const_reverse_iterator(const reverse_iterator &it) { *this = it; };
+		const_reverse_iterator & operator++() { _it = prevNode(_it); return *this; };
+		const_reverse_iterator operator++(int) {
+			const_reverse_iterator tmp(_it);
+			operator++();
+			return tmp;
+		};
+		const_reverse_iterator & operator--() { _it = nextNode(_it); return *this; };
+		const_reverse_iterator operator--(int) {
+			const_reverse_iterator tmp(_it);
+			operator--();
+			return tmp;
+		};
+
+		bool operator==(const const_reverse_iterator &it) const { return this->_it->content == it._it->content; };
+		bool operator!=(const const_reverse_iterator &it) const { return this->_it->content != it._it->content; };
+
+		bool operator==(const reverse_iterator &it) const { return this->_it->content == it.getNode()->content; };
+		bool operator!=(const reverse_iterator &it) const { return this->_it->content != it.getNode()->content; };
+		reference operator*() const { return *(this->_it->content); }
+		pointer operator->() const { return this->it->content; }
+
+		_MapNode *getNode() const { return _it; }
+
+	private:
+		_MapNode *findLowNode(_MapNode *currentNode) {
+			if (currentNode->left)
+				return findLowNode(currentNode->left);
+			return currentNode;
+		}
+
+		_MapNode *findHighNode(_MapNode *currentNode) {
+			if (currentNode->right)
+				return findHighNode(currentNode->right);
+			return currentNode;
+		}
+
+		_MapNode *nextNode(_MapNode* currentNode) {
+			if (currentNode->right)
+				return findLowNode(currentNode->right);
+			else if (currentNode->parent && currentNode->parent->left == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+
+		_MapNode *prevNode(_MapNode* currentNode) {
+			if (currentNode->left)
+				return findHighNode(currentNode->left);
+			else if (currentNode->parent && currentNode->parent->right == currentNode)
+				return currentNode->parent;
+			return currentNode->parent->parent;
+		}
+	};
+
+	/* Constructor */
+	explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+	: _compare(comp), _alloc(alloc) {};
+
+	template <class InputIterator>
+	map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
+	: _compare(comp), _alloc(alloc) { for (; first != last; ++first) insert(first); };
+
+	/* Copy constructor */
+	map (const map& x);
+
+	/* Assignation operator */
+	map& operator= (const map& x);
+
+	/* Destructor */
+	~map() {};
+
+	/* Iterators */
+	iterator		begin() { return iterator(getMinNode(_node)); };
+	const_iterator 	begin() const { return const_iterator(getMinNode(_node)); };
+	iterator		end() { return iterator(getMaxNode(_node)); };
+	const_iterator	end() const { return const_iterator(getMaxNode(_node)); };
+
+	/* Reverse Iterators */
+	reverse_iterator 		rbegin() { return reverse_iterator(getMaxNode(_node)); };
+	const_reverse_iterator	rbegin() const { return const_reverse_iterator(getMaxNode(_node)); };
+	reverse_iterator 		rend() { return reverse_iterator(getMinNode(_node)); };
+	const_reverse_iterator	rend() const { return const_reverse_iterator(getMinNode(_node)); };
+
+	/* Capacity */
+	bool empty() const { return _size == 0; };
+	size_type size() const { return _size; };
+	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_node); };
+
+	/* Element access */
+	mapped_type& operator[] (const key_type& k);
+	mapped_type& at (const key_type& k);
+	const mapped_type& at (const key_type& k) const;
+
+	/* Modifiers */
+
 	std::pair<iterator, bool> insert (const_reference val) { return _insertTree(_node, val); };
 	iterator insert (iterator position, const value_type& val);
 	template <class InputIterator> void insert (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0);
