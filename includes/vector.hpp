@@ -40,14 +40,14 @@ private:
 	}
 
 	void reallocVector(size_type range = 0) {
-		_capacity = (_size + range) * 2;
-		pointer arr = _alloc.allocate(_capacity);
+		pointer arr = _alloc.allocate((_size + range) * 2);
 		for (size_type i = 0; i < _size; ++i)
 			_alloc.construct(arr + i, *(_arr + i));
 		for (size_type i = 0; i != _size; ++i)
 			_alloc.destroy(_arr + i);
 		if (_capacity)
 			_alloc.deallocate(_arr, _capacity);
+		_capacity = (_size + range) * 2;
 		_arr = arr;
 	}
 
@@ -360,13 +360,13 @@ public:
 	/* Modifiers */
 	template <class InputIterator> void assign (InputIterator first, InputIterator last,
 			typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
-		if (_arr)
+		if (_size)
 			clear();
 		for (; first != last; ++first)
 			push_back(*first);
 	};
 	void assign (size_type n, const value_type& val) {
-		if (_arr)
+		if (_size)
 			clear();
 		for (; n != 0 ; --n)
 			push_back(val);

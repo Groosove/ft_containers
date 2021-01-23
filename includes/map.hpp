@@ -82,7 +82,22 @@ private:
 		
 		Node *newNode = createNode(node, val, red, 1);
 		(comp == 1) ? node->left = newNode : node->right = newNode;
+		node = treeBalance(node);
 		return std::make_pair(newNode, true);
+	}
+
+	inline bool isRed(_MapNode *currentNode) { return currentNode->color; }
+
+	_MapNode *rotateLeft(_MapNode* currentNode) {
+		return currentNode;
+	}
+
+	_MapNode *rotateRight(_MapNode* currentNode) {
+		return currentNode;
+	}
+
+	_MapNode *treeBalance(_MapNode* currentNode) {
+		return currentNode;
 	}
 
 	_MapNode *getMinNode(Node *currentNode) {
