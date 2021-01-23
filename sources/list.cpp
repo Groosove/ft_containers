@@ -142,6 +142,7 @@ TEST_F(ListTest, creationAssignationIterators)
 
 TEST_F(ListTest, creationAssignationIteratorsStd)
 {
+
 	std::list<int>::iterator					It1 = stdList.begin();
 	std::list<int>::iterator					It2;
 	std::list<int>::const_iterator			It1const = stdList.begin();
@@ -245,6 +246,7 @@ TEST_F(ListTest, pushBack) {
 }
 
 TEST_F(ListTest, assignationOperator) {
+
 	ft::list<int> f;
 	std::list<int> s;
 
@@ -273,7 +275,7 @@ TEST_F(ListTest, assignationOperator) {
 	f = f1; s = s1;
 	itFe = f.end(); itSe = s.end();
 	itF = f.begin(); itS = s.begin();
-	checkListEqual(itF, itFe, itS, itSe);
+	checkListEqual(itF, itFe, itS, itSe);\
 }
 
 TEST_F(ListTest, clear) {

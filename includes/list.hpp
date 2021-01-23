@@ -290,8 +290,11 @@ public:
 	/* Assignation operator */
 	list (const list<value_type>&x) { *this = x; };
 	list &operator=(const list<value_type> &x) {
-		if (this->empty())
+		if (this->empty()) {
 			this->clear();
+			_alloc.deallocate(_end_node->content, 1);
+			_alloc_rebind.deallocate(_end_node, 1);
+		}
 		createList();
 		for (const_iterator it = x.begin(); it != x.end(); it++)
 			this->push_back(*it);
@@ -299,7 +302,11 @@ public:
 	};
 
 	/* Destructor */
-	~list() throw() {};
+	~list() throw() {
+		clear();
+		_alloc.deallocate(_end_node->content, 1);
+		_alloc_rebind.deallocate(_end_node, 1);
+	};
 
 	/* Iterators */
 	iterator 		begin() { return iterator(this->_end_node->next); };
