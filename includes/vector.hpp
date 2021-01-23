@@ -327,16 +327,17 @@ public:
 	size_type 	capacity() const { return _capacity; };
 	bool 		empty() const { return _size == 0; };
 	void 		reserve (size_type n) {
-		if (_capacity >= n)
+		if (_capacity > n)
 			return;
 		pointer arr = _alloc.allocate(n);
-		size_type size = _size;
-		for (size_type i = 0; i != _capacity; ++i)
-			_alloc.construct(&arr[i], _arr[i]);
-		clear();
-		_arr = arr;
-		_size = size;
+		for (size_type i = 0; i < _size; ++i)
+			_alloc.construct(arr + i, *(_arr + i));
+		for (size_type i = 0; i != _size; ++i)
+			_alloc.destroy(_arr + i);
+		if (_capacity)
+			_alloc.deallocate(_arr, _capacity);
 		_capacity = n;
+		_arr = arr;
 	};
 
 	/* Element access */
@@ -360,14 +361,12 @@ public:
 	/* Modifiers */
 	template <class InputIterator> void assign (InputIterator first, InputIterator last,
 			typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
-		if (_size)
-			clear();
+		clear();
 		for (; first != last; ++first)
 			push_back(*first);
 	};
 	void assign (size_type n, const value_type& val) {
-		if (_size)
-			clear();
+		clear();
 		for (; n != 0 ; --n)
 			push_back(val);
 	};
@@ -389,15 +388,13 @@ public:
 		--_size;
 	};
 	iterator insert (iterator position, const value_type& val) {
-		difference_type ite = end().getElem() - begin().getElem();
-		difference_type pos = position.getElem() - begin().getElem();
+		pointer pos = position.getElem();
 		if (_size + 1  > _capacity)
 			reallocVector();
-		for (difference_type i = ite; i != pos; --i)
-			_arr[i] = _arr[i - 1];
-		_alloc.construct(_arr + pos, val);
+		std::memmove(pos + 1, pos, static_cast<size_type>((end().getElem() - pos)) * sizeof(value_type));
+		_alloc.construct(pos, val);
 		_size += 1;
-		return iterator(_arr + pos);
+		return iterator(pos);
 	};
 	void insert (iterator position, size_type n, const value_type& val) {
 		pointer pos = position.getElem();
