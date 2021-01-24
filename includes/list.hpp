@@ -288,14 +288,15 @@ public:
 	};
 
 	/* Assignation operator */
-	list (const list<value_type>&x) { *this = x; };
-	list &operator=(const list<value_type> &x) {
-		if (this->empty()) {
-			this->clear();
-			_alloc.deallocate(_end_node->content, 1);
-			_alloc_rebind.deallocate(_end_node, 1);
-		}
+	list (const list<value_type>&x) : _alloc(x._alloc), _size(0) {
 		createList();
+		*this = x;
+	};
+
+	list &operator=(const list<value_type> &x) {
+		if (!this->empty()) {
+			clear();
+		}
 		for (const_iterator it = x.begin(); it != x.end(); it++)
 			this->push_back(*it);
 		return *this;
@@ -321,7 +322,7 @@ public:
 	const_reverse_iterator	rend() const { return const_reverse_iterator(this->_end_node); };
 
 	/* Capacity */
-	bool 		empty() const { return !this->_size; };
+	bool 		empty() const { return this->_size == 0; };
 	size_type 	size() const { return this->_size; };
 	size_type 	max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_List);};
 
@@ -333,16 +334,14 @@ public:
 
 	/* Modifiers */
 	template <class InputIterator> void assign (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
-		if (!this->_size)
+		if (!this->empty())
 			this->clear();
-		createList();
 		for (; first != last; ++first)
 			push_back(*first);
 	};
 	void assign (size_type n, const value_type& val) {
-		if (!this->_size)
+		if (!this->empty())
 			this->clear();
-		createList();
 		for (u_long i = 0; i < n; ++i)
 			push_back(val);
 	};

@@ -275,7 +275,7 @@ TEST_F(ListTest, assignationOperator) {
 	f = f1; s = s1;
 	itFe = f.end(); itSe = s.end();
 	itF = f.begin(); itS = s.begin();
-	checkListEqual(itF, itFe, itS, itSe);\
+	checkListEqual(itF, itFe, itS, itSe);
 }
 
 TEST_F(ListTest, clear) {

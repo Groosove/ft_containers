@@ -374,7 +374,7 @@ public:
 	: _compare(comp), _alloc(alloc) { for (; first != last; ++first) insert(first); };
 
 	/* Copy constructor */
-	map (const map& x);
+	map (const map& x): _size(0), _allocator_rebind(x._allocator_rebind), _alloc(x._alloc) { *this = x; };
 
 	/* Assignation operator */
 	map& operator= (const map& x);
