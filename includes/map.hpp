@@ -38,8 +38,8 @@ public:
 
 
 private:
-	const static bool black = true;
-	const static bool red = false;
+	const static bool black = false;
+	const static bool red = true;
 
 	typedef struct Node {
 		Node * left;
@@ -70,7 +70,7 @@ private:
 		return newNode;
 	}
 
-	std::pair<iterator, bool> _insertTree(Node *node, const_reference val) {
+	std::pair<iterator, bool> _insertTree(_MapNode *node, const_reference val) {
 		int comp = _compare(val.first, node->content->first) + _compare(node->content->first, val.first) * 2;
 
 		if (comp == 0)
@@ -82,19 +82,36 @@ private:
 		
 		Node *newNode = createNode(node, val, red, 1);
 		(comp == 1) ? node->left = newNode : node->right = newNode;
-		node = treeBalance(node);
+		treeBalance(node);
 		return std::make_pair(newNode, true);
 	}
 
-	inline bool isRed(_MapNode *currentNode) { return currentNode->color; }
+	inline bool isRed(_MapNode *currentNode) { return (!currentNode) ? black : currentNode->color == red; }
 
 	_MapNode *rotateLeft(_MapNode* currentNode) {
-		currentNode->right->parent = currentNode->parent;
-		currentNode->parent = currentNode->right;
+		_MapNode *tmp = currentNode->right;
+		currentNode->right = tmp->left;
+		tmp->left = currentNode;
+		tmp->color = currentNode->left->color;
+		tmp->left->color = red;
+		return tmp;
 	}
 
 	_MapNode *rotateRight(_MapNode* currentNode) {
-		return currentNode;
+		_MapNode *tmp = currentNode->left;
+		currentNode->left = tmp->right;
+		tmp->right = currentNode;
+		tmp->color = currentNode->right->color;
+		tmp->right->color = red;
+		return tmp;
+	}
+
+	inline void invertColor(_MapNode *currentNode) {
+		if (currentNode->right) currentNode->right->color = !currentNode->right->color;
+		if (currentNode->left) currentNode->left->color = !currentNode->left->color;
+		currentNode->color = !currentNode->color;
+		if (_node == currentNode && isRed(_node))
+			_node->color = !_node;
 	}
 
 	_MapNode *treeBalance(_MapNode* currentNode) {
@@ -103,7 +120,7 @@ private:
 		if (isRed(currentNode->left) && currentNode->left && isRed(currentNode->left->left))
 			currentNode = rotateRight(currentNode);
 		if (isRed(currentNode->left) && isRed(currentNode->right))
-			currentNode->color = !currentNode->color;
+			invertColor(currentNode);
 		return currentNode;
 	}
 
