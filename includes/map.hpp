@@ -89,7 +89,8 @@ private:
 	inline bool isRed(_MapNode *currentNode) { return currentNode->color; }
 
 	_MapNode *rotateLeft(_MapNode* currentNode) {
-		return currentNode;
+		currentNode->right->parent = currentNode->parent;
+		currentNode->parent = currentNode->right;
 	}
 
 	_MapNode *rotateRight(_MapNode* currentNode) {
@@ -97,6 +98,12 @@ private:
 	}
 
 	_MapNode *treeBalance(_MapNode* currentNode) {
+		if (isRed(currentNode->right))
+			currentNode = rotateLeft(currentNode);
+		if (isRed(currentNode->left) && currentNode->left && isRed(currentNode->left->left))
+			currentNode = rotateRight(currentNode);
+		if (isRed(currentNode->left) && isRed(currentNode->right))
+			currentNode->color = !currentNode->color;
 		return currentNode;
 	}
 
