@@ -183,6 +183,11 @@ private:
 		return currentNode;
 	}
 
+	_MapNode *findLowNode(_MapNode *currentNode) {
+		if (currentNode->left)
+			return findLowNode(currentNode->left);
+		return currentNode;
+	}
 public:
 
 	/* iterator */
@@ -552,11 +557,16 @@ public:
 			return 0;
 		_MapNode *node = find(k).getNode();
 		if (node == _node) {
-			if (_size == 1)
-				destroyNode(_node);
-			else {
-
+			_MapNode *tmp = _node->right;
+			iterator it = iterator(_node->left);
+			destroyNode(_node);
+			tmp->parent = nullptr;
+			_node = tmp;
+			if (_begin_node == it.getNode()) {
+				_begin_node->parent = findLowNode(_node);
+				return 1;
 			}
+			insert(iterator(findLowNode(it.getNode())), it);
 			return 1;
 		}
 		if (node->right)
