@@ -28,10 +28,10 @@ public:
 	typedef ptrdiff_t 									difference_type;
 
 	class value_compare : public std::binary_function<value_type, value_type, bool> {
-	protected:
+	public:
 		key_compare comp;
 
-		explicit value_compare(key_compare &c) : comp(c) {};
+		value_compare(key_compare c) : comp(c) {};
 	public:
 		bool operator()(const value_type& x, const value_type& y) const { return comp(x.first, y.first); };
 	};
@@ -52,6 +52,8 @@ private:
 	typedef typename allocator_type::template rebind<_MapNode>::other allocator_rebind_type;
 
 	_MapNode *_node;
+	_MapNode *_end_node;
+	_MapNode *_begin_node;
 	size_type _size;
 	key_compare _compare;
 
@@ -70,39 +72,86 @@ private:
 		return newNode;
 	}
 
+	void createBeginAndEndNode() {
+		_end_node = _allocator_rebind.allocate(1);
+		_end_node->left = nullptr;
+		_end_node->right = nullptr;
+		_end_node->color = black;
+		_end_node->content = nullptr;
+		_begin_node = _allocator_rebind.allocate(1);
+		_begin_node->left = nullptr;
+		_begin_node->right = nullptr;
+		_begin_node->color = black;
+		_begin_node->content = nullptr;
+	}
+
 	std::pair<iterator, bool> _insertTree(_MapNode *node, const_reference val) {
 		int comp = _compare(val.first, node->content->first) + _compare(node->content->first, val.first) * 2;
 
 		if (comp == 0)
-			return std::make_pair(node, false);
-		else if (comp == 1 && node->left)
+			return std::make_pair(iterator(node), false);
+		else if (comp == 1 && node->left && node->left != _begin_node)
 			return _insertTree(node->left, val);
-		else if (comp == 2 && node->right)
+		else if (comp == 2 && node->right && node->right != _end_node)
 			return _insertTree(node->right, val);
 		
-		Node *newNode = createNode(node, val, red, 1);
-		(comp == 1) ? node->left = newNode : node->right = newNode;
-		treeBalance(node);
-		return std::make_pair(newNode, true);
+		_MapNode *newNode = createNode(node, val, red, 1);
+		if (comp == 1) {
+			if (node->left == _begin_node) {
+				newNode->left = _begin_node;
+				_begin_node->parent = newNode;
+			}
+			node->left = newNode;
+		}
+		else {
+			if (node->right == _end_node) {
+				newNode->right = _end_node;
+				_end_node->parent = newNode;
+			}
+			node->right = newNode;
+		}
+//			treeBalance(node);
+		return std::make_pair(iterator(newNode), true);
 	}
 
 	inline bool isRed(_MapNode *currentNode) { return (!currentNode) ? black : currentNode->color == red; }
 
+	inline void linkRight(_MapNode *parent, _MapNode *right) {
+		parent->right = right;
+		if (right)
+			right->parent = parent;
+	}
+
+	inline void linkLeft(_MapNode *parent, _MapNode *left) {
+		parent->right = left;
+		if (left)
+			left->parent = parent;
+	}
 	_MapNode *rotateLeft(_MapNode* currentNode) {
 		_MapNode *tmp = currentNode->right;
-		currentNode->right = tmp->left;
-		tmp->left = currentNode;
-		tmp->color = currentNode->left->color;
-		tmp->left->color = red;
+		if (currentNode->parent->right == currentNode)
+			linkRight(currentNode->parent, tmp);
+		else
+			linkLeft(currentNode->parent, tmp);
+		linkRight(currentNode, tmp->left);
+		linkLeft(tmp, currentNode);
+
+		tmp->color = currentNode->color;
+		currentNode->color = red;
 		return tmp;
 	}
 
 	_MapNode *rotateRight(_MapNode* currentNode) {
 		_MapNode *tmp = currentNode->left;
-		currentNode->left = tmp->right;
-		tmp->right = currentNode;
-		tmp->color = currentNode->right->color;
-		tmp->right->color = red;
+		if (currentNode->parent->right == currentNode)
+			linkRight(currentNode->parent, tmp);
+		else
+			linkLeft(currentNode->parent, tmp);
+		linkRight(currentNode, tmp->right);
+		linkLeft(tmp, currentNode);
+
+		tmp->color = currentNode->color;
+		currentNode->color = red;
 		return tmp;
 	}
 
@@ -162,11 +211,11 @@ public:
 			operator--();
 			return tmp;
 		};
-		bool operator==(const iterator &it) const { return this->_it->content == it._it->content; };
-		bool operator!=(const iterator &it) const { return this->_it->content != it._it->content; };
+		bool operator==(const iterator &it) const { return this->_it == it._it; };
+		bool operator!=(const iterator &it) const { return this->_it != it._it; };
 
-		bool operator==(const const_iterator &it) const { return this->_it->content == it.getNode()->content; };
-		bool operator!=(const const_iterator &it) const { return this->_it->content != it.getNode()->content; };
+		bool operator==(const const_iterator &it) const { return this->_it == it.getNode(); };
+		bool operator!=(const const_iterator &it) const { return this->_it != it.getNode(); };
 		reference operator*() const { return *(this->_it->content); }
 		pointer operator->() const { return this->_it->content; }
 
@@ -190,7 +239,13 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->right;
+			} while (tmp->parent->right == tmp);
+			return tmp->parent;
 		}
 
 		_MapNode *prevNode(_MapNode* currentNode) {
@@ -198,7 +253,13 @@ public:
 				return findHighNode(currentNode->left);
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->left;
+			} while (tmp->parent->left == tmp);
+			return tmp->parent;
 		}
 	};
 
@@ -225,13 +286,13 @@ public:
 			operator--();
 			return tmp;
 		};
-		bool operator==(const const_iterator &it) const { return this->_it->content == it._it->content; };
-		bool operator!=(const const_iterator &it) const { return this->_it->content != it._it->content; };
+		bool operator==(const const_iterator &it) const { return this->_it == it._it; };
+		bool operator!=(const const_iterator &it) const { return this->_it != it._it; };
 
-		bool operator==(const iterator &it) const { return this->_it->content == it.getNode()->content; };
-		bool operator!=(const iterator &it) const { return this->_it->content != it.getNode()->content; };
-		T & operator*() const { return *(this->_it->content); };
-		T * operator->() const { return this->it->content; }
+		bool operator==(const iterator &it) const { return this->_it == it.getNode(); };
+		bool operator!=(const iterator &it) const { return this->_it != it.getNode(); };
+		value_type & operator*() const { return *(this->_it->content); };
+		value_type * operator->() const { return this->_it->content; }
 
 		_MapNode *getNode() const { return _it; }
 	private:
@@ -252,7 +313,13 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->right;
+			} while (tmp->parent->right == tmp);
+			return tmp->parent;
 		}
 
 		_MapNode *prevNode(_MapNode* currentNode) {
@@ -260,7 +327,13 @@ public:
 				return findHighNode(currentNode->left);
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->left;
+			} while (tmp->parent->left == tmp);
+			return tmp->parent;
 		}
 	};
 
@@ -286,13 +359,13 @@ public:
 			return tmp;
 		};
 
-		bool operator==(const reverse_iterator &it) const { return this->_it->content == it._it->content; };
-		bool operator!=(const reverse_iterator &it) const { return this->_it->content != it._it->content; };
+		bool operator==(const reverse_iterator &it) const { return this->_it == it._it; };
+		bool operator!=(const reverse_iterator &it) const { return this->_it != it._it; };
 
-		bool operator==(const const_reverse_iterator &it) const { return this->_it->content == it.getNode()->content; };
-		bool operator!=(const const_reverse_iterator &it) const { return this->_it->content != it.getNode()->content; };
-		T & operator*() const { return *(this->_it->content); };
-		T * operator->() const { return this->it->content; }
+		bool operator==(const const_reverse_iterator &it) const { return this->_it == it.getNode(); };
+		bool operator!=(const const_reverse_iterator &it) const { return this->_it != it.getNode(); };
+		value_type & operator*() const { return *(this->_it->content); };
+		value_type * operator->() const { return this->_it->content; }
 
 		_MapNode *getNode() const { return _it; }
 	private:
@@ -313,7 +386,13 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->right;
+			} while (tmp->parent->right == tmp);
+			return tmp->parent;
 		}
 
 		_MapNode *prevNode(_MapNode* currentNode) {
@@ -321,7 +400,13 @@ public:
 				return findHighNode(currentNode->left);
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->left;
+			} while (tmp->parent->left == tmp);
+			return tmp->parent;
 		}
 	};
 
@@ -349,11 +434,11 @@ public:
 			return tmp;
 		};
 
-		bool operator==(const const_reverse_iterator &it) const { return this->_it->content == it._it->content; };
-		bool operator!=(const const_reverse_iterator &it) const { return this->_it->content != it._it->content; };
+		bool operator==(const const_reverse_iterator &it) const { return this->_it == it._it; };
+		bool operator!=(const const_reverse_iterator &it) const { return this->_it != it._it; };
 
-		bool operator==(const reverse_iterator &it) const { return this->_it->content == it.getNode()->content; };
-		bool operator!=(const reverse_iterator &it) const { return this->_it->content != it.getNode()->content; };
+		bool operator==(const reverse_iterator &it) const { return this->_it == it.getNode(); };
+		bool operator!=(const reverse_iterator &it) const { return this->_it != it.getNode(); };
 		reference operator*() const { return *(this->_it->content); }
 		pointer operator->() const { return this->it->content; }
 
@@ -391,11 +476,14 @@ public:
 
 	/* Constructor */
 	explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-	: _compare(comp), _alloc(alloc) {};
+	: _node(nullptr), _size(0), _compare(comp), _alloc(alloc) { createBeginAndEndNode(); };
 
 	template <class InputIterator>
 	map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
-	: _compare(comp), _alloc(alloc) { for (; first != last; ++first) insert(first); };
+	: _node(nullptr), _size(0), _compare(comp), _alloc(alloc) {
+		createBeginAndEndNode();
+		insert(first, last);
+	};
 
 	/* Copy constructor */
 	map (const map& x): _size(0), _allocator_rebind(x._allocator_rebind), _alloc(x._alloc) { *this = x; };
@@ -407,16 +495,16 @@ public:
 	~map() {};
 
 	/* Iterators */
-	iterator		begin() { return iterator(getMinNode(_node)); };
-	const_iterator 	begin() const { return const_iterator(getMinNode(_node)); };
-	iterator		end() { return iterator(getMaxNode(_node)); };
-	const_iterator	end() const { return const_iterator(getMaxNode(_node)); };
+	iterator		begin() { return (_size != 0) ? iterator(_begin_node->parent) : iterator(_end_node); };
+	const_iterator 	begin() const { return (_size != 0) ? const_iterator(_begin_node->parent) : const_iterator(_end_node); };
+	iterator		end() { return iterator(_end_node); };
+	const_iterator	end() const { return const_iterator(_end_node); };
 
 	/* Reverse Iterators */
-	reverse_iterator 		rbegin() { return reverse_iterator(getMaxNode(_node)); };
-	const_reverse_iterator	rbegin() const { return const_reverse_iterator(getMaxNode(_node)); };
-	reverse_iterator 		rend() { return reverse_iterator(getMinNode(_node)); };
-	const_reverse_iterator	rend() const { return const_reverse_iterator(getMinNode(_node)); };
+	reverse_iterator 		rbegin() { return (_size != 0) ? reverse_iterator(_end_node->parent) : reverse_iterator(_begin_node); };
+	const_reverse_iterator	rbegin() const { return (_size != 0) ? const_reverse_iterator(_end_node->parent) : const_reverse_iterator(_begin_node); };
+	reverse_iterator 		rend() { return reverse_iterator(_begin_node); };
+	const_reverse_iterator	rend() const { return const_reverse_iterator(_begin_node); };
 
 	/* Capacity */
 	bool empty() const { return _size == 0; };
@@ -433,12 +521,24 @@ public:
 	std::pair<iterator, bool> insert (const_reference val) {
 		if (_size == 0) {
 			_node = createNode(nullptr, val, black, 1);
-			return std::make_pair(_node, true);
+			_node->right = _end_node;
+			_node->left = _begin_node;
+			_end_node->parent = _node;
+			_begin_node->parent = _node;
+			return std::make_pair(iterator(_node), true);
 		}
 		return _insertTree(_node, val);
 	};
-	iterator insert (iterator position, const value_type& val);
-	template <class InputIterator> void insert (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0);
+	iterator insert (iterator position, const value_type& val) {
+		(void)position;
+		return insert(val).first;
+	};
+	template <class InputIterator> void insert (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
+		while (first != last) {
+			insert(*first);
+			first++;
+		}
+	};
 	void erase (iterator position);
 	size_type erase (const key_type& k);
 	void erase (iterator first, iterator last);
@@ -448,7 +548,7 @@ public:
 	/* Observers */
 
 	key_compare key_comp() const { return _compare; };
-	value_compare value_comp() const { return value_comp(_compare); };
+	value_compare value_comp() const { return value_compare(_compare); };
 
 
 	/* Operations */
