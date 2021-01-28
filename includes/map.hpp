@@ -72,6 +72,13 @@ private:
 		return newNode;
 	}
 
+	void destroyNode(_MapNode *node) {
+		_alloc.destroy(node->content);
+		_alloc.deallocate(node->content, 1);
+		_allocator_rebind.deallocate(node, 1);
+		--_size;
+	}
+
 	void createBeginAndEndNode() {
 		_end_node = _allocator_rebind.allocate(1);
 		_end_node->left = nullptr;
@@ -85,6 +92,22 @@ private:
 		_begin_node->content = nullptr;
 	}
 
+	inline void insertRightNode(_MapNode *insertNode, _MapNode *parent) {
+		if (parent->right == _end_node) {
+			insertNode->right = _end_node;
+			_end_node->parent = insertNode;
+		}
+		parent->right = insertNode;
+	}
+
+	inline void insertLeftNode(_MapNode *insertNode, _MapNode *parent) {
+		if (parent->left == _begin_node) {
+			insertNode->left = _begin_node;
+			_begin_node->parent = insertNode;
+		}
+		parent->left = insertNode;
+	}
+
 	std::pair<iterator, bool> _insertTree(_MapNode *node, const_reference val) {
 		int comp = _compare(val.first, node->content->first) + _compare(node->content->first, val.first) * 2;
 
@@ -96,20 +119,7 @@ private:
 			return _insertTree(node->right, val);
 		
 		_MapNode *newNode = createNode(node, val, red, 1);
-		if (comp == 1) {
-			if (node->left == _begin_node) {
-				newNode->left = _begin_node;
-				_begin_node->parent = newNode;
-			}
-			node->left = newNode;
-		}
-		else {
-			if (node->right == _end_node) {
-				newNode->right = _end_node;
-				_end_node->parent = newNode;
-			}
-			node->right = newNode;
-		}
+		(comp == 1) ? insertLeftNode(newNode, node) : insertRightNode(newNode, node);
 //			treeBalance(node);
 		return std::make_pair(iterator(newNode), true);
 	}
@@ -170,18 +180,6 @@ private:
 			currentNode = rotateRight(currentNode);
 		if (isRed(currentNode->left) && isRed(currentNode->right))
 			invertColor(currentNode);
-		return currentNode;
-	}
-
-	_MapNode *getMinNode(Node *currentNode) {
-		if (currentNode->left)
-			return getMinNode(currentNode->left);
-		return currentNode;
-	}
-
-	_MapNode *getMaxNode(Node *currentNode) {
-		if (currentNode->right)
-			return getMaxNode(currentNode->right);
 		return currentNode;
 	}
 
@@ -462,7 +460,13 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->right;
+			} while (tmp->parent->right == tmp);
+			return tmp->parent;
 		}
 
 		_MapNode *prevNode(_MapNode* currentNode) {
@@ -470,7 +474,13 @@ public:
 				return findHighNode(currentNode->left);
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
-			return currentNode->parent->parent;
+			_MapNode *tmp = currentNode;
+			do {
+				tmp = tmp->parent;
+				if (tmp == nullptr)
+					return currentNode->left;
+			} while (tmp->parent->left == tmp);
+			return tmp->parent;
 		}
 	};
 
@@ -535,17 +545,35 @@ public:
 			insert(*first);
 	};
 	void erase (iterator position) {
+		erase(position->first);
 	};
 	size_type erase (const key_type& k) {
 		if (_size == 0 || find(k) == end())
 			return 0;
+		_MapNode *node = find(k).getNode();
+		if (node == _node) {
+			if (_size == 1)
+				destroyNode(_node);
+			else {
 
+			}
+			return 1;
+		}
+		if (node->right)
+			linkRight(node->parent, node->right);
+		if (node->left)
+			linkLeft(node->parent, node->left);
 		return 1;
 	};
-	void erase (iterator first, iterator last);
+	void erase (iterator first, iterator last) {
+		for (; first != last; ++first)
+			erase(last);
+	};
+
 	void swap (map& x);
 	void clear() {
-
+		while (_size != 0)
+			erase(begin());
 	};
 
 	/* Observers */

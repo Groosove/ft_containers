@@ -936,87 +936,87 @@ TEST_F(MapEqualRangeTest, multitestConst) {
 	}
 }
 
-//class MapEraseSimpleTest : public testing::Test {
-//protected:
-//	virtual void SetUp() {
-//		s.insert(std::make_pair("a", 1));
-//		s.insert(std::make_pair("b", 1));
-//		s.insert(std::make_pair("c", 1));
-//		f.insert(std::make_pair("a", 1));
-//		f.insert(std::make_pair("b", 1));
-//		f.insert(std::make_pair("c", 1));
-//	}
-//
-//	std::map<std::string, int> s;
-//	ft::map<std::string, int>  f;
-//
-//};
-//
-//void	MapEraseSimpleTestFunc(ft::map<std::string, int> & f, std::map<std::string, int> & s,
-//							   std::string s1, std::string s2, std::string s3) {
-//	size_t retf;
-//	size_t rets;
-//
-//	rets = s.erase(s1 + s2 + s3);
-//	retf = f.erase(s1 + s2 + s3);
-//	EXPECT_EQ(retf, rets);
-//	EXPECT_EQ(*s.begin(), *f.begin());
-//	EXPECT_EQ(*--s.end(), *--f.end());
-//	checkIfMapsAreEqual(f, s);
-//
-//	rets = s.erase(s1);
-//	retf = f.erase(s1);
-//	EXPECT_EQ(retf, rets);
-//	EXPECT_EQ(*s.begin(), *f.begin());
-//	EXPECT_EQ(*--s.end(), *--f.end());
-//	checkIfMapsAreEqual(f, s);
-//
-//	rets = s.erase(s2);
-//	retf = f.erase(s2);
-//	EXPECT_EQ(retf, rets);
-//	EXPECT_EQ(*s.begin(), *f.begin());
-//	EXPECT_EQ(*--s.end(), *--f.end());
-//	checkIfMapsAreEqual(f, s);
-//
-//	rets = s.erase(s3);
-//	retf = f.erase(s3);
-//	EXPECT_EQ(retf, rets);
-//	EXPECT_EQ(s.begin(), s.end());
-//	EXPECT_EQ(f.begin(), f.end());
-//	checkIfMapsAreEqual(f, s);
-//
-//	rets = s.erase(s1);
-//	retf = f.erase(s1);
-//	EXPECT_EQ(retf, rets);
-//	EXPECT_EQ(s.begin(), s.end());
-//	EXPECT_EQ(f.begin(), f.end());
-//	checkIfMapsAreEqual(f, s);
-//}
-//
-//TEST_F(MapEraseSimpleTest, abc) {
-//	MapEraseSimpleTestFunc(f, s, "a", "b", "c");
-//}
-//
-//TEST_F(MapEraseSimpleTest, acb) {
-//	MapEraseSimpleTestFunc(f, s, "a", "c", "b");
-//}
-//
-//TEST_F(MapEraseSimpleTest, bac) {
-//	MapEraseSimpleTestFunc(f, s, "b", "a", "c");
-//}
-//
-//TEST_F(MapEraseSimpleTest, bca) {
-//	MapEraseSimpleTestFunc(f, s, "b", "c", "a");
-//}
-//
-//TEST_F(MapEraseSimpleTest, cab) {
-//	MapEraseSimpleTestFunc(f, s, "c", "a", "b");
-//}
-//
-//TEST_F(MapEraseSimpleTest, cba) {
-//	MapEraseSimpleTestFunc(f, s, "c", "b", "a");
-//}
-//
+class MapEraseSimpleTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+		s.insert(std::make_pair("a", 1));
+		s.insert(std::make_pair("b", 1));
+		s.insert(std::make_pair("c", 1));
+		f.insert(std::make_pair("a", 1));
+		f.insert(std::make_pair("b", 1));
+		f.insert(std::make_pair("c", 1));
+	}
+
+	std::map<std::string, int> s;
+	ft::map<std::string, int>  f;
+
+};
+
+void	MapEraseSimpleTestFunc(ft::map<std::string, int> & f, std::map<std::string, int> & s,
+							   std::string s1, std::string s2, std::string s3) {
+	size_t retf;
+	size_t rets;
+
+	rets = s.erase(s1 + s2 + s3);
+	retf = f.erase(s1 + s2 + s3);
+	EXPECT_EQ(retf, rets);
+	EXPECT_EQ(*s.begin(), *f.begin());
+	EXPECT_EQ(*--s.end(), *--f.end());
+	checkIfMapsAreEqual(f, s);
+
+	rets = s.erase(s1);
+	retf = f.erase(s1);
+	EXPECT_EQ(retf, rets);
+	EXPECT_EQ(*s.begin(), *f.begin());
+	EXPECT_EQ(*--s.end(), *--f.end());
+	checkIfMapsAreEqual(f, s);
+
+	rets = s.erase(s2);
+	retf = f.erase(s2);
+	EXPECT_EQ(retf, rets);
+	EXPECT_EQ(*s.begin(), *f.begin());
+	EXPECT_EQ(*--s.end(), *--f.end());
+	checkIfMapsAreEqual(f, s);
+
+	rets = s.erase(s3);
+	retf = f.erase(s3);
+	EXPECT_EQ(retf, rets);
+	EXPECT_EQ(s.begin(), s.end());
+	EXPECT_EQ(f.begin(), f.end());
+	checkIfMapsAreEqual(f, s);
+
+	rets = s.erase(s1);
+	retf = f.erase(s1);
+	EXPECT_EQ(retf, rets);
+	EXPECT_EQ(s.begin(), s.end());
+	EXPECT_EQ(f.begin(), f.end());
+	checkIfMapsAreEqual(f, s);
+}
+
+TEST_F(MapEraseSimpleTest, abc) {
+	MapEraseSimpleTestFunc(f, s, "a", "b", "c");
+}
+
+TEST_F(MapEraseSimpleTest, acb) {
+	MapEraseSimpleTestFunc(f, s, "a", "c", "b");
+}
+
+TEST_F(MapEraseSimpleTest, bac) {
+	MapEraseSimpleTestFunc(f, s, "b", "a", "c");
+}
+
+TEST_F(MapEraseSimpleTest, bca) {
+	MapEraseSimpleTestFunc(f, s, "b", "c", "a");
+}
+
+TEST_F(MapEraseSimpleTest, cab) {
+	MapEraseSimpleTestFunc(f, s, "c", "a", "b");
+}
+
+TEST_F(MapEraseSimpleTest, cba) {
+	MapEraseSimpleTestFunc(f, s, "c", "b", "a");
+}
+
 //class MapEraseNoContainTest : public testing::Test {
 //protected:
 //	virtual void SetUp() {
