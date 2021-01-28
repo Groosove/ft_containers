@@ -675,267 +675,267 @@ TEST_F(MapFindTest, count) {
 	EXPECT_EQ(cf, 0);
 }
 
-//class MapBoundTest : public testing::Test {
-//protected:
-//	virtual void SetUp() {
-//		step_iter = 0;
-//		for (int i = 0; i < 10; ++i) {
-//			s.insert(std::make_pair(std::to_string(step_iter), step_iter));
-//			f.insert(std::make_pair(std::to_string(step_iter), step_iter));
-//			step_iter += step / 2;
-//		}
-//	}
-//
-//	const double step = 1.;
-//	double		 step_iter;
-//
-//	std::map<std::string, double> s;
-//	ft::map<std::string, double> f;
-//
-//	std::map<std::string, double>::iterator its;
-//	ft::map<std::string, double>::iterator itf;
-//	std::map<std::string, double>::iterator itse;
-//	ft::map<std::string, double>::iterator itfe;
-//
-//	std::map<std::string, double>::const_iterator cits;
-//	ft::map<std::string, double>::const_iterator citf;
-//	std::map<std::string, double>::const_iterator citse;
-//	ft::map<std::string, double>::const_iterator citfe;
-//};
-//
-//TEST_F(MapBoundTest, emptyLower) {
-//	std::map<std::string, double> sEmpty;
-//	ft::map<std::string, double> fEmpty;
-//
-//	its = sEmpty.lower_bound("a");
-//	itf = fEmpty.lower_bound("a");
-//
-//	EXPECT_EQ(its, sEmpty.end());
-//	EXPECT_EQ(itf, fEmpty.end());
-//	EXPECT_EQ(its, sEmpty.begin());
-//	EXPECT_EQ(itf, fEmpty.begin());
-//}
-//
-//TEST_F(MapBoundTest, emptyUpper) {
-//	std::map<std::string, double> sEmpty;
-//	ft::map<std::string, double> fEmpty;
-//
-//	its = sEmpty.upper_bound("a");
-//	itf = fEmpty.upper_bound("a");
-//
-//	EXPECT_EQ(its, sEmpty.end());
-//	EXPECT_EQ(itf, fEmpty.end());
-//	EXPECT_EQ(its, sEmpty.begin());
-//	EXPECT_EQ(itf, fEmpty.begin());
-//}
-//
-//TEST_F(MapBoundTest, singleUpper) {
-//	std::map<std::string, double> s1;
-//	ft::map<std::string, double> f1;
-//
-//	s1.insert(std::make_pair("c", 123));
-//	f1.insert(std::make_pair("c", 123));
-//
-//	its = s1.upper_bound("c");
-//	itf = f1.upper_bound("c");
-//	EXPECT_EQ(its, s1.end());
-//	EXPECT_EQ(itf, f1.end());
-//
-//	its = s1.upper_bound("a");
-//	itf = f1.upper_bound("a");
-//	EXPECT_EQ(its, s1.begin());
-//	EXPECT_EQ(itf, f1.begin());
-//
-//	its = s1.upper_bound("d");
-//	itf = f1.upper_bound("d");
-//	EXPECT_EQ(its, s1.end());
-//	EXPECT_EQ(itf, f1.end());
-//}
-//
-//TEST_F(MapBoundTest, singleLower) {
-//	std::map<std::string, double> s1;
-//	ft::map<std::string, double> f1;
-//
-//	s1.insert(std::make_pair("c", 123));
-//	f1.insert(std::make_pair("c", 123));
-//
-//	its = s1.lower_bound("c");
-//	itf = f1.lower_bound("c");
-//	EXPECT_EQ(its, s1.begin());
-//	EXPECT_EQ(itf, f1.begin());
-//
-//	its = s1.lower_bound("a");
-//	itf = f1.lower_bound("a");
-//	EXPECT_EQ(its, s1.begin());
-//	EXPECT_EQ(itf, f1.begin());
-//
-//	its = s1.lower_bound("d");
-//	itf = f1.lower_bound("d");
-//	EXPECT_EQ(its, s1.end());
-//	EXPECT_EQ(itf, f1.end());
-//}
-//
-//TEST_F(MapBoundTest, multitest) {
-//	step_iter = 0;
-//	for (double i = -step / 2; i < 10.5; i += step) {
-//
-//		its = s.lower_bound(std::to_string(i));
-//		itf = f.lower_bound(std::to_string(i));
-//		checkMapsAreEqualIt(itf, f.end(), its, s.end());
-//
-//		its = s.upper_bound(std::to_string(i));
-//		itf = f.upper_bound(std::to_string(i));
-//		checkMapsAreEqualIt(itf, f.end(), its, s.end());
-//	}
-//}
-//
-//TEST_F(MapBoundTest, multitestConst) {
-//	step_iter = 0;
-//	for (double i = -step / 2; i < 10.5; i += step) {
-//
-//		cits = s.lower_bound(std::to_string(i));
-//		citf = f.lower_bound(std::to_string(i));
-//		checkMapsAreEqualIt(citf, f.end(), cits, s.end());
-//
-//		cits = s.upper_bound(std::to_string(i));
-//		citf = f.upper_bound(std::to_string(i));
-//		checkMapsAreEqualIt(citf, f.end(), cits, s.end());
-//	}
-//}
-//
-//class MapEqualRangeTest : public testing::Test {
-//protected:
-//	virtual void SetUp() {
-//		for (int i = 0; i < 200; ++i) {
-//			iter = static_cast<double>(i);
-//			sample.insert(std::make_pair(std::to_string(iter), iter));
-//		}
-//	}
-//
-//	typedef std::map<std::string, double>::const_iterator const_iterator_s;
-//	typedef std::map<std::string, double>::iterator iterator_s;
-//
-//	typedef ft::map<std::string, double>::const_iterator const_iterator_f;
-//	typedef ft::map<std::string, double>::iterator iterator_f;
-//
-//	double iter;
-//
-//	std::map<std::string, double> sample;
-//
-//	std::map<std::string, double> s;
-//	ft::map<std::string, double> f;
-//
-//	std::pair<const_iterator_s,const_iterator_s> cps;
-//	std::pair<iterator_s,iterator_s> ps;
-//
-//	std::pair<const_iterator_f,const_iterator_f> cpf;
-//	std::pair<iterator_f,iterator_f> pf;
-//};
-//
-//TEST_F(MapEqualRangeTest, empty) {
-//	std::map<std::string, double> sEmpty;
-//	ft::map<std::string, double> fEmpty;
-//
-//	ps = s.equal_range("a");
-//	pf = f.equal_range("a");
-//
-//	EXPECT_EQ(ps.first, s.end());
-//	EXPECT_EQ(ps.second, s.end());
-//	EXPECT_EQ(pf.first, f.end());
-//	EXPECT_EQ(pf.second, f.end());
-//}
-//
-//TEST_F(MapEqualRangeTest, emptyConst) {
-//	std::map<std::string, double> sEmpty;
-//	ft::map<std::string, double> fEmpty;
-//
-//	cps = s.equal_range("a");
-//	cpf = f.equal_range("a");
-//
-//	EXPECT_EQ(cps.first, s.end());
-//	EXPECT_EQ(cps.second, s.end());
-//	EXPECT_EQ(cpf.first, f.end());
-//	EXPECT_EQ(cpf.second, f.end());
-//}
-//
-//TEST_F(MapEqualRangeTest, single) {
-//	std::map<std::string, double> s1;
-//	ft::map<std::string, double> f1;
-//
-//	s1.insert(std::make_pair("c", 123));
-//	f1.insert(std::make_pair("c", 123));
-//
-//	ps = s1.equal_range("c");
-//	pf = f1.equal_range("c");
-//	EXPECT_EQ(ps.first, s1.begin());
-//	EXPECT_EQ(ps.second, s1.end());
-//	EXPECT_EQ(pf.first, f1.begin());
-//	EXPECT_EQ(pf.second, f1.end());
-//
-//	ps = s1.equal_range("a");
-//	pf = f1.equal_range("a");
-//	EXPECT_EQ(ps.first, s1.begin());
-//	EXPECT_EQ(ps.second, s1.begin());
-//	EXPECT_EQ(pf.first, f1.begin());
-//	EXPECT_EQ(pf.second, f1.begin());
-//
-//	ps = s1.equal_range("d");
-//	pf = f1.equal_range("d");
-//	EXPECT_EQ(ps.first, s1.end());
-//	EXPECT_EQ(ps.second, s1.end());
-//	EXPECT_EQ(pf.first, f1.end());
-//	EXPECT_EQ(pf.second, f1.end());
-//}
-//
-//TEST_F(MapEqualRangeTest, singleConst) {
-//	std::map<std::string, double> s1;
-//	ft::map<std::string, double> f1;
-//
-//	s1.insert(std::make_pair("c", 123));
-//	f1.insert(std::make_pair("c", 123));
-//
-//	cps = s1.equal_range("c");
-//	cpf = f1.equal_range("c");
-//	EXPECT_EQ(cps.first, s1.begin());
-//	EXPECT_EQ(cps.second, s1.end());
-//	EXPECT_EQ(cpf.first, f1.begin());
-//	EXPECT_EQ(cpf.second, f1.end());
-//
-//	cps = s1.equal_range("a");
-//	cpf = f1.equal_range("a");
-//	EXPECT_EQ(cps.first, s1.begin());
-//	EXPECT_EQ(cps.second, s1.begin());
-//	EXPECT_EQ(cpf.first, f1.begin());
-//	EXPECT_EQ(cpf.second, f1.begin());
-//
-//	cps = s1.equal_range("d");
-//	cpf = f1.equal_range("d");
-//	EXPECT_EQ(cps.first, s1.end());
-//	EXPECT_EQ(cps.second, s1.end());
-//	EXPECT_EQ(cpf.first, f1.end());
-//	EXPECT_EQ(cpf.second, f1.end());
-//}
-//
-//TEST_F(MapEqualRangeTest, multitest) {
-//	for (int i = -5; i < 205; ++i) {
-//		iter = static_cast<double>(i) * 0.5;
-//
-//		ps = s.equal_range(std::to_string(iter));
-//		pf = f.equal_range(std::to_string(iter));
-//		checkMapsAreEqualIt(pf.first, pf.second, ps.first, ps.second);
-//	}
-//}
-//
-//TEST_F(MapEqualRangeTest, multitestConst) {
-//	for (int i = -5; i < 205; ++i) {
-//		iter = static_cast<double>(i) * 0.5;
-//
-//		cps = s.equal_range(std::to_string(iter));
-//		cpf = f.equal_range(std::to_string(iter));
-//		checkMapsAreEqualIt(cpf.first, cpf.second, cps.first, cps.second);
-//	}
-//}
-//
+class MapBoundTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+		step_iter = 0;
+		for (int i = 0; i < 10; ++i) {
+			s.insert(std::make_pair(std::to_string(step_iter), step_iter));
+			f.insert(std::make_pair(std::to_string(step_iter), step_iter));
+			step_iter += step / 2;
+		}
+	}
+
+	const double step = 1.;
+	double		 step_iter;
+
+	std::map<std::string, double> s;
+	ft::map<std::string, double> f;
+
+	std::map<std::string, double>::iterator its;
+	ft::map<std::string, double>::iterator itf;
+	std::map<std::string, double>::iterator itse;
+	ft::map<std::string, double>::iterator itfe;
+
+	std::map<std::string, double>::const_iterator cits;
+	ft::map<std::string, double>::const_iterator citf;
+	std::map<std::string, double>::const_iterator citse;
+	ft::map<std::string, double>::const_iterator citfe;
+};
+
+TEST_F(MapBoundTest, emptyLower) {
+	std::map<std::string, double> sEmpty;
+	ft::map<std::string, double> fEmpty;
+
+	its = sEmpty.lower_bound("a");
+	itf = fEmpty.lower_bound("a");
+
+	EXPECT_EQ(its, sEmpty.end());
+	EXPECT_EQ(itf, fEmpty.end());
+	EXPECT_EQ(its, sEmpty.begin());
+	EXPECT_EQ(itf, fEmpty.begin());
+}
+
+TEST_F(MapBoundTest, emptyUpper) {
+	std::map<std::string, double> sEmpty;
+	ft::map<std::string, double> fEmpty;
+
+	its = sEmpty.upper_bound("a");
+	itf = fEmpty.upper_bound("a");
+
+	EXPECT_EQ(its, sEmpty.end());
+	EXPECT_EQ(itf, fEmpty.end());
+	EXPECT_EQ(its, sEmpty.begin());
+	EXPECT_EQ(itf, fEmpty.begin());
+}
+
+TEST_F(MapBoundTest, singleUpper) {
+	std::map<std::string, double> s1;
+	ft::map<std::string, double> f1;
+
+	s1.insert(std::make_pair("c", 123));
+	f1.insert(std::make_pair("c", 123));
+
+	its = s1.upper_bound("c");
+	itf = f1.upper_bound("c");
+	EXPECT_EQ(its, s1.end());
+	EXPECT_EQ(itf, f1.end());
+
+	its = s1.upper_bound("a");
+	itf = f1.upper_bound("a");
+	EXPECT_EQ(its, s1.begin());
+	EXPECT_EQ(itf, f1.begin());
+
+	its = s1.upper_bound("d");
+	itf = f1.upper_bound("d");
+	EXPECT_EQ(its, s1.end());
+	EXPECT_EQ(itf, f1.end());
+}
+
+TEST_F(MapBoundTest, singleLower) {
+	std::map<std::string, double> s1;
+	ft::map<std::string, double> f1;
+
+	s1.insert(std::make_pair("c", 123));
+	f1.insert(std::make_pair("c", 123));
+
+	its = s1.lower_bound("c");
+	itf = f1.lower_bound("c");
+	EXPECT_EQ(its, s1.begin());
+	EXPECT_EQ(itf, f1.begin());
+
+	its = s1.lower_bound("a");
+	itf = f1.lower_bound("a");
+	EXPECT_EQ(its, s1.begin());
+	EXPECT_EQ(itf, f1.begin());
+
+	its = s1.lower_bound("d");
+	itf = f1.lower_bound("d");
+	EXPECT_EQ(its, s1.end());
+	EXPECT_EQ(itf, f1.end());
+}
+
+TEST_F(MapBoundTest, multitest) {
+	step_iter = 0;
+	for (double i = -step / 2; i < 10.5; i += step) {
+
+		its = s.lower_bound(std::to_string(i));
+		itf = f.lower_bound(std::to_string(i));
+		checkMapsAreEqualIt(itf, f.end(), its, s.end());
+
+		its = s.upper_bound(std::to_string(i));
+		itf = f.upper_bound(std::to_string(i));
+		checkMapsAreEqualIt(itf, f.end(), its, s.end());
+	}
+}
+
+TEST_F(MapBoundTest, multitestConst) {
+	step_iter = 0;
+	for (double i = -step / 2; i < 10.5; i += step) {
+
+		cits = s.lower_bound(std::to_string(i));
+		citf = f.lower_bound(std::to_string(i));
+		checkMapsAreEqualIt(citf, f.end(), cits, s.end());
+
+		cits = s.upper_bound(std::to_string(i));
+		citf = f.upper_bound(std::to_string(i));
+		checkMapsAreEqualIt(citf, f.end(), cits, s.end());
+	}
+}
+
+class MapEqualRangeTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+		for (int i = 0; i < 200; ++i) {
+			iter = static_cast<double>(i);
+			sample.insert(std::make_pair(std::to_string(iter), iter));
+		}
+	}
+
+	typedef std::map<std::string, double>::const_iterator const_iterator_s;
+	typedef std::map<std::string, double>::iterator iterator_s;
+
+	typedef ft::map<std::string, double>::const_iterator const_iterator_f;
+	typedef ft::map<std::string, double>::iterator iterator_f;
+
+	double iter;
+
+	std::map<std::string, double> sample;
+
+	std::map<std::string, double> s;
+	ft::map<std::string, double> f;
+
+	std::pair<const_iterator_s,const_iterator_s> cps;
+	std::pair<iterator_s,iterator_s> ps;
+
+	std::pair<const_iterator_f,const_iterator_f> cpf;
+	std::pair<iterator_f,iterator_f> pf;
+};
+
+TEST_F(MapEqualRangeTest, empty) {
+	std::map<std::string, double> sEmpty;
+	ft::map<std::string, double> fEmpty;
+
+	ps = s.equal_range("a");
+	pf = f.equal_range("a");
+
+	EXPECT_EQ(ps.first, s.end());
+	EXPECT_EQ(ps.second, s.end());
+	EXPECT_EQ(pf.first, f.end());
+	EXPECT_EQ(pf.second, f.end());
+}
+
+TEST_F(MapEqualRangeTest, emptyConst) {
+	std::map<std::string, double> sEmpty;
+	ft::map<std::string, double> fEmpty;
+
+	cps = s.equal_range("a");
+	cpf = f.equal_range("a");
+
+	EXPECT_EQ(cps.first, s.end());
+	EXPECT_EQ(cps.second, s.end());
+	EXPECT_EQ(cpf.first, f.end());
+	EXPECT_EQ(cpf.second, f.end());
+}
+
+TEST_F(MapEqualRangeTest, single) {
+	std::map<std::string, double> s1;
+	ft::map<std::string, double> f1;
+
+	s1.insert(std::make_pair("c", 123));
+	f1.insert(std::make_pair("c", 123));
+
+	ps = s1.equal_range("c");
+	pf = f1.equal_range("c");
+	EXPECT_EQ(ps.first, s1.begin());
+	EXPECT_EQ(ps.second, s1.end());
+	EXPECT_EQ(pf.first, f1.begin());
+	EXPECT_EQ(pf.second, f1.end());
+
+	ps = s1.equal_range("a");
+	pf = f1.equal_range("a");
+	EXPECT_EQ(ps.first, s1.begin());
+	EXPECT_EQ(ps.second, s1.begin());
+	EXPECT_EQ(pf.first, f1.begin());
+	EXPECT_EQ(pf.second, f1.begin());
+
+	ps = s1.equal_range("d");
+	pf = f1.equal_range("d");
+	EXPECT_EQ(ps.first, s1.end());
+	EXPECT_EQ(ps.second, s1.end());
+	EXPECT_EQ(pf.first, f1.end());
+	EXPECT_EQ(pf.second, f1.end());
+}
+
+TEST_F(MapEqualRangeTest, singleConst) {
+	std::map<std::string, double> s1;
+	ft::map<std::string, double> f1;
+
+	s1.insert(std::make_pair("c", 123));
+	f1.insert(std::make_pair("c", 123));
+
+	cps = s1.equal_range("c");
+	cpf = f1.equal_range("c");
+	EXPECT_EQ(cps.first, s1.begin());
+	EXPECT_EQ(cps.second, s1.end());
+	EXPECT_EQ(cpf.first, f1.begin());
+	EXPECT_EQ(cpf.second, f1.end());
+
+	cps = s1.equal_range("a");
+	cpf = f1.equal_range("a");
+	EXPECT_EQ(cps.first, s1.begin());
+	EXPECT_EQ(cps.second, s1.begin());
+	EXPECT_EQ(cpf.first, f1.begin());
+	EXPECT_EQ(cpf.second, f1.begin());
+
+	cps = s1.equal_range("d");
+	cpf = f1.equal_range("d");
+	EXPECT_EQ(cps.first, s1.end());
+	EXPECT_EQ(cps.second, s1.end());
+	EXPECT_EQ(cpf.first, f1.end());
+	EXPECT_EQ(cpf.second, f1.end());
+}
+
+TEST_F(MapEqualRangeTest, multitest) {
+	for (int i = -5; i < 205; ++i) {
+		iter = static_cast<double>(i) * 0.5;
+
+		ps = s.equal_range(std::to_string(iter));
+		pf = f.equal_range(std::to_string(iter));
+		checkMapsAreEqualIt(pf.first, pf.second, ps.first, ps.second);
+	}
+}
+
+TEST_F(MapEqualRangeTest, multitestConst) {
+	for (int i = -5; i < 205; ++i) {
+		iter = static_cast<double>(i) * 0.5;
+
+		cps = s.equal_range(std::to_string(iter));
+		cpf = f.equal_range(std::to_string(iter));
+		checkMapsAreEqualIt(cpf.first, cpf.second, cps.first, cps.second);
+	}
+}
+
 //class MapEraseSimpleTest : public testing::Test {
 //protected:
 //	virtual void SetUp() {

@@ -54,7 +54,7 @@ private:
 public:
 	/* Constructor */
 	explicit vector (const allocator_type& alloc = allocator_type())
-		: _arr(nullptr), _alloc(alloc), _size(0), _capacity(0) { };
+		: _arr(nullptr), _alloc(alloc), _size(0), _capacity(0) {};
 
 	explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
 		: _alloc(alloc), _size(n), _capacity(_size) { _arr = createVector(val); };
@@ -367,8 +367,7 @@ public:
 	};
 	void assign (size_type n, const value_type& val) {
 		clear();
-		for (; n != 0 ; --n)
-			push_back(val);
+		insert(begin(), n, val);
 	};
 	void push_back (const value_type& val) {
 		if (_capacity == 0) {
@@ -380,7 +379,7 @@ public:
 			if (_size == _capacity)
 				reallocVector();
 			_alloc.construct(_arr + _size, val);
-			_size++;
+			++_size;
 		}
 	};
 	void pop_back() {

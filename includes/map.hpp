@@ -512,12 +512,9 @@ public:
 	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_node); };
 
 	/* Element access */
-	mapped_type& operator[] (const key_type& k);
-	mapped_type& at (const key_type& k);
-	const mapped_type& at (const key_type& k) const;
+	mapped_type& operator[] (const key_type& k) { return insert(std::make_pair(k, mapped_type())).first->second; };
 
 	/* Modifiers */
-
 	std::pair<iterator, bool> insert (const_reference val) {
 		if (_size == 0) {
 			_node = createNode(nullptr, val, black, 1);
@@ -534,16 +531,22 @@ public:
 		return insert(val).first;
 	};
 	template <class InputIterator> void insert (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
-		while (first != last) {
+		for (; first != last; ++first)
 			insert(*first);
-			first++;
-		}
 	};
-	void erase (iterator position);
-	size_type erase (const key_type& k);
+	void erase (iterator position) {
+	};
+	size_type erase (const key_type& k) {
+		if (_size == 0 || find(k) == end())
+			return 0;
+
+		return 1;
+	};
 	void erase (iterator first, iterator last);
 	void swap (map& x);
-	void clear();
+	void clear() {
+
+	};
 
 	/* Observers */
 
@@ -552,13 +555,47 @@ public:
 
 
 	/* Operations */
-	iterator find (const key_type& k);
-	const_iterator find (const key_type& k) const;
-	size_type count (const key_type& k) const;
-	iterator lower_bound (const key_type& k);
-	const_iterator lower_bound (const key_type& k) const;
-	iterator upper_bound (const key_type& k);
-	const_iterator upper_bound (const key_type& k) const;
-	std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-	std::pair<iterator,iterator>             equal_range (const key_type& k);
+	iterator find (const key_type& k) {
+		for (iterator it = begin(), ite = end(); it != ite; ++it)
+			if (it->first == k)
+				return it;
+		return end();
+	};
+	const_iterator find (const key_type& k) const {
+		for (const_iterator it = ++begin(), ite = end(); it != ite; ++it)
+			if (it->first == k)
+				return it;
+		return end();
+	};
+	size_type count (const key_type& k) const {
+		for (const_iterator it = begin(), ite = end(); it != ite; ++it)
+			if (it->first == k)
+				return 1;
+		return 0;
+	};
+
+	iterator lower_bound (const key_type& k) {
+		iterator it = begin();
+		for (iterator ite = end(); it != ite && _compare(it->first, k); ++it) NULL;
+		return it;
+	};
+	const_iterator lower_bound (const key_type& k) const {
+		iterator it = begin();
+		for (iterator ite = end(); it != ite && _compare(it->first, k); ++it) NULL;
+		return it;
+	};
+	iterator upper_bound (const key_type& k) {
+		iterator it = lower_bound(k);
+		if (it != end() && !_compare(it->first, k) && !_compare(k, it->first))
+			++it;
+		return it;
+	};
+	const_iterator upper_bound (const key_type& k) const {
+		const_iterator it = lower_bound(k);
+		if (it != end() && !_compare(it->first, k) && !_compare(k, it->first))
+			++it;
+		return it;
+	};
+	std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const	{ return std::make_pair(lower_bound(k), upper_bound(k)); };
+	std::pair<iterator,iterator>             equal_range (const key_type& k) 		{ return std::make_pair(lower_bound(k), upper_bound(k)); };
 };

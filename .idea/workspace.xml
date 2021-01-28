@@ -41,8 +41,8 @@
     <list default="true" id="4f89f57f-31ae-419c-9398-40875d2d9ca5" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/map.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/includes/map.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/vector.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/includes/vector.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sources/map.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/map.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sources/test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/sources/test.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,26 +90,26 @@
       <recent name="$PROJECT_DIR$/sources" />
     </key>
   </component>
-  <component name="RunManager" selected="Google Test.MapFindTest.notContain">
-    <configuration name="MapConstructionRange.emptyRange" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="MapConstructionRange" TEST_METHOD="emptyRange" TEST_MODE="SUITE_TEST">
+  <component name="RunManager" selected="CMake Application.Google_run">
+    <configuration name="MapBoundTest.multitest" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="MapBoundTest" TEST_METHOD="multitest" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MapBoundTest.singleLower" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="MapBoundTest" TEST_METHOD="singleLower" TEST_MODE="SUITE_TEST">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="BeforeTestRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MapBoundTest.singleUpper" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="MapBoundTest" TEST_METHOD="singleUpper" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="MapFindTest.notContain" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="MapFindTest" TEST_METHOD="notContain" TEST_MODE="SUITE_TEST">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-        <option name="BeforeTestRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MapInsertTest.insertPosVal2" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="MapInsertTest" TEST_METHOD="insertPosVal2" TEST_MODE="SUITE_TEST">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-        <option name="BeforeTestRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MapInsertTest.insertRangeSameMap" type="CMakeGoogleTestRunConfigurationType" factoryName="Google Test" temporary="true" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ft_containers" TARGET_NAME="Google_Tests_run" RUN_TARGET_PROJECT_NAME="ft_containers" RUN_TARGET_NAME="Google_Tests_run" TEST_CLASS="MapInsertTest" TEST_METHOD="insertRangeSameMap" TEST_MODE="SUITE_TEST">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
         <option name="BeforeTestRunTask" enabled="true" />
@@ -162,11 +162,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="CMake Application.Google_run" />
       <item itemvalue="CMake Application.gmock" />
@@ -175,19 +170,19 @@
       <item itemvalue="CMake Application.gtest_main" />
       <item itemvalue="CMake Application.map_check" />
       <item itemvalue="Google Test.VectorIteratorTest.IteratorInputConstInputTest" />
-      <item itemvalue="Google Test.MapInsertTest.insertPosVal2" />
-      <item itemvalue="Google Test.MapInsertTest.insertRangeSameMap" />
-      <item itemvalue="Google Test.MapConstructionRange.emptyRange" />
       <item itemvalue="Google Test.MapObserversTest.keyComp" />
       <item itemvalue="Google Test.MapFindTest.notContain" />
+      <item itemvalue="Google Test.MapBoundTest.singleUpper" />
+      <item itemvalue="Google Test.MapBoundTest.singleLower" />
+      <item itemvalue="Google Test.MapBoundTest.multitest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Google Test.MapBoundTest.singleUpper" />
+        <item itemvalue="Google Test.MapBoundTest.multitest" />
+        <item itemvalue="Google Test.MapBoundTest.singleLower" />
         <item itemvalue="Google Test.MapFindTest.notContain" />
         <item itemvalue="Google Test.MapObserversTest.keyComp" />
-        <item itemvalue="Google Test.MapConstructionRange.emptyRange" />
-        <item itemvalue="Google Test.MapInsertTest.insertPosVal2" />
-        <item itemvalue="Google Test.MapInsertTest.insertRangeSameMap" />
       </list>
     </recent_temporary>
   </component>
@@ -259,6 +254,7 @@
       <workItem from="1611492916157" duration="567000" />
       <workItem from="1611511539982" duration="871000" />
       <workItem from="1611577584937" duration="113000" />
+      <workItem from="1611840500284" duration="2562000" />
     </task>
     <servers />
   </component>
@@ -288,76 +284,76 @@
     </state>
     <state x="904" y="472" width="1071" height="796" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2880.1620@0.0.2880.1620" timestamp="1608723039845" />
     <state x="804" y="413" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.2560.1340@0.23.2560.1340" timestamp="1610361679675" />
-    <state width="1398" height="239" key="GridCell.Tab.0.bottom" timestamp="1611780291930">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="379" key="GridCell.Tab.0.bottom" timestamp="1611842521617">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="239" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1611780291930" />
     <state width="2518" height="419" key="GridCell.Tab.0.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1611571768834" />
     <state width="2838" height="482" key="GridCell.Tab.0.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095475" />
-    <state width="2518" height="517" key="GridCell.Tab.0.bottom/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355250" />
+    <state width="2518" height="379" key="GridCell.Tab.0.bottom/0.23.2560.1340@0.23.2560.1340" timestamp="1611842521617" />
     <state width="2838" height="441" key="GridCell.Tab.0.bottom/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025342" />
-    <state width="1398" height="239" key="GridCell.Tab.0.center" timestamp="1611780291929">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="379" key="GridCell.Tab.0.center" timestamp="1611842521616">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="239" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1611780291929" />
     <state width="2518" height="419" key="GridCell.Tab.0.center/0.0.2560.1440@0.0.2560.1440" timestamp="1611571768833" />
     <state width="2838" height="482" key="GridCell.Tab.0.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095474" />
-    <state width="2518" height="517" key="GridCell.Tab.0.center/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355248" />
+    <state width="2518" height="379" key="GridCell.Tab.0.center/0.23.2560.1340@0.23.2560.1340" timestamp="1611842521616" />
     <state width="2838" height="441" key="GridCell.Tab.0.center/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025341" />
-    <state width="1398" height="239" key="GridCell.Tab.0.left" timestamp="1611780291928">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="379" key="GridCell.Tab.0.left" timestamp="1611842521616">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="239" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1611780291928" />
     <state width="2518" height="419" key="GridCell.Tab.0.left/0.0.2560.1440@0.0.2560.1440" timestamp="1611571768832" />
     <state width="2838" height="482" key="GridCell.Tab.0.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095473" />
-    <state width="2518" height="517" key="GridCell.Tab.0.left/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355247" />
+    <state width="2518" height="379" key="GridCell.Tab.0.left/0.23.2560.1340@0.23.2560.1340" timestamp="1611842521616" />
     <state width="2838" height="441" key="GridCell.Tab.0.left/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025341" />
-    <state width="1398" height="239" key="GridCell.Tab.0.right" timestamp="1611780291929">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="379" key="GridCell.Tab.0.right" timestamp="1611842521617">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="239" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1611780291929" />
     <state width="2518" height="419" key="GridCell.Tab.0.right/0.0.2560.1440@0.0.2560.1440" timestamp="1611571768833" />
     <state width="2838" height="482" key="GridCell.Tab.0.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608852095474" />
-    <state width="2518" height="517" key="GridCell.Tab.0.right/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355249" />
+    <state width="2518" height="379" key="GridCell.Tab.0.right/0.23.2560.1340@0.23.2560.1340" timestamp="1611842521617" />
     <state width="2838" height="441" key="GridCell.Tab.0.right/0.23.2880.1520@0.23.2880.1520" timestamp="1608948025342" />
-    <state width="1398" height="297" key="GridCell.Tab.1.bottom" timestamp="1611779615712">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="468" key="GridCell.Tab.1.bottom" timestamp="1611842262193">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="297" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1611779615712" />
     <state width="2518" height="517" key="GridCell.Tab.1.bottom/0.0.2560.1440@0.0.2560.1440" timestamp="1611568030366" />
     <state width="2838" height="592" key="GridCell.Tab.1.bottom/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218766" />
-    <state width="2518" height="517" key="GridCell.Tab.1.bottom/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355254" />
+    <state width="2518" height="468" key="GridCell.Tab.1.bottom/0.23.2560.1340@0.23.2560.1340" timestamp="1611842262193" />
     <state width="2838" height="541" key="GridCell.Tab.1.bottom/0.23.2880.1520@0.23.2880.1520" timestamp="1608947853342" />
-    <state width="1398" height="297" key="GridCell.Tab.1.center" timestamp="1611779615711">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="468" key="GridCell.Tab.1.center" timestamp="1611842262192">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="297" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1611779615711" />
     <state width="2518" height="517" key="GridCell.Tab.1.center/0.0.2560.1440@0.0.2560.1440" timestamp="1611568030366" />
     <state width="2838" height="592" key="GridCell.Tab.1.center/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218765" />
-    <state width="2518" height="517" key="GridCell.Tab.1.center/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355252" />
+    <state width="2518" height="468" key="GridCell.Tab.1.center/0.23.2560.1340@0.23.2560.1340" timestamp="1611842262192" />
     <state width="2838" height="541" key="GridCell.Tab.1.center/0.23.2880.1520@0.23.2880.1520" timestamp="1608947853342" />
-    <state width="1398" height="297" key="GridCell.Tab.1.left" timestamp="1611779615711">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="468" key="GridCell.Tab.1.left" timestamp="1611842262192">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="297" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1611779615711" />
     <state width="2518" height="517" key="GridCell.Tab.1.left/0.0.2560.1440@0.0.2560.1440" timestamp="1611568030365" />
     <state width="2838" height="592" key="GridCell.Tab.1.left/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218765" />
-    <state width="2518" height="517" key="GridCell.Tab.1.left/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355251" />
+    <state width="2518" height="468" key="GridCell.Tab.1.left/0.23.2560.1340@0.23.2560.1340" timestamp="1611842262192" />
     <state width="2838" height="541" key="GridCell.Tab.1.left/0.23.2880.1520@0.23.2880.1520" timestamp="1608947853342" />
-    <state width="1398" height="297" key="GridCell.Tab.1.right" timestamp="1611779615712">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="2518" height="468" key="GridCell.Tab.1.right" timestamp="1611842262193">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state width="1398" height="297" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1611779615712" />
     <state width="2518" height="517" key="GridCell.Tab.1.right/0.0.2560.1440@0.0.2560.1440" timestamp="1611568030366" />
     <state width="2838" height="592" key="GridCell.Tab.1.right/0.0.2880.1620@0.0.2880.1620" timestamp="1608849218766" />
-    <state width="2518" height="517" key="GridCell.Tab.1.right/0.23.2560.1340@0.23.2560.1340" timestamp="1611263355253" />
+    <state width="2518" height="468" key="GridCell.Tab.1.right/0.23.2560.1340@0.23.2560.1340" timestamp="1611842262193" />
     <state width="2838" height="541" key="GridCell.Tab.1.right/0.23.2880.1520@0.23.2880.1520" timestamp="1608947853342" />
-    <state x="420" y="89" key="SettingsEditor" timestamp="1611748078930">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="747" y="156" key="SettingsEditor" timestamp="1611840995229">
+      <screen x="0" y="23" width="2560" height="1340" />
     </state>
     <state x="420" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1611748078930" />
     <state x="949" y="449" key="SettingsEditor/0.0.2880.1620@0.0.2880.1620" timestamp="1608662746752" />
-    <state x="747" y="156" key="SettingsEditor/0.23.2560.1340@0.23.2560.1340" timestamp="1610978507252" />
+    <state x="747" y="156" key="SettingsEditor/0.23.2560.1340@0.23.2560.1340" timestamp="1611840995229" />
     <state x="949" y="444" key="SettingsEditor/0.23.2880.1520@0.23.2880.1520" timestamp="1608935989384" />
     <state width="500" height="445" key="SwitcherDM" timestamp="1608727454665">
       <screen x="0" y="0" width="2880" height="1620" />
