@@ -43,7 +43,9 @@ int main() {
 
 		ft::map<int, std::string>::iterator _it = _map.begin();
 		ft::map<int, std::string>::iterator _ite = _map.end();
-		for (; _it != _ite ;  ++_it)
-			std::cout << _it->first << " " << _it->second << std::endl;
+//		for (; _it != _ite ;  ++_it)
+//			std::cout << _it->first << " " << _it->second << std::endl;
 	}
+
+	return 0;
 }

@@ -184,8 +184,14 @@ private:
 	}
 
 	_MapNode *findLowNode(_MapNode *currentNode) {
-		if (currentNode->left)
-			return findLowNode(currentNode->left);
+		while (currentNode->left)
+			currentNode = currentNode->left;
+		return currentNode;
+	}
+
+	_MapNode *findHighNode(_MapNode *currentNode) {
+		while (currentNode->right)
+			currentNode = currentNode->right;
 		return currentNode;
 	}
 public:
@@ -257,7 +263,7 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			while (tmp->parent->right == tmp)
+			while (tmp->parent->left == tmp)
 				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
 			return tmp->parent;
@@ -329,7 +335,7 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			while (tmp->parent->right == tmp)
+			while (tmp->parent->left == tmp)
 				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
 			return tmp->parent;
@@ -400,7 +406,7 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			while (tmp->parent->right == tmp)
+			while (tmp->parent->left == tmp)
 				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
 			return tmp->parent;
@@ -474,7 +480,7 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			while (tmp->parent->right == tmp)
+			while (tmp->parent->left == tmp)
 				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
 			return tmp->parent;
@@ -493,7 +499,10 @@ public:
 	};
 
 	/* Copy constructor */
-	map (const map& x): _size(0), _allocator_rebind(x._allocator_rebind), _alloc(x._alloc) { *this = x; };
+	map (const map& x): _size(0), _allocator_rebind(x._allocator_rebind), _alloc(x._alloc) {
+		createBeginAndEndNode();
+		*this = x;
+	};
 
 	/* Assignation operator */
 	map& operator= (const map& x) {
@@ -503,7 +512,11 @@ public:
 	};
 
 	/* Destructor */
-	~map() {};
+	~map() {
+		clear();
+//		_allocator_rebind.deallocate(_begin_node, 1);
+//		_allocator_rebind.deallocate(_end_node, 1);
+	};
 
 	/* Iterators */
 	iterator		begin() { return (_size != 0) ? iterator(_begin_node->parent) : iterator(_end_node); };
@@ -548,40 +561,69 @@ public:
 	void erase (iterator position) {
 		erase(position->first);
 	};
+
+
 	size_type erase (const key_type& k) {
 		if (_size == 0 || find(k) == end())
 			return 0;
 		_MapNode *node = find(k).getNode();
-//		_MapNode *tmp = node->right;
-//		if (node->right) {
-//			if (node->left) {
-//				iterator it = iterator(node->left);
-//				destroyNode(node);
-//				tmp->parent = nullptr;
-//				_node = tmp;
-//				insert(iterator(findLowNode(it.getNode())), it);
-//				linkLeft(findLowNode(_node), _begin_node);
-//			} else {
-//				tmp->parent = node->parent;
-//				node->parent->right = tmp;
-//				destroyNode(node);
-//				_node = tmp;
-//			}
-//		} else {
-//			tmp = node->left;
-//			tmp->parent = node->parent;
-//			node->parent->left = tmp;
-//			destroyNode(node);
-//			_node = tmp;
-//		}
+		if (node->right && _size != 1) {
+			_MapNode *tmp = findLowNode(node->right);
+			if (tmp == node->right) {
+				if (node->right)
+					linkLeft(tmp, node->left);
+				tmp->parent = node->parent;
+				if (tmp->parent)
+					tmp->parent->right = tmp;
+			} else {
+				linkLeft(tmp->parent, tmp->right);
+
+				linkRight(tmp, node->right);
+				linkLeft(tmp, node->left);
+				tmp->parent = node->parent;
+			}
+		}
+		else if (node->left && _size != 1) {
+			_MapNode *tmp = findHighNode(node->left);
+			if (tmp == node->left) {
+				if (node->left)
+					linkLeft(tmp, node->right);
+				tmp->parent = node->parent;
+				if (tmp->parent)
+					tmp->parent->left = tmp;
+			} else {
+				linkRight(tmp->parent, tmp->left);
+
+				linkRight(tmp, node->right);
+				linkLeft(tmp, node->left);
+				tmp->parent = node->parent;
+			}
+		}
+		destroyNode(node);
 		return 1;
 	};
 	void erase (iterator first, iterator last) {
 		for (; first != last; ++first)
-			erase(last);
+			erase(last->first);
 	};
 
-	void swap (map& x);
+	void swap (map& x) {
+		_MapNode *tmp = _node;
+		_node = x._node;
+		x._node = tmp;
+
+		_MapNode *tmpBegin = _begin_node;
+		_begin_node = x._begin_node;
+		x._begin_node = tmpBegin;
+
+		_MapNode *tmpEndNode = _end_node;
+		_end_node = x._end_node;
+		x._end_node = tmpEndNode;
+
+		size_type tmp_size = _size;
+		_size = x._size;
+		x._size = tmp_size;
+	};
 	void clear() {
 		while (_size != 0)
 			erase(begin());
