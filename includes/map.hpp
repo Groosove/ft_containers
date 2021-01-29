@@ -133,7 +133,7 @@ private:
 	}
 
 	inline void linkLeft(_MapNode *parent, _MapNode *left) {
-		parent->right = left;
+		parent->left = left;
 		if (left)
 			left->parent = parent;
 	}
@@ -242,12 +242,12 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
+			else if (currentNode->parent->right == currentNode)
+				currentNode = currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->right;
-			} while (tmp->parent->right == tmp);
 			return tmp->parent;
 		}
 
@@ -257,11 +257,9 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
-			} while (tmp->parent->left == tmp);
 			return tmp->parent;
 		}
 	};
@@ -316,12 +314,12 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
+			else if (currentNode->parent->right == currentNode)
+				currentNode = currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->right;
-			} while (tmp->parent->right == tmp);
 			return tmp->parent;
 		}
 
@@ -331,11 +329,9 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
-			} while (tmp->parent->left == tmp);
 			return tmp->parent;
 		}
 	};
@@ -389,12 +385,12 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
+			else if (currentNode->parent->right == currentNode)
+				currentNode = currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->right;
-			} while (tmp->parent->right == tmp);
 			return tmp->parent;
 		}
 
@@ -404,11 +400,9 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
-			} while (tmp->parent->left == tmp);
 			return tmp->parent;
 		}
 	};
@@ -465,12 +459,12 @@ public:
 				return findLowNode(currentNode->right);
 			else if (currentNode->parent && currentNode->parent->left == currentNode)
 				return currentNode->parent;
+			else if (currentNode->parent->right == currentNode)
+				currentNode = currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->right;
-			} while (tmp->parent->right == tmp);
 			return tmp->parent;
 		}
 
@@ -480,11 +474,9 @@ public:
 			else if (currentNode->parent && currentNode->parent->right == currentNode)
 				return currentNode->parent;
 			_MapNode *tmp = currentNode;
-			do {
-				tmp = tmp->parent;
-				if (tmp == nullptr)
+			while (tmp->parent->right == tmp)
+				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->left;
-			} while (tmp->parent->left == tmp);
 			return tmp->parent;
 		}
 	};
@@ -504,7 +496,11 @@ public:
 	map (const map& x): _size(0), _allocator_rebind(x._allocator_rebind), _alloc(x._alloc) { *this = x; };
 
 	/* Assignation operator */
-	map& operator= (const map& x);
+	map& operator= (const map& x) {
+		clear();
+		insert(x.begin(), x.end());
+		return *this;
+	};
 
 	/* Destructor */
 	~map() {};
@@ -556,23 +552,28 @@ public:
 		if (_size == 0 || find(k) == end())
 			return 0;
 		_MapNode *node = find(k).getNode();
-		if (node == _node) {
-			_MapNode *tmp = _node->right;
-			iterator it = iterator(_node->left);
-			destroyNode(_node);
-			tmp->parent = nullptr;
-			_node = tmp;
-			if (_begin_node == it.getNode()) {
-				_begin_node->parent = findLowNode(_node);
-				return 1;
-			}
-			insert(iterator(findLowNode(it.getNode())), it);
-			return 1;
-		}
-		if (node->right)
-			linkRight(node->parent, node->right);
-		if (node->left)
-			linkLeft(node->parent, node->left);
+//		_MapNode *tmp = node->right;
+//		if (node->right) {
+//			if (node->left) {
+//				iterator it = iterator(node->left);
+//				destroyNode(node);
+//				tmp->parent = nullptr;
+//				_node = tmp;
+//				insert(iterator(findLowNode(it.getNode())), it);
+//				linkLeft(findLowNode(_node), _begin_node);
+//			} else {
+//				tmp->parent = node->parent;
+//				node->parent->right = tmp;
+//				destroyNode(node);
+//				_node = tmp;
+//			}
+//		} else {
+//			tmp = node->left;
+//			tmp->parent = node->parent;
+//			node->parent->left = tmp;
+//			destroyNode(node);
+//			_node = tmp;
+//		}
 		return 1;
 	};
 	void erase (iterator first, iterator last) {

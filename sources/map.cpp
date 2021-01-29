@@ -1017,227 +1017,226 @@ TEST_F(MapEraseSimpleTest, cba) {
 	MapEraseSimpleTestFunc(f, s, "c", "b", "a");
 }
 
-//class MapEraseNoContainTest : public testing::Test {
-//protected:
-//	virtual void SetUp() {
-//		for (char i = 'b'; i < 'z' ; ++i) {
-//			ss << i << i;
-//			s.insert(std::make_pair(ss.str(), i));
-//			f.insert(std::make_pair(ss.str(), i));
-//			ss.str("");
-//		}
-//	}
-//
-//	std::stringstream ss;
-//
-//	std::map<std::string, int> s;
-//	ft::map<std::string, int>  f;
-//
-//	size_t retf;
-//	size_t rets;
-//};
-//
-//TEST_F(MapEraseNoContainTest, eraseSimpleTest) {
-//	for (char i = 'a'; i <= 'z' ; ++i) {
-//		ss << i << i << i;
-//		rets = s.erase(ss.str());
-//		retf = f.erase(ss.str());
-//		EXPECT_EQ(retf, rets);
-//		EXPECT_EQ(*s.begin(), *f.begin());
-//		EXPECT_EQ(*--s.end(), *--f.end());
-//		checkIfMapsAreEqual(f, s);
-//		ss.str("");
-//	}
-//
-//	for (char i = 'a'; i <= 'z' ; ++i) {
-//		ss << i;
-//		rets = s.erase(ss.str());
-//		retf = f.erase(ss.str());
-//		EXPECT_EQ(retf, rets);
-//		EXPECT_EQ(*s.begin(), *f.begin());
-//		EXPECT_EQ(*--s.end(), *--f.end());
-//		checkIfMapsAreEqual(f, s);
-//		ss.str("");
-//	}
-//}
-//
-//class MapEraseByIteratorTest : public testing::Test {
-//protected:
-//	virtual void SetUp() {
-//		for (char i = 'b'; i < 'z' ; ++i) {
-//			ss << i << i;
-//			s.insert(std::make_pair(ss.str(), i));
-//			f.insert(std::make_pair(ss.str(), i));
-//			ss.str("");
-//		}
-//	}
-//
-//	std::stringstream ss;
-//
-//	std::map<std::string, int>::iterator its;
-//	ft::map<std::string,  int>::iterator itf;
-//	std::map<std::string, int>::iterator itse;
-//	ft::map<std::string,  int>::iterator itfe;
-//
-//	std::map<std::string, int> s;
-//	ft::map<std::string, int>  f;
-//};
-//
-//TEST_F(MapEraseByIteratorTest, eraseAllByBegin) {
-//
-//	its = s.begin();
-//	itse = s.end();
-//	itf = f.begin();
-//	itfe = f.end();
-//
-//	for (; s.begin() != itse; ) {
-//		s.erase(s.begin());
-//		f.erase(f.begin());
-//		checkIfMapsAreEqual(f, s);
-//	}
-//	EXPECT_EQ(f.begin(), itfe);
-//}
-//
-//TEST_F(MapEraseByIteratorTest, eraseAllByEnd) {
-//
-//	its = s.begin();
-//	itse = s.end();
-//	itf = f.begin();
-//	itfe = f.end();
-//
-//	while (s.size() != 0) {
-//		s.erase(--s.end());
-//		f.erase(--f.end());
-//		checkIfMapsAreEqual(f, s);
-//	}
-//	EXPECT_EQ(f.size(), 0);
-//}
-//
-//TEST_F(MapEraseByIteratorTest, iteratorValidity) {
-//	its = s.begin();
-//	itf = f.begin();
-//
-//	for (int i = 0; i < 10; ++i) {
-//		s.erase(++s.begin());
-//		f.erase(++f.begin());
-//		EXPECT_EQ(s.size(), f.size());
-//		checkMapsAreEqualIt(itf, f.end(), its, s.end());
-//	}
-//}
-//
-//TEST_F(MapEraseByIteratorTest, iteratorValidity2) {
-//	ft::map<char, int> ftmap;
-//	ft::map<char,int>::iterator itf;
-//	std::map<char, int> stmap;
-//	std::map<char, int>::iterator its;
-//
-//	ftmap.insert(std::make_pair('a', 123));		stmap.insert(std::make_pair('a', 123));
-//	ftmap.insert(std::make_pair('b', 123));		stmap.insert(std::make_pair('b', 123));
-//	ftmap.insert(std::make_pair('c', 123));		stmap.insert(std::make_pair('c', 123));
-//	ftmap.insert(std::make_pair('d', 123));		stmap.insert(std::make_pair('d', 123));
-//	ftmap.insert(std::make_pair('e', 123));		stmap.insert(std::make_pair('e', 123));
-//	ftmap.insert(std::make_pair('f', 123));		stmap.insert(std::make_pair('f', 123));
-//	ftmap.insert(std::make_pair('g', 123));		stmap.insert(std::make_pair('g', 123));
-//	ftmap.insert(std::make_pair('h', 123));		stmap.insert(std::make_pair('h', 123));
-//	ftmap.insert(std::make_pair('j', 123));		stmap.insert(std::make_pair('j', 123));
-//	ftmap.insert(std::make_pair('k', 123));		stmap.insert(std::make_pair('k', 123));
-//
-//	itf = ftmap.find('c');	its = stmap.find('c');
-//	ftmap.erase('b');		stmap.erase('b');
-//
-//	checkMapsAreEqualIt(itf, ftmap.end(), its, stmap.end());
-//}
-//
-//class MapClearTest : public testing::Test {
-//protected:
-//	virtual void SetUp() {
-//
-//	}
-//	std::map<std::string, int> s;
-//	ft::map<std::string, int>  f;
-//};
-//
-//TEST_F(MapClearTest, emptyClear) {
-//	s.clear();
-//	f.clear();
-//
-//	checkIfMapsAreEqual(f, s);
-//}
-//
-//TEST_F(MapClearTest, nonEmptyClear) {
-//	for (int i = 0; i < 100; ++i) {
-//		s.insert(std::make_pair(std::to_string(i), i));
-//		f.insert(std::make_pair(std::to_string(i), i));
-//	}
-//
-//	s.clear();
-//	f.clear();
-//	checkIfMapsAreEqual(f, s);
-//}
-//
-//class MapAssignationTest : public testing::Test {
-//protected:
-//	virtual void SetUp() {
-//		for (int i = 0; i < 100; ++i) {
-//			s.insert(std::make_pair(std::to_string(i), i));
-//			f.insert(std::make_pair(std::to_string(i), i));
-//		}
-//	}
-//
-//	std::map<std::string, int> s;
-//	ft::map<std::string, int>  f;
-//	std::map<std::string, int> sEmpty;
-//	ft::map<std::string, int>  fEmpty;
-//	std::map<std::string, int> sTmp;
-//	ft::map<std::string, int>  fTmp;
-//};
-//
-//TEST_F(MapAssignationTest, fromFullToEmpty) {
-//	sEmpty = s;
-//	fEmpty = f;
-//	checkIfMapsAreEqual(fEmpty, sEmpty);
-//	checkIfMapsAreEqual(f, s);
-//
-//	sEmpty.insert(std::make_pair("sf", 23));
-//	fEmpty.insert(std::make_pair("sf", 23));
-//	checkIfMapsAreEqual(fEmpty, sEmpty);
-//}
-//
-//TEST_F(MapAssignationTest, fromEmtpyToFull) {
-//	s = sEmpty;
-//	f = fEmpty;
-//	checkIfMapsAreEqual(fEmpty, sEmpty);
-//	checkIfMapsAreEqual(f, s);
-//
-//	s.insert(std::make_pair("sf", 23));
-//	f.insert(std::make_pair("sf", 23));
-//	checkIfMapsAreEqual(f, s);
-//}
-//
-//TEST_F(MapAssignationTest, fromEmtpyToEmpty) {
-//	sTmp = sEmpty;
-//	fTmp = fEmpty;
-//	checkIfMapsAreEqual(fEmpty, sEmpty);
-//	checkIfMapsAreEqual(fTmp, sTmp);
-//
-//	sTmp.insert(std::make_pair("sf", 23));
-//	fTmp.insert(std::make_pair("sf", 23));
-//	checkIfMapsAreEqual(fTmp, sTmp);
-//}
-//
-//TEST_F(MapAssignationTest, fromFullToFull) {
-//	sEmpty.insert(std::make_pair("sf", 23));
-//	fEmpty.insert(std::make_pair("sf", 23));
-//	s = sEmpty;
-//	f = fEmpty;
-//	checkIfMapsAreEqual(fEmpty, sEmpty);
-//	checkIfMapsAreEqual(fTmp, sTmp);
-//
-//	s.insert(std::make_pair("sf", 23));
-//	f.insert(std::make_pair("sf", 23));
-//	checkIfMapsAreEqual(f, s);
-//}
-//
+class MapEraseNoContainTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+		for (char i = 'b'; i < 'z' ; ++i) {
+			ss << i << i;
+			s.insert(std::make_pair(ss.str(), i));
+			f.insert(std::make_pair(ss.str(), i));
+			ss.str("");
+		}
+	}
+
+	std::stringstream ss;
+
+	std::map<std::string, int> s;
+	ft::map<std::string, int>  f;
+
+	size_t retf;
+	size_t rets;
+};
+
+TEST_F(MapEraseNoContainTest, eraseSimpleTest) {
+	for (char i = 'a'; i <= 'z' ; ++i) {
+		ss << i << i << i;
+		rets = s.erase(ss.str());
+		retf = f.erase(ss.str());
+		EXPECT_EQ(retf, rets);
+		EXPECT_EQ(*s.begin(), *f.begin());
+		EXPECT_EQ(*--s.end(), *--f.end());
+		checkIfMapsAreEqual(f, s);
+		ss.str("");
+	}
+	for (char i = 'a'; i <= 'z' ; ++i) {
+		ss << i;
+		rets = s.erase(ss.str());
+		retf = f.erase(ss.str());
+		EXPECT_EQ(retf, rets);
+		EXPECT_EQ(*s.begin(), *f.begin());
+		EXPECT_EQ(*--s.end(), *--f.end());
+		checkIfMapsAreEqual(f, s);
+		ss.str("");
+	}
+}
+
+class MapEraseByIteratorTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+		for (char i = 'b'; i < 'z' ; ++i) {
+			ss << i << i;
+			s.insert(std::make_pair(ss.str(), i));
+			f.insert(std::make_pair(ss.str(), i));
+			ss.str("");
+		}
+	}
+
+	std::stringstream ss;
+
+	std::map<std::string, int>::iterator its;
+	ft::map<std::string,  int>::iterator itf;
+	std::map<std::string, int>::iterator itse;
+	ft::map<std::string,  int>::iterator itfe;
+
+	std::map<std::string, int> s;
+	ft::map<std::string, int>  f;
+};
+
+TEST_F(MapEraseByIteratorTest, eraseAllByBegin) {
+
+	its = s.begin();
+	itse = s.end();
+	itf = f.begin();
+	itfe = f.end();
+
+	for (; s.begin() != itse; ) {
+		s.erase(s.begin());
+		f.erase(f.begin());
+		checkIfMapsAreEqual(f, s);
+	}
+	EXPECT_EQ(f.begin(), itfe);
+}
+
+TEST_F(MapEraseByIteratorTest, eraseAllByEnd) {
+
+	its = s.begin();
+	itse = s.end();
+	itf = f.begin();
+	itfe = f.end();
+
+	while (s.size() != 0) {
+		s.erase(--s.end());
+		f.erase(--f.end());
+		checkIfMapsAreEqual(f, s);
+	}
+	EXPECT_EQ(f.size(), 0);
+}
+
+TEST_F(MapEraseByIteratorTest, iteratorValidity) {
+	its = s.begin();
+	itf = f.begin();
+
+	for (int i = 0; i < 10; ++i) {
+		s.erase(++s.begin());
+		f.erase(++f.begin());
+		EXPECT_EQ(s.size(), f.size());
+		checkMapsAreEqualIt(itf, f.end(), its, s.end());
+	}
+}
+
+TEST_F(MapEraseByIteratorTest, iteratorValidity2) {
+	ft::map<char, int> ftmap;
+	ft::map<char,int>::iterator itf;
+	std::map<char, int> stmap;
+	std::map<char, int>::iterator its;
+
+	ftmap.insert(std::make_pair('a', 123));		stmap.insert(std::make_pair('a', 123));
+	ftmap.insert(std::make_pair('b', 123));		stmap.insert(std::make_pair('b', 123));
+	ftmap.insert(std::make_pair('c', 123));		stmap.insert(std::make_pair('c', 123));
+	ftmap.insert(std::make_pair('d', 123));		stmap.insert(std::make_pair('d', 123));
+	ftmap.insert(std::make_pair('e', 123));		stmap.insert(std::make_pair('e', 123));
+	ftmap.insert(std::make_pair('f', 123));		stmap.insert(std::make_pair('f', 123));
+	ftmap.insert(std::make_pair('g', 123));		stmap.insert(std::make_pair('g', 123));
+	ftmap.insert(std::make_pair('h', 123));		stmap.insert(std::make_pair('h', 123));
+	ftmap.insert(std::make_pair('j', 123));		stmap.insert(std::make_pair('j', 123));
+	ftmap.insert(std::make_pair('k', 123));		stmap.insert(std::make_pair('k', 123));
+
+	itf = ftmap.find('c');	its = stmap.find('c');
+	ftmap.erase('b');		stmap.erase('b');
+
+	checkMapsAreEqualIt(itf, ftmap.end(), its, stmap.end());
+}
+
+class MapClearTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+
+	}
+	std::map<std::string, int> s;
+	ft::map<std::string, int>  f;
+};
+
+TEST_F(MapClearTest, emptyClear) {
+	s.clear();
+	f.clear();
+
+	checkIfMapsAreEqual(f, s);
+}
+
+TEST_F(MapClearTest, nonEmptyClear) {
+	for (int i = 0; i < 12; ++i) {
+		s.insert(std::make_pair(std::to_string(i), i));
+		f.insert(std::make_pair(std::to_string(i), i));
+	}
+
+	s.clear();
+	f.clear();
+	checkIfMapsAreEqual(f, s);
+}
+
+class MapAssignationTest : public testing::Test {
+protected:
+	virtual void SetUp() {
+		for (int i = 0; i < 100; ++i) {
+			s.insert(std::make_pair(std::to_string(i), i));
+			f.insert(std::make_pair(std::to_string(i), i));
+		}
+	}
+
+	std::map<std::string, int> s;
+	ft::map<std::string, int>  f;
+	std::map<std::string, int> sEmpty;
+	ft::map<std::string, int>  fEmpty;
+	std::map<std::string, int> sTmp;
+	ft::map<std::string, int>  fTmp;
+};
+
+TEST_F(MapAssignationTest, fromFullToEmpty) {
+	sEmpty = s;
+	fEmpty = f;
+	checkIfMapsAreEqual(fEmpty, sEmpty);
+	checkIfMapsAreEqual(f, s);
+
+	sEmpty.insert(std::make_pair("sf", 23));
+	fEmpty.insert(std::make_pair("sf", 23));
+	checkIfMapsAreEqual(fEmpty, sEmpty);
+}
+
+TEST_F(MapAssignationTest, fromEmtpyToFull) {
+	s = sEmpty;
+	f = fEmpty;
+	checkIfMapsAreEqual(fEmpty, sEmpty);
+	checkIfMapsAreEqual(f, s);
+
+	s.insert(std::make_pair("sf", 23));
+	f.insert(std::make_pair("sf", 23));
+	checkIfMapsAreEqual(f, s);
+}
+
+TEST_F(MapAssignationTest, fromEmtpyToEmpty) {
+	sTmp = sEmpty;
+	fTmp = fEmpty;
+	checkIfMapsAreEqual(fEmpty, sEmpty);
+	checkIfMapsAreEqual(fTmp, sTmp);
+
+	sTmp.insert(std::make_pair("sf", 23));
+	fTmp.insert(std::make_pair("sf", 23));
+	checkIfMapsAreEqual(fTmp, sTmp);
+}
+
+TEST_F(MapAssignationTest, fromFullToFull) {
+	sEmpty.insert(std::make_pair("sf", 23));
+	fEmpty.insert(std::make_pair("sf", 23));
+	s = sEmpty;
+	f = fEmpty;
+	checkIfMapsAreEqual(fEmpty, sEmpty);
+	checkIfMapsAreEqual(fTmp, sTmp);
+
+	s.insert(std::make_pair("sf", 23));
+	f.insert(std::make_pair("sf", 23));
+	checkIfMapsAreEqual(f, s);
+}
+
 //class MapCopyConstructionTest : public testing::Test {
 //protected:
 //	virtual void SetUp() {
