@@ -137,6 +137,7 @@ private:
 		if (left)
 			left->parent = parent;
 	}
+
 	_MapNode *rotateLeft(_MapNode* currentNode) {
 		_MapNode *tmp = currentNode->right;
 		if (currentNode->parent->right == currentNode)
@@ -184,14 +185,20 @@ private:
 	}
 
 	_MapNode *findLowNode(_MapNode *currentNode) {
+		_MapNode *beginNode = currentNode;
 		while (currentNode->left)
 			currentNode = currentNode->left;
+		if (currentNode->right && currentNode->right != _end_node && beginNode != currentNode)
+			currentNode = findLowNode(currentNode->right);
 		return currentNode;
 	}
 
 	_MapNode *findHighNode(_MapNode *currentNode) {
+		_MapNode *beginNode = currentNode;
 		while (currentNode->right)
 			currentNode = currentNode->right;
+		if (currentNode->left && currentNode->left != _begin_node && beginNode != currentNode)
+			currentNode = findLowNode(currentNode->left);
 		return currentNode;
 	}
 public:
@@ -514,8 +521,8 @@ public:
 	/* Destructor */
 	~map() {
 		clear();
-//		_allocator_rebind.deallocate(_begin_node, 1);
-//		_allocator_rebind.deallocate(_end_node, 1);
+		_allocator_rebind.deallocate(_begin_node, 1);
+		_allocator_rebind.deallocate(_end_node, 1);
 	};
 
 	/* Iterators */
@@ -558,46 +565,47 @@ public:
 		for (; first != last; ++first)
 			insert(*first);
 	};
-	void erase (iterator position) {
-		erase(position->first);
-	};
+	void erase (iterator position) { erase(position->first); };
 
 
 	size_type erase (const key_type& k) {
 		if (_size == 0 || find(k) == end())
 			return 0;
 		_MapNode *node = find(k).getNode();
-		if (node->right && _size != 1) {
+		if (node->right && _size != 1 && node->right != _end_node) {
 			_MapNode *tmp = findLowNode(node->right);
-			if (tmp == node->right) {
-				if (node->right)
-					linkLeft(tmp, node->left);
-				tmp->parent = node->parent;
-				if (tmp->parent)
-					tmp->parent->right = tmp;
-			} else {
-				linkLeft(tmp->parent, tmp->right);
-
-				linkRight(tmp, node->right);
-				linkLeft(tmp, node->left);
-				tmp->parent = node->parent;
+			(_compare(tmp->content->first, tmp->parent->content->first)) ?
+			tmp->parent->left = tmp->left : tmp->parent->right = tmp->right;
+			linkLeft(tmp, node->left);
+			linkRight(tmp, node->right);
+			if (node != _node)
+				(_compare(node->content->first, node->parent->content->first)) ?
+				linkLeft(node->parent, tmp) : linkRight(node->parent, tmp);
+			else {
+				tmp->parent = nullptr;
+				_node = tmp;
 			}
 		}
-		else if (node->left && _size != 1) {
+		else if (node->left && _size != 1 && node->left != _begin_node) {
 			_MapNode *tmp = findHighNode(node->left);
-			if (tmp == node->left) {
-				if (node->left)
-					linkLeft(tmp, node->right);
-				tmp->parent = node->parent;
-				if (tmp->parent)
-					tmp->parent->left = tmp;
-			} else {
-				linkRight(tmp->parent, tmp->left);
 
-				linkRight(tmp, node->right);
-				linkLeft(tmp, node->left);
-				tmp->parent = node->parent;
+			(_compare(tmp->content->first, tmp->parent->content->first)) ?
+			tmp->parent->left = tmp->left : tmp->parent->right = tmp->right;
+			linkLeft(tmp, node->left);
+			linkRight(tmp, node->right);
+			if (node != _node)
+				(_compare(node->content->first, node->parent->content->first)) ?
+				linkLeft(node->parent, tmp) : linkRight(node->parent, tmp);
+			else {
+				tmp->parent = nullptr;
+				_node = tmp;
 			}
+		} else if (node->right == _end_node && _size != 1) {
+			if (node->parent)
+				linkRight(node->parent, _end_node);
+		} else if (node->left == _begin_node && _size != 1) {
+			if (node->parent)
+				linkLeft(node->parent, _begin_node);
 		}
 		destroyNode(node);
 		return 1;
@@ -630,7 +638,6 @@ public:
 	};
 
 	/* Observers */
-
 	key_compare key_comp() const { return _compare; };
 	value_compare value_comp() const { return value_compare(_compare); };
 
@@ -654,7 +661,6 @@ public:
 				return 1;
 		return 0;
 	};
-
 	iterator lower_bound (const key_type& k) {
 		iterator it = begin();
 		for (iterator ite = end(); it != ite && _compare(it->first, k); ++it) NULL;

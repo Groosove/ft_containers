@@ -41,8 +41,8 @@ int main() {
 		_map.insert(std::pair<int, std::string>(17, "i"));
 		_map.insert(std::pair<int, std::string>(8, "j"));
 
-		ft::map<int, std::string>::iterator _it = _map.begin();
-		ft::map<int, std::string>::iterator _ite = _map.end();
+//		ft::map<int, std::string>::iterator _it = _map.begin();
+//		ft::map<int, std::string>::iterator _ite = _map.end();
 //		for (; _it != _ite ;  ++_it)
 //			std::cout << _it->first << " " << _it->second << std::endl;
 	}

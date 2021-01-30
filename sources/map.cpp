@@ -433,7 +433,7 @@ TEST_F(MapInsertTest, insertValCaseTriple2) {
 TEST_F(MapInsertTest, ultimative) {
 	srand(1);
 	int gen_key, gen_val;
-	const int keys_limit = 500;
+	const int keys_limit = 50;
 
 	for (int i = 0; i < keys_limit * 2; ++i) {
 		gen_key = rand() % keys_limit;
@@ -446,7 +446,7 @@ TEST_F(MapInsertTest, ultimative) {
 		checkMapsAreEqualIt(pf.first, f.end(), ps.first, s.end());
 		checkIfMapsAreEqual(f, s);
 	}
-//	f.clear();
+	f.clear();
 }
 
 TEST_F(MapInsertTest, insertPosVal1) {
