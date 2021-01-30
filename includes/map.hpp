@@ -85,6 +85,7 @@ private:
 		_end_node->right = nullptr;
 		_end_node->color = black;
 		_end_node->content = nullptr;
+
 		_begin_node = _allocator_rebind.allocate(1);
 		_begin_node->left = nullptr;
 		_begin_node->right = nullptr;
@@ -93,10 +94,8 @@ private:
 	}
 
 	inline void insertRightNode(_MapNode *insertNode, _MapNode *parent) {
-		if (parent->right == _end_node) {
-			insertNode->right = _end_node;
-			_end_node->parent = insertNode;
-		}
+		if (parent->right == _end_node)
+			linkRight(insertNode, _end_node);
 		parent->right = insertNode;
 	}
 
@@ -120,50 +119,42 @@ private:
 		
 		_MapNode *newNode = createNode(node, val, red, 1);
 		(comp == 1) ? insertLeftNode(newNode, node) : insertRightNode(newNode, node);
-//			treeBalance(node);
+		treeBalance(node);
 		return std::make_pair(iterator(newNode), true);
 	}
 
 	inline bool isRed(_MapNode *currentNode) { return (!currentNode) ? black : currentNode->color == red; }
 
-	inline void linkRight(_MapNode *parent, _MapNode *right) {
+	inline static void linkRight(_MapNode *parent, _MapNode *right) {
 		parent->right = right;
 		if (right)
 			right->parent = parent;
 	}
 
-	inline void linkLeft(_MapNode *parent, _MapNode *left) {
+	inline static void linkLeft(_MapNode *parent, _MapNode *left) {
 		parent->left = left;
 		if (left)
 			left->parent = parent;
 	}
 
 	_MapNode *rotateLeft(_MapNode* currentNode) {
-		_MapNode *tmp = currentNode->right;
-		if (currentNode->parent->right == currentNode)
-			linkRight(currentNode->parent, tmp);
-		else
-			linkLeft(currentNode->parent, tmp);
-		linkRight(currentNode, tmp->left);
-		linkLeft(tmp, currentNode);
+		_MapNode *rightNode = currentNode->right;
 
-		tmp->color = currentNode->color;
-		currentNode->color = red;
-		return tmp;
+		if (currentNode->parent) {
+			(currentNode->parent->left == currentNode ? linkLeft : linkRight)(currentNode->parent, rightNode);
+		} else {
+			rightNode->parent = currentNode->parent;
+			currentNode->parent = rightNode;
+		}
+		linkRight(currentNode, rightNode->left);
+		linkLeft(rightNode, currentNode);
+		return rightNode;
 	}
 
 	_MapNode *rotateRight(_MapNode* currentNode) {
-		_MapNode *tmp = currentNode->left;
-		if (currentNode->parent->right == currentNode)
-			linkRight(currentNode->parent, tmp);
-		else
-			linkLeft(currentNode->parent, tmp);
-		linkRight(currentNode, tmp->right);
-		linkLeft(tmp, currentNode);
+		_MapNode *leftNode = currentNode->left;
 
-		tmp->color = currentNode->color;
-		currentNode->color = red;
-		return tmp;
+		return leftNode;
 	}
 
 	inline void invertColor(_MapNode *currentNode) {
@@ -177,7 +168,7 @@ private:
 	_MapNode *treeBalance(_MapNode* currentNode) {
 		if (isRed(currentNode->right))
 			currentNode = rotateLeft(currentNode);
-		if (isRed(currentNode->left) && currentNode->left && isRed(currentNode->left->left))
+		if (isRed(currentNode->left) && currentNode->parent && isRed(currentNode->parent->left))
 			currentNode = rotateRight(currentNode);
 		if (isRed(currentNode->left) && isRed(currentNode->right))
 			invertColor(currentNode);
@@ -520,7 +511,7 @@ public:
 
 	/* Destructor */
 	~map() {
-		clear();
+//		clear();
 		_allocator_rebind.deallocate(_begin_node, 1);
 		_allocator_rebind.deallocate(_end_node, 1);
 	};
@@ -566,8 +557,6 @@ public:
 			insert(*first);
 	};
 	void erase (iterator position) { erase(position->first); };
-
-
 	size_type erase (const key_type& k) {
 		if (_size == 0 || find(k) == end())
 			return 0;

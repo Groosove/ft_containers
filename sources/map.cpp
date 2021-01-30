@@ -446,7 +446,6 @@ TEST_F(MapInsertTest, ultimative) {
 		checkMapsAreEqualIt(pf.first, f.end(), ps.first, s.end());
 		checkIfMapsAreEqual(f, s);
 	}
-	f.clear();
 }
 
 TEST_F(MapInsertTest, insertPosVal1) {
