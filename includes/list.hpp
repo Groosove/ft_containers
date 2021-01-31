@@ -281,10 +281,8 @@ public:
 	template<class InputIterator> list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
 		: _alloc(alloc), _size(0) {
 		createList();
-		while (first != last) {
+		for (; first != last; ++first)
 			this->push_back(*first);
-			first++;
-		}
 	};
 
 	/* Assignation operator */
@@ -311,14 +309,14 @@ public:
 
 	/* Iterators */
 	iterator 		begin() { return iterator(this->_end_node->next); };
-	iterator 		end() { return iterator(this->_end_node); };
 	const_iterator 	begin() const { return const_iterator(this->_end_node->next); };
+	iterator 		end() { return iterator(this->_end_node); };
 	const_iterator 	end() const { return const_iterator(this->_end_node); };
 
 	/* Reverse Iterators */
 	reverse_iterator 		rbegin() { return reverse_iterator(this->_end_node->prev); };
-	reverse_iterator 		rend() { return reverse_iterator(this->_end_node); };
 	const_reverse_iterator 	rbegin() const { return const_reverse_iterator(this->_end_node->prev); };
+	reverse_iterator 		rend() { return reverse_iterator(this->_end_node); };
 	const_reverse_iterator	rend() const { return const_reverse_iterator(this->_end_node); };
 
 	/* Capacity */
@@ -334,25 +332,17 @@ public:
 
 	/* Modifiers */
 	template <class InputIterator> void assign (InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
-		if (!this->empty())
-			this->clear();
+		clear();
 		for (; first != last; ++first)
 			push_back(*first);
 	};
 	void assign (size_type n, const value_type& val) {
-		if (!this->empty())
-			this->clear();
+		clear();
 		for (u_long i = 0; i < n; ++i)
 			push_back(val);
 	};
-	void push_front (const value_type& val) {
-		_List *node = createNode(val);
-		insertNode(node, this->_end_node, this->_end_node->next);
-	};
-	void push_back (const value_type& val) {
-		_List *node = createNode(val);
-		insertNode(node, this->_end_node->prev, this->_end_node);
-	};
+	void push_front (const value_type& val) { insertNode(createNode(val), this->_end_node, this->_end_node->next); };
+	void push_back (const value_type& val) { insertNode(createNode(val), this->_end_node->prev, this->_end_node); };
 	void pop_front() {
 		_List *node = this->_end_node->next;
 		linkNode(node->prev, node->next);
@@ -370,8 +360,7 @@ public:
 		return iterator(node);
 	};
 	void insert (iterator position, size_type n, const value_type& val) {
-		while (n--)
-			insert(position, val);
+		while (n--) insert(position, val);
 	};
 	template <class InputIterator> void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0) {
 		for (;first != last; ++first)

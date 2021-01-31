@@ -31,7 +31,7 @@ public:
 	public:
 		key_compare comp;
 
-		value_compare(key_compare c) : comp(c) {};
+		explicit value_compare(key_compare c) : comp(c) {};
 	public:
 		bool operator()(const value_type& x, const value_type& y) const { return comp(x.first, y.first); };
 	};
@@ -41,13 +41,13 @@ private:
 	const static bool black = false;
 	const static bool red = true;
 
-	typedef struct Node {
+	typedef struct	Node {
 		Node * left;
 		Node * right;
 		Node *parent;
 		bool color;
 		pointer content;
-	}	_MapNode;
+	}				_MapNode;
 
 	typedef typename allocator_type::template rebind<_MapNode>::other allocator_rebind_type;
 
@@ -116,14 +116,14 @@ private:
 			return _insertTree(node->left, val);
 		else if (comp == 2 && node->right && node->right != _end_node)
 			return _insertTree(node->right, val);
-		
+
 		_MapNode *newNode = createNode(node, val, red, 1);
 		(comp == 1) ? insertLeftNode(newNode, node) : insertRightNode(newNode, node);
 		treeBalance(node);
 		return std::make_pair(iterator(newNode), true);
 	}
 
-	inline bool isRed(_MapNode *currentNode) { return (!currentNode) ? black : currentNode->color == red; }
+	inline static bool isRed(_MapNode *currentNode) { return (!currentNode) ? black : currentNode->color == red; }
 
 	inline static void linkRight(_MapNode *parent, _MapNode *right) {
 		parent->right = right;
@@ -137,42 +137,56 @@ private:
 			left->parent = parent;
 	}
 
+	inline static void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
+		if (parent)
+			(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
+		else
+			newNode->parent = parent;
+	};
+
 	_MapNode *rotateLeft(_MapNode* currentNode) {
 		_MapNode *rightNode = currentNode->right;
 
-		if (currentNode->parent) {
-			(currentNode->parent->left == currentNode ? linkLeft : linkRight)(currentNode->parent, rightNode);
-		} else {
-			rightNode->parent = currentNode->parent;
-			currentNode->parent = rightNode;
-		}
+		linkParentWithNewNode(currentNode->parent, currentNode, rightNode);
 		linkRight(currentNode, rightNode->left);
 		linkLeft(rightNode, currentNode);
+		if (currentNode == _node)
+			_node = rightNode;
+
+		rightNode->color = currentNode->color;
+		currentNode->color = red;
 		return rightNode;
 	}
 
 	_MapNode *rotateRight(_MapNode* currentNode) {
 		_MapNode *leftNode = currentNode->left;
 
+		linkParentWithNewNode(currentNode->parent, currentNode, leftNode);
+		linkLeft(currentNode, leftNode->right);
+		linkRight(leftNode, currentNode);
+		if (currentNode == _node)
+			_node = leftNode;
+		leftNode->color = currentNode->color;
+		currentNode->color = red;
 		return leftNode;
 	}
 
 	inline void invertColor(_MapNode *currentNode) {
-		if (currentNode->right) currentNode->right->color = !currentNode->right->color;
-		if (currentNode->left) currentNode->left->color = !currentNode->left->color;
-		currentNode->color = !currentNode->color;
-		if (_node == currentNode && isRed(_node))
-			_node->color = !_node;
+		if (currentNode->right != _end_node)
+			currentNode->right->color = !currentNode->right->color;
+		if (currentNode->left != _begin_node)
+			currentNode->left->color = !currentNode->left->color;
+		if (currentNode != _node)
+			currentNode->color = !currentNode->color;
 	}
 
-	_MapNode *treeBalance(_MapNode* currentNode) {
+	void treeBalance(_MapNode* currentNode) {
 		if (isRed(currentNode->right))
 			currentNode = rotateLeft(currentNode);
-		if (isRed(currentNode->left) && currentNode->parent && isRed(currentNode->parent->left))
+		if (isRed(currentNode->left) && isRed(currentNode->left->left))
 			currentNode = rotateRight(currentNode);
 		if (isRed(currentNode->left) && isRed(currentNode->right))
 			invertColor(currentNode);
-		return currentNode;
 	}
 
 	_MapNode *findLowNode(_MapNode *currentNode) {
