@@ -136,11 +136,9 @@ private:
 	}
 
 	inline void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
-	 	if (!parent) {
-			newNode->parent = nullptr;
-			return;
-		}
-	 	(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
+	 	newNode->parent = nullptr;
+	 	if (parent)
+	 		(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
 	};
 
 	_MapNode *rotateLeft(_MapNode* currentNode) {
@@ -165,12 +163,11 @@ private:
 		linkRight(leftNode, currentNode);
 		if (currentNode == _node)
 			_node = leftNode;
+
 		leftNode->color = currentNode->color;
 		currentNode->color = red;
 		return leftNode;
 	}
-
-	inline static bool isEnd(_MapNode *node) { return (node) ? !(node->content) : false; }
 
 	inline void invertColor(_MapNode *currentNode) {
 		if (currentNode->right != _end_node && currentNode->right)
@@ -294,9 +291,7 @@ public:
 		bool operator!=(const const_iterator &it) const { return this->_it != it.getNode(); };
 		reference operator*() const { return *(this->_it->content); }
 		pointer operator->() const { return this->_it->content; }
-
 		_MapNode *getNode() const { return _it; }
-
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
 			if (currentNode->left)
@@ -318,7 +313,6 @@ public:
 			else if (currentNode->parent->right == currentNode)
 				currentNode = currentNode->parent;
 			_MapNode *tmp = currentNode;
-
 			while (tmp->parent->right == tmp)
 				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->right;
@@ -363,12 +357,10 @@ public:
 		};
 		bool operator==(const const_iterator &it) const { return this->_it == it._it; };
 		bool operator!=(const const_iterator &it) const { return this->_it != it._it; };
-
 		bool operator==(const iterator &it) const { return this->_it == it.getNode(); };
 		bool operator!=(const iterator &it) const { return this->_it != it.getNode(); };
-		value_type & operator*() const { return *(this->_it->content); };
-		value_type * operator->() const { return this->_it->content; }
-
+		const_reference operator*() const { return *(this->_it->content); };
+		const_pointer operator->() const { return this->_it->content; }
 		_MapNode *getNode() const { return _it; }
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
@@ -376,13 +368,11 @@ public:
 				return findLowNode(currentNode->left);
 			return currentNode;
 		}
-
 		_MapNode *findHighNode(_MapNode *currentNode) {
 			if (currentNode->right)
 				return findHighNode(currentNode->right);
 			return currentNode;
 		}
-
 		_MapNode *nextNode(_MapNode* currentNode) {
 			if (currentNode->right)
 				return findLowNode(currentNode->right);
@@ -396,7 +386,6 @@ public:
 					return currentNode->right;
 			return tmp->parent;
 		}
-
 		_MapNode *prevNode(_MapNode* currentNode) {
 			if (currentNode->left)
 				return findHighNode(currentNode->left);
@@ -431,15 +420,12 @@ public:
 			operator--();
 			return tmp;
 		};
-
 		bool operator==(const reverse_iterator &it) const { return this->_it == it._it; };
 		bool operator!=(const reverse_iterator &it) const { return this->_it != it._it; };
-
 		bool operator==(const const_reverse_iterator &it) const { return this->_it == it.getNode(); };
 		bool operator!=(const const_reverse_iterator &it) const { return this->_it != it.getNode(); };
 		value_type & operator*() const { return *(this->_it->content); };
 		value_type * operator->() const { return this->_it->content; }
-
 		_MapNode *getNode() const { return _it; }
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
@@ -447,13 +433,11 @@ public:
 				return findLowNode(currentNode->left);
 			return currentNode;
 		}
-
 		_MapNode *findHighNode(_MapNode *currentNode) {
 			if (currentNode->right)
 				return findHighNode(currentNode->right);
 			return currentNode;
 		}
-
 		_MapNode *nextNode(_MapNode* currentNode) {
 			if (currentNode->right)
 				return findLowNode(currentNode->right);
@@ -467,7 +451,6 @@ public:
 					return currentNode->right;
 			return tmp->parent;
 		}
-
 		_MapNode *prevNode(_MapNode* currentNode) {
 			if (currentNode->left)
 				return findHighNode(currentNode->left);
@@ -504,30 +487,24 @@ public:
 			operator--();
 			return tmp;
 		};
-
 		bool operator==(const const_reverse_iterator &it) const { return this->_it == it._it; };
 		bool operator!=(const const_reverse_iterator &it) const { return this->_it != it._it; };
-
 		bool operator==(const reverse_iterator &it) const { return this->_it == it.getNode(); };
 		bool operator!=(const reverse_iterator &it) const { return this->_it != it.getNode(); };
 		reference operator*() const { return *(this->_it->content); }
 		pointer operator->() const { return this->it->content; }
-
 		_MapNode *getNode() const { return _it; }
-
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
 			if (currentNode->left)
 				return findLowNode(currentNode->left);
 			return currentNode;
 		}
-
 		_MapNode *findHighNode(_MapNode *currentNode) {
 			if (currentNode->right)
 				return findHighNode(currentNode->right);
 			return currentNode;
 		}
-
 		_MapNode *nextNode(_MapNode* currentNode) {
 			if (currentNode->right)
 				return findLowNode(currentNode->right);
@@ -541,7 +518,6 @@ public:
 					return currentNode->right;
 			return tmp->parent;
 		}
-
 		_MapNode *prevNode(_MapNode* currentNode) {
 			if (currentNode->left)
 				return findHighNode(currentNode->left);

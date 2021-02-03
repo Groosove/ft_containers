@@ -79,4 +79,7 @@ namespace ft {
 
 	template <class T, class Compare = std::less<T>, class Allocator = std::allocator<T > >
 	class set;
+
+	template <class T, class Alloc = std::allocator<T> >
+	class deque;
 }

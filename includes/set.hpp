@@ -668,23 +668,23 @@ public:
 	};
 	iterator 		lower_bound (const key_type& k) {
 		iterator it = begin();
-		for (iterator ite = end(); it != ite && _compare(it->first, k); ++it) NULL;
+		for (iterator ite = end(); it != ite && _compare(*it, k); ++it) NULL;
 		return it;
 	};
 	const_iterator	lower_bound (const key_type& k) const {
 		iterator it = begin();
-		for (iterator ite = end(); it != ite && _compare(it->first, k); ++it) NULL;
+		for (iterator ite = end(); it != ite && _compare(*it, k); ++it) NULL;
 		return it;
 	};
 	iterator 		upper_bound (const key_type& k) {
 		iterator it = lower_bound(k);
-		if (it != end() && !_compare(it->first, k) && !_compare(k, it->first))
+		if (it != end() && !_compare(*it, k) && !_compare(k, *it))
 			++it;
 		return it;
 	};
 	const_iterator	upper_bound (const key_type& k) const {
 		const_iterator it = lower_bound(k);
-		if (it != end() && !_compare(it->first, k) && !_compare(k, it->first))
+		if (it != end() && !_compare(*it, k) && !_compare(k, *it))
 			++it;
 		return it;
 	};
