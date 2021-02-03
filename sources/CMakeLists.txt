@@ -9,7 +9,8 @@ set(TEST_FILES
         vector.cpp
         stack.cpp
         queue.cpp
-        map.cpp)
+        map.cpp
+		set.cpp)
 
 add_executable(Google_Tests_run ${TEST_FILES})
 

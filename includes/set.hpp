@@ -7,17 +7,17 @@
 
 #include "ft.hpp"
 #include <set>
-template <class Key, class T, class Compare, class Alloc>
+template <class T, class Compare, class Alloc>
 class ft::set {
 public:
 	class iterator;
 	class const_iterator;
 	class reverse_iterator;
 	class const_reverse_iterator;
-	typedef Key											key_type;
-	typedef key_type 									value_type;
+	typedef T											key_type;
+	typedef key_type									value_type;
 	typedef Compare										key_compare;
-	typedef key_compare 								value_compare;
+	typedef key_compare									value_compare;
 	typedef Alloc										allocator_type;
 	typedef value_type &								reference;
 	typedef const value_type &							const_reference;
@@ -95,7 +95,7 @@ private:
 	}
 
 	std::pair<iterator, bool> _insertTree(_MapNode *node, const_reference val) {
-		int comp = _compare(val.first, node->content) + _compare(node->content, val.first) * 2;
+		int comp = _compare(val, *node->content) + _compare(*node->content, val) * 2;
 
 		if (comp == 0)
 			return std::make_pair(iterator(node), false);
@@ -182,7 +182,7 @@ private:
 	_MapNode *deleteNode(_MapNode *currentNode, const key_type& key) {
 		if (currentNode == nullptr)
 			return currentNode;
-		int comp = _compare(key, currentNode->content->first) + _compare(currentNode->content->first, key) * 2;
+		int comp = _compare(key, *currentNode->content) + _compare(*currentNode->content, key) * 2;
 		if (comp == 1) {
 			if (!isRed(currentNode->left) && !isRed(currentNode->left->left))
 				currentNode = rotateLeftRedNode(currentNode);
@@ -200,7 +200,7 @@ private:
 			}
 			if (!isRed(currentNode->right) && currentNode->right && !isRed(currentNode->right->left))
 				currentNode = rotateRightRedNode(currentNode);
-			if (!_compare(currentNode->content->first, key)) {
+			if (!_compare(*currentNode->content, key)) {
 				_MapNode *minNode = findLowNode(currentNode->right);
 				if (currentNode == _node)
 					_node = minNode;
@@ -609,7 +609,7 @@ public:
 		for (; first != last; ++first)
 			insert(*first);
 	};
-	void erase (iterator position) { erase(position->first); };
+	void erase (iterator position) { erase(*position); };
 	size_type erase (const key_type& k) {
 		if (_size == 0 || find(k) == end())
 			return 0;
@@ -650,7 +650,7 @@ public:
 	/* Operations */
 	iterator 		find (const key_type& k) {
 		for (iterator it = begin(), ite = end(); it != ite; ++it)
-			if (it->first == k)
+			if (*it == k)
 				return it;
 		return end();
 	};
