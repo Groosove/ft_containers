@@ -136,29 +136,12 @@ private:
 			left->parent = parent;
 	}
 
-	inline void linkLeftWithEnd(_MapNode *parent, _MapNode *leftNode) {
-	 	if (leftNode ? !(leftNode->content) : false) {
-	 		parent->left = leftNode;
-	 		leftNode->parent = parent;
-	 	}
-	 	else
-	 		linkLeft(parent, leftNode);
-	 };
-
-	inline void linkRightWithEnd(_MapNode *parent, _MapNode *rightNode) {
-		if (rightNode == _end_node) {
-			rightNode->right = parent;
-			parent->right = rightNode;
-		}
-		else
-			linkRight(parent, rightNode);
-	};
-
-	inline static void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
-	 	if (parent)
-			(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
-		else
+	inline void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
+	 	if (!parent) {
 			newNode->parent = nullptr;
+			return;
+		}
+	 	(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
 	};
 
 	_MapNode *rotateLeft(_MapNode* currentNode) {
@@ -188,22 +171,25 @@ private:
 		return leftNode;
 	}
 
+	inline static bool isEnd(_MapNode *node) { return (node) ? !(node->content) : false; }
+
 	inline void invertColor(_MapNode *currentNode) {
-		if (currentNode->right != _end_node)
+		if (currentNode->right != _end_node && currentNode->right)
 			currentNode->right->color = !currentNode->right->color;
-		if (currentNode->left != _begin_node)
+		if (currentNode->left != _begin_node && currentNode->left)
 			currentNode->left->color = !currentNode->left->color;
-		if (currentNode != _node)
+		if (currentNode != _node && currentNode)
 			currentNode->color = !currentNode->color;
 	}
 
-	void treeBalance(_MapNode* currentNode) {
+	_MapNode *treeBalance(_MapNode* currentNode) {
 		if (isRed(currentNode->right))
 			currentNode = rotateLeft(currentNode);
 		if (isRed(currentNode->left) && isRed(currentNode->left->left))
 			currentNode = rotateRight(currentNode);
 		if (isRed(currentNode->left) && isRed(currentNode->right))
 			invertColor(currentNode);
+		return currentNode;
 	}
 
 	_MapNode *deleteNode(_MapNode *currentNode, const key_type& key) {
@@ -213,40 +199,29 @@ private:
 		if (comp == 1) {
 			if (!isRed(currentNode->left) && !isRed(currentNode->left->left))
 				currentNode = rotateLeftRedNode(currentNode);
-			currentNode->left = deleteNode(currentNode->left, key);
-			if (currentNode->left)
-				currentNode->left->parent = currentNode;
+			linkLeft(currentNode, deleteNode(currentNode->left, key));
 		} else {
 			if (isRed(currentNode->left)) {
 				currentNode = rotateRight(currentNode);
-				currentNode->right = deleteNode(currentNode->right, key);
-				if (currentNode->right)
-					currentNode->right->parent = currentNode;
-				treeBalance(currentNode);
-				return currentNode;
+				linkRight(currentNode, deleteNode(currentNode->right, key));
+				return treeBalance(currentNode);
 			}
 			if (comp != 2 && (currentNode->right == nullptr || currentNode->right == _end_node)) {
-				_MapNode *tmp = (!currentNode->left && currentNode->right) ? currentNode->right : currentNode->left;
+				_MapNode *tmp = (!currentNode->left && currentNode->right == _end_node) ? currentNode->right : currentNode->left;
 				destroyNode(currentNode);
 				return tmp;
 			}
 			if (!isRed(currentNode->right) && currentNode->right && !isRed(currentNode->right->left))
 				currentNode = rotateRightRedNode(currentNode);
 			if (!_compare(currentNode->content->first, key)) {
-
 				_MapNode *minNode = findLowNode(currentNode->right);
 				if (currentNode == _node)
 					_node = minNode;
 				destroyNode(swapElemWithNewNode(currentNode, minNode));
 				currentNode = minNode;
-			} else {
-				currentNode->right = deleteNode(currentNode->right, key);
-				if (currentNode->right)
-					currentNode->right->parent = currentNode;
-			}
+			} else { linkRight(currentNode, deleteNode(currentNode->right, key)); }
 		}
-		treeBalance(currentNode);
-		return currentNode;
+		return treeBalance(currentNode);
 	}
 
 	_MapNode *swapElemWithNewNode(_MapNode *parent, _MapNode *newNode) {
@@ -254,7 +229,11 @@ private:
 			linkLeft(newNode->parent, newNode->right);
 			linkRight(newNode, parent->right);
 		}
-		linkLeftWithEnd(newNode, parent->left);
+		if (parent->left == _begin_node) {
+			parent->left->parent = newNode;
+			newNode->left = parent->left;
+		} else
+			linkLeft(newNode, parent->left);
 		linkParentWithNewNode(parent->parent, parent, newNode);
 		return parent;
 	}
@@ -278,8 +257,8 @@ private:
 	}
 
 	_MapNode *findLowNode(_MapNode *currentNode) {
-		while (currentNode->left)
-			currentNode = currentNode->left;
+		if (currentNode->left)
+			return findLowNode(currentNode->left);
 		return currentNode;
 	}
 
@@ -603,7 +582,7 @@ public:
 
 	/* Destructor */
 	~map() {
-//		clear();
+		clear();
 		_allocator_rebind.deallocate(_begin_node, 1);
 		_allocator_rebind.deallocate(_end_node, 1);
 	};
@@ -656,8 +635,8 @@ public:
 		return 1;
 	};
 	void erase (iterator first, iterator last) {
-		for (; first != last; ++first)
-			erase(last->first);
+		while (first != last)
+			erase(first++);
 	};
 
 	void swap (map& x) {
