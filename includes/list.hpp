@@ -231,7 +231,7 @@ public:
 	};
 
 	/* const_reverse_iterator */
-	class const_reverse_iterator: public ft::reverse_iterator<list::iterator> {
+	class const_reverse_iterator: public ft::reverse_iterator<list::const_iterator> {
 	private:
 		_List* _it;
 	public:

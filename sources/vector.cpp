@@ -249,19 +249,6 @@ std::vector<int>::const_reverse_iterator tmps;
 vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
 }
 
-/* THIS TEST NORMALLY SHOULD NOT COMPILE */
-/*TEST_F(VectorIteratorTest, IteratorConstReverseReverseTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-	ft::vector<int>::const_reverse_iterator itf =		f.rbegin();
-	ft::vector<int>::const_reverse_iterator itfe =	f.rend();
-	ft::vector<int>::reverse_iterator tmpf;
-	std::vector<int>::const_reverse_iterator its =	s.rbegin();
-	std::vector<int>::const_reverse_iterator itse =	s.rend();
-	std::vector<int>::reverse_iterator tmps;
-	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
-}*/
-
 class VectorClearTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {

@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <iostream>
 namespace ft {
 
 	template<bool B, class T = void>
@@ -82,4 +83,11 @@ namespace ft {
 
 	template <class T, class Alloc = std::allocator<T> >
 	class deque;
+	template <class T, class Alloc> bool operator==(const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs);
+	template <class T, class Alloc> bool operator!=(const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs);
+	template <class T, class Alloc> bool operator< (const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs);
+	template <class T, class Alloc> bool operator<=(const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs);
+	template <class T, class Alloc> bool operator> (const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs);
+	template <class T, class Alloc> bool operator>=(const ft::deque<T,Alloc>& lhs, const ft::deque<T,Alloc>& rhs);
+	template <class T, class Alloc> void swap (ft::deque<T,Alloc>& x, ft::deque<T,Alloc>& y);
 }
