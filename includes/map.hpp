@@ -135,7 +135,7 @@ private:
 			left->parent = parent;
 	}
 
-	inline void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
+	inline static void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
 	 	newNode->parent = nullptr;
 	 	if (parent)
 	 		(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
@@ -233,6 +233,7 @@ private:
 		linkParentWithNewNode(parent->parent, parent, newNode);
 		return parent;
 	}
+
 	_MapNode *rotateRightRedNode(_MapNode *currentNode) {
 		invertColor(currentNode);
 		if (currentNode->left && isRed(currentNode->left->left)) {
@@ -257,9 +258,7 @@ private:
 			return findLowNode(currentNode->left);
 		return currentNode;
 	}
-
 public:
-
 	/* iterator */
 	class iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
 	private:
@@ -669,15 +668,11 @@ public:
 	};
 	iterator 		upper_bound (const key_type& k) {
 		iterator it = lower_bound(k);
-		if (it != end() && !_compare(it->first, k) && !_compare(k, it->first))
-			++it;
-		return it;
+		return (it != end() && !_compare(it->first, k) && !_compare(k, it->first)) ? ++it : it;
 	};
 	const_iterator	upper_bound (const key_type& k) const {
 		const_iterator it = lower_bound(k);
-		if (it != end() && !_compare(it->first, k) && !_compare(k, it->first))
-			++it;
-		return it;
+		return (it != end() && !_compare(it->first, k) && !_compare(k, it->first)) ? ++it : it;
 	};
 	std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const	{ return std::make_pair(lower_bound(k), upper_bound(k)); };
 	std::pair<iterator,iterator>             equal_range (const key_type& k) 		{ return std::make_pair(lower_bound(k), upper_bound(k)); };

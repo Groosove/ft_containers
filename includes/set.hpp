@@ -22,9 +22,7 @@ public:
 	typedef value_type &								reference;
 	typedef const value_type &							const_reference;
 	typedef value_type *								pointer;
-	typedef const value_type *							const_pointer;
 	typedef size_t 										size_type;
-	typedef ptrdiff_t 									difference_type;
 
 private:
 	const static bool black = false;
@@ -126,11 +124,10 @@ private:
 	}
 
 	inline void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
-		if (!parent) {
+		if (parent)
+			(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
+		else
 			newNode->parent = nullptr;
-			return;
-		}
-		(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
 	};
 
 	_MapNode *rotateLeft(_MapNode* currentNode) {
@@ -155,6 +152,7 @@ private:
 		linkRight(leftNode, currentNode);
 		if (currentNode == _node)
 			_node = leftNode;
+
 		leftNode->color = currentNode->color;
 		currentNode->color = red;
 		return leftNode;
@@ -250,7 +248,6 @@ private:
 	}
 
 public:
-
 	/* iterator */
 	class iterator : public std::iterator<std::bidirectional_iterator_tag, value_type> {
 	private:
@@ -277,27 +274,22 @@ public:
 		};
 		bool operator==(const iterator &it) const { return this->_it == it._it; };
 		bool operator!=(const iterator &it) const { return this->_it != it._it; };
-
 		bool operator==(const const_iterator &it) const { return this->_it == it.getNode(); };
 		bool operator!=(const const_iterator &it) const { return this->_it != it.getNode(); };
 		reference operator*() const { return *(this->_it->content); }
 		pointer operator->() const { return this->_it->content; }
-
 		_MapNode *getNode() const { return _it; }
-
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
 			if (currentNode->left)
 				return findLowNode(currentNode->left);
 			return currentNode;
 		}
-
 		_MapNode *findHighNode(_MapNode *currentNode) {
 			if (currentNode->right)
 				return findHighNode(currentNode->right);
 			return currentNode;
 		}
-
 		_MapNode *nextNode(_MapNode* currentNode) {
 			if (currentNode->right)
 				return findLowNode(currentNode->right);
@@ -306,13 +298,11 @@ public:
 			else if (currentNode->parent->right == currentNode)
 				currentNode = currentNode->parent;
 			_MapNode *tmp = currentNode;
-
 			while (tmp->parent->right == tmp)
 				if ((tmp = tmp->parent) == nullptr)
 					return currentNode->right;
 			return tmp->parent;
 		}
-
 		_MapNode *prevNode(_MapNode* currentNode) {
 			if (currentNode->left)
 				return findHighNode(currentNode->left);
@@ -351,12 +341,10 @@ public:
 		};
 		bool operator==(const const_iterator &it) const { return this->_it == it._it; };
 		bool operator!=(const const_iterator &it) const { return this->_it != it._it; };
-
 		bool operator==(const iterator &it) const { return this->_it == it.getNode(); };
 		bool operator!=(const iterator &it) const { return this->_it != it.getNode(); };
 		value_type & operator*() const { return *(this->_it->content); };
 		value_type * operator->() const { return this->_it->content; }
-
 		_MapNode *getNode() const { return _it; }
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
@@ -364,13 +352,11 @@ public:
 				return findLowNode(currentNode->left);
 			return currentNode;
 		}
-
 		_MapNode *findHighNode(_MapNode *currentNode) {
 			if (currentNode->right)
 				return findHighNode(currentNode->right);
 			return currentNode;
 		}
-
 		_MapNode *nextNode(_MapNode* currentNode) {
 			if (currentNode->right)
 				return findLowNode(currentNode->right);
@@ -384,7 +370,6 @@ public:
 					return currentNode->right;
 			return tmp->parent;
 		}
-
 		_MapNode *prevNode(_MapNode* currentNode) {
 			if (currentNode->left)
 				return findHighNode(currentNode->left);
@@ -419,15 +404,12 @@ public:
 			operator--();
 			return tmp;
 		};
-
 		bool operator==(const reverse_iterator &it) const { return this->_it == it._it; };
 		bool operator!=(const reverse_iterator &it) const { return this->_it != it._it; };
-
 		bool operator==(const const_reverse_iterator &it) const { return this->_it == it.getNode(); };
 		bool operator!=(const const_reverse_iterator &it) const { return this->_it != it.getNode(); };
 		value_type & operator*() const { return *(this->_it->content); };
 		value_type * operator->() const { return this->_it->content; }
-
 		_MapNode *getNode() const { return _it; }
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
@@ -435,13 +417,11 @@ public:
 				return findLowNode(currentNode->left);
 			return currentNode;
 		}
-
 		_MapNode *findHighNode(_MapNode *currentNode) {
 			if (currentNode->right)
 				return findHighNode(currentNode->right);
 			return currentNode;
 		}
-
 		_MapNode *nextNode(_MapNode* currentNode) {
 			if (currentNode->right)
 				return findLowNode(currentNode->right);
@@ -455,7 +435,6 @@ public:
 					return currentNode->right;
 			return tmp->parent;
 		}
-
 		_MapNode *prevNode(_MapNode* currentNode) {
 			if (currentNode->left)
 				return findHighNode(currentNode->left);
@@ -492,7 +471,6 @@ public:
 			operator--();
 			return tmp;
 		};
-
 		bool operator==(const const_reverse_iterator &it) const { return this->_it == it._it; };
 		bool operator!=(const const_reverse_iterator &it) const { return this->_it != it._it; };
 
@@ -500,22 +478,18 @@ public:
 		bool operator!=(const reverse_iterator &it) const { return this->_it != it.getNode(); };
 		reference operator*() const { return *(this->_it->content); }
 		pointer operator->() const { return this->it->content; }
-
 		_MapNode *getNode() const { return _it; }
-
 	private:
 		_MapNode *findLowNode(_MapNode *currentNode) {
 			if (currentNode->left)
 				return findLowNode(currentNode->left);
 			return currentNode;
 		}
-
 		_MapNode *findHighNode(_MapNode *currentNode) {
 			if (currentNode->right)
 				return findHighNode(currentNode->right);
 			return currentNode;
 		}
-
 		_MapNode *nextNode(_MapNode* currentNode) {
 			if (currentNode->right)
 				return findLowNode(currentNode->right);
@@ -678,15 +652,11 @@ public:
 	};
 	iterator 		upper_bound (const key_type& k) {
 		iterator it = lower_bound(k);
-		if (it != end() && !_compare(*it, k) && !_compare(k, *it))
-			++it;
-		return it;
+		return (it != end() && !_compare(*it, k) && !_compare(k, *it)) ? ++it : it;
 	};
 	const_iterator	upper_bound (const key_type& k) const {
 		const_iterator it = lower_bound(k);
-		if (it != end() && !_compare(*it, k) && !_compare(k, *it))
-			++it;
-		return it;
+		return (it != end() && !_compare(*it, k) && !_compare(k, *it)) ? ++it : it;
 	};
 	std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const	{ return std::make_pair(lower_bound(k), upper_bound(k)); };
 	std::pair<iterator,iterator>             equal_range (const key_type& k) 		{ return std::make_pair(lower_bound(k), upper_bound(k)); };

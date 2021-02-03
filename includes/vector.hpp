@@ -25,7 +25,7 @@ public:
 
 private:
 	pointer 		_arr;
-	allocator_type _alloc;
+	allocator_type	_alloc;
 	size_type 		_size;
 	size_type 		_capacity;
 
@@ -59,10 +59,8 @@ public:
 	template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 			typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
 		: _arr(nullptr), _alloc(alloc), _size(0), _capacity(0) {
-		while (first != last) {
+		for (; first != last; ++first)
 			push_back(*first);
-			first++;
-		}
 	};
 
 	/* copy construct */
@@ -77,7 +75,6 @@ public:
 		clear();
 		if (_capacity)
 			_alloc.deallocate(_arr, _capacity);
-		_capacity = 0;
 	};
 
 	/* Assignation operator */
@@ -176,7 +173,7 @@ public:
 		difference_type operator-(iterator it) const { return _it - it._it; }
 		const_reference operator[](const_reference ref) { return _it[ref]; };
 		const_reference operator*() { return *this->_it; }
-		pointer operator->() { return this->_it; }
+		const_pointer operator->() { return this->_it; }
 
 		bool operator==(iterator const &other) const { return _it == other.getElem(); };
 		bool operator!=(iterator const &other) const { return _it != other.getElem(); };
@@ -191,7 +188,7 @@ public:
 		bool operator>=(const const_iterator &other) const { return _it >= other.getElem(); };
 		bool operator<(const const_iterator &other) const { return _it < other.getElem(); };
 		bool operator>(const const_iterator &other) const { return _it > other.getElem(); };
-		pointer getElem() const { return this->_it; }
+		const_pointer getElem() const { return this->_it; }
 	};
 
 	/* reverse iterator */
@@ -282,8 +279,8 @@ public:
 		const_reverse_iterator &operator+=(difference_type val) { _it -= val; return *this; };
 		const_reverse_iterator &operator-=(difference_type val) { _it += val; return *this; };
 		const_reference operator[](const_reference ref) { return *(_it - ref); };
-		reference operator*() { return *this->_it; }
-		pointer operator->() { return this->_it; }
+		const_reference operator*() { return *this->_it; }
+		const_pointer operator->() { return this->_it; }
 
 		bool operator==(const reverse_iterator &other) const { return _it == other.getElem(); };
 		bool operator!=(const reverse_iterator &other) const { return _it != other.getElem(); };
@@ -298,7 +295,7 @@ public:
 		bool operator>=(const const_reverse_iterator &other) const { return _it <= other.getElem(); };
 		bool operator<(const const_reverse_iterator &other) const { return _it > other.getElem(); };
 		bool operator>(const const_reverse_iterator &other) const { return _it < other.getElem(); };
-		pointer getElem() const { return this->_it; }
+		const_pointer getElem() const { return this->_it; }
 	};
 
 	/* iterators */
@@ -316,10 +313,8 @@ public:
 	size_type 	size() const { return _size; };
 	size_type 	max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_arr[0]); };
 	void 		resize (size_type n, value_type val = value_type()) {
-		for (; this->_size > n; )
-			pop_back();
-		for (; this->_size < n ; )
-			push_back(val);
+		while (this->_size != n)
+			(_size > n) ? pop_back() : push_back(val);
 	};
 	size_type 	capacity() const { return _capacity; };
 	bool 		empty() const { return _size == 0; };
@@ -368,21 +363,17 @@ public:
 	};
 	void push_back (const value_type& val) {
 		if (_capacity == 0) {
-			_capacity = 1;
 			_size = 1;
+			_capacity = 1;
 			_arr = createVector(val);
-		}
-		else {
+		} else {
 			if (_size == _capacity)
 				reallocVector();
 			_alloc.construct(_arr + _size, val);
 			++_size;
 		}
 	};
-	void pop_back() {
-		_alloc.destroy(_arr + _size - 1);
-		--_size;
-	};
+	void pop_back() { _alloc.destroy(_arr + --_size); };
 	iterator insert (iterator position, const value_type& val) {
 		pointer pos = position.getElem();
 		if (_size + 1  > _capacity)
