@@ -14,10 +14,10 @@ void	checkIfVectorsAreEqual(ft::deque<T> & f, std::deque<T> & s) {
 	EXPECT_EQ(f.size(), s.size());
 	EXPECT_EQ(f.empty(), s.empty());
 
-	typename  ft::vector<T>::iterator itF = f.begin();
-	typename  ft::vector<T>::iterator itFe = f.end();
-	typename std::vector<T>::iterator itS = s.begin();
-	typename std::vector<T>::iterator itSe = s.end();
+	typename  ft::deque<T>::iterator itF = f.begin();
+	typename  ft::deque<T>::iterator itFe = f.end();
+	typename std::deque<T>::iterator itS = s.begin();
+	typename std::deque<T>::iterator itSe = s.end();
 
 	for (; itS != itSe; ) {
 		EXPECT_EQ(*itS++, *itF++);
@@ -31,47 +31,47 @@ protected:
 };
 
 TEST_F(DequeConstructorTest, defaultConstructor) {
-	ft::vector<int> f;
-	std::vector<int> s;
+	ft::deque<int> f;
+	std::deque<int> s;
 	checkIfVectorsAreEqual(f, s);
 }
 
 TEST_F(DequeConstructorTest, valueConstructor1) {
-	ft::vector<int> f(60);
-	std::vector<int> s(60);
+	ft::deque<int> f(60);
+	std::deque<int> s(60);
 	checkIfVectorsAreEqual(f, s);
-	ft::vector<std::string> f1(60);
-	std::vector<std::string> s1(60);
+	ft::deque<std::string> f1(60);
+	std::deque<std::string> s1(60);
 	checkIfVectorsAreEqual(f1, s1);
 }
 
 TEST_F(DequeConstructorTest, valueConstructor2) {
-	ft::vector<int> f(60,5);
-	std::vector<int> s(60, 5);
+	ft::deque<int> f(60,5);
+	std::deque<int> s(60, 5);
 	checkIfVectorsAreEqual(f, s);
-	ft::vector<std::string> f1(60, "Hello World!");
-	std::vector<std::string> s1(60, "Hello World!");
+	ft::deque<std::string> f1(60, "Hello World!");
+	std::deque<std::string> s1(60, "Hello World!");
 	checkIfVectorsAreEqual(f1, s1);
 }
 
 TEST_F(DequeConstructorTest, rangeConstructor) {
-	std::vector<int> sample;
+	std::deque<int> sample;
 	sample.push_back(54);
 	sample.push_back(42);
 	sample.push_back(21);
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 	checkIfVectorsAreEqual(f, s);
 }
 
 TEST_F(DequeConstructorTest, copyConstructor) {
-	ft::vector<std::string> f1(60, "Hello World!");
-	std::vector<std::string> s1(60, "Hello World!");
-	ft::vector<std::string> f2(f1);
-	std::vector<std::string> s2(s1);
+	ft::deque<std::string> f1(60, "Hello World!");
+	std::deque<std::string> s1(60, "Hello World!");
+	ft::deque<std::string> f2(f1);
+	std::deque<std::string> s2(s1);
 	checkIfVectorsAreEqual(f2, s2);
-	ft::vector<std::string> f3 = f2;
-	std::vector<std::string> s3 = s2;
+	ft::deque<std::string> f3 = f2;
+	std::deque<std::string> s3 = s2;
 	checkIfVectorsAreEqual(f3, s3);
 }
 
@@ -159,126 +159,121 @@ protected:
 		sample.push_back(66);
 
 	}
-	std::vector<int> sample;
+	std::deque<int> sample;
 };
 
 TEST_F(DequeIteratorTest, IteratorInputInputTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
-	ft::vector<int>::iterator itf =		f.begin();
-	ft::vector<int>::iterator itfe =	f.end();
-	ft::vector<int>::iterator tmpf;
+	ft::deque<int>::iterator itf =		f.begin();
+	ft::deque<int>::iterator itfe =	f.end();
+	ft::deque<int>::iterator tmpf;
 
-	std::vector<int>::iterator its =	s.begin();
-	std::vector<int>::iterator itse =	s.end();
-	std::vector<int>::iterator tmps;
+	std::deque<int>::iterator its =	s.begin();
+	std::deque<int>::iterator itse =	s.end();
+	std::deque<int>::iterator tmps;
 
 	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
 }
 
 TEST_F(DequeIteratorTest, IteratorInputConstInputTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
-	ft::vector<int>::iterator itf =		f.begin();
-	ft::vector<int>::iterator itfe =	f.end();
-	ft::vector<int>::const_iterator tmpf;
+	ft::deque<int>::iterator itf =		f.begin();
+	ft::deque<int>::iterator itfe =	f.end();
+	ft::deque<int>::const_iterator tmpf;
 
-	std::vector<int>::iterator its =	s.begin();
-	std::vector<int>::iterator itse =	s.end();
-	std::vector<int>::const_iterator tmps;
-
-	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
-}
-
-TEST_F(VectorIteratorTest, IteratorConstInputConstInputTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	ft::vector<int>::const_iterator itf = f.begin();
-	ft::vector<int>::const_iterator itfe =	f.end();
-	ft::vector<int>::const_iterator tmpf;
-
-	std::vector<int>::const_iterator its =	s.begin();
-	std::vector<int>::const_iterator itse =	s.end();
-	std::vector<int>::const_iterator tmps;
+	std::deque<int>::iterator its =	s.begin();
+	std::deque<int>::iterator itse =	s.end();
+	std::deque<int>::const_iterator tmps;
 
 	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
 }
 
-TEST_F(VectorIteratorTest, IteratorReverseReverseTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeIteratorTest, IteratorConstInputConstInputTest) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
-	ft::vector<int>::reverse_iterator itf =		f.rbegin();
-	ft::vector<int>::reverse_iterator itfe =	f.rend();
-	ft::vector<int>::reverse_iterator tmpf;
+	ft::deque<int>::const_iterator itf = f.begin();
+	ft::deque<int>::const_iterator itfe =	f.end();
+	ft::deque<int>::const_iterator tmpf;
 
-	std::vector<int>::reverse_iterator its =	s.rbegin();
-	std::vector<int>::reverse_iterator itse =	s.rend();
-	std::vector<int>::reverse_iterator tmps;
-
-	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
-}
-
-TEST_F(VectorIteratorTest, IteratorReverseConstReverseTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	ft::vector<int>::reverse_iterator itf =		f.rbegin();
-	ft::vector<int>::reverse_iterator itfe =	f.rend();
-	ft::vector<int>::const_reverse_iterator tmpf;
-
-	std::vector<int>::reverse_iterator its =	s.rbegin();
-	std::vector<int>::reverse_iterator itse =	s.rend();
-	std::vector<int>::const_reverse_iterator tmps;
+	std::deque<int>::const_iterator its =	s.begin();
+	std::deque<int>::const_iterator itse =	s.end();
+	std::deque<int>::const_iterator tmps;
 
 	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
 }
 
-TEST_F(VectorIteratorTest, IteratorConstReverseConstReverseTest) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeIteratorTest, IteratorReverseReverseTest) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
-	ft::vector<int>::const_reverse_iterator itf =		f.rbegin();
-	ft::vector<int>::const_reverse_iterator itfe =	f.rend();
-	ft::vector<int>::const_reverse_iterator tmpf;
+	ft::deque<int>::reverse_iterator itf =		f.rbegin();
+	ft::deque<int>::reverse_iterator itfe =	f.rend();
+	ft::deque<int>::reverse_iterator tmpf;
 
-	std::vector<int>::const_reverse_iterator its =	s.rbegin();
-	std::vector<int>::const_reverse_iterator itse =	s.rend();
-	std::vector<int>::const_reverse_iterator tmps;
+	std::deque<int>::reverse_iterator its =	s.rbegin();
+	std::deque<int>::reverse_iterator itse =	s.rend();
+	std::deque<int>::reverse_iterator tmps;
 
 	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
 }
 
-class VectorClearTest : public ::testing::Test {
+TEST_F(DequeIteratorTest, IteratorReverseConstReverseTest) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
+
+	ft::deque<int>::reverse_iterator itf =		f.rbegin();
+	ft::deque<int>::reverse_iterator itfe =	f.rend();
+	ft::deque<int>::const_reverse_iterator tmpf;
+
+	std::deque<int>::reverse_iterator its =	s.rbegin();
+	std::deque<int>::reverse_iterator itse =	s.rend();
+	std::deque<int>::const_reverse_iterator tmps;
+
+	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
+}
+
+TEST_F(DequeIteratorTest, IteratorConstReverseConstReverseTest) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
+
+	ft::deque<int>::const_reverse_iterator itf =		f.rbegin();
+	ft::deque<int>::const_reverse_iterator itfe =	f.rend();
+	ft::deque<int>::const_reverse_iterator tmpf;
+
+	std::deque<int>::const_reverse_iterator its =	s.rbegin();
+	std::deque<int>::const_reverse_iterator itse =	s.rend();
+	std::deque<int>::const_reverse_iterator tmps;
+
+	vectorIteratorTest(itf, itfe, tmpf, its, itse, tmps);
+}
+
+class DequeClearTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
 			sample.push_back(i);
 		}
 	}
-	std::vector<int> sample;
+	std::deque<int> sample;
 };
 
-TEST_F(VectorClearTest, capacityRemainsTheSame) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	size_t caps = s.capacity();
-	size_t capf = f.capacity();
+TEST_F(DequeClearTest, capacityRemainsTheSame) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
 	s.clear();
 	f.clear();
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity()) << "capacity should remain the same after clear";
 	EXPECT_EQ(0, f.size());
 	EXPECT_EQ(0, s.size());
 }
 
-class VectorAssignationTest : public ::testing::Test {
+class DequeAssignationTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		sample.push_back(54);
@@ -291,45 +286,41 @@ protected:
 	std::vector<int> sample;
 };
 
-TEST_F(VectorAssignationTest, emptyAssign) {
-	std::vector<int> s;
-	std::vector<int> s1;
-	ft::vector<int> f;
-	ft::vector<int> f1;
+TEST_F(DequeAssignationTest, emptyAssign) {
+	std::deque<int> s;
+	std::deque<int> s1;
+	ft::deque<int> f;
+	ft::deque<int> f1;
 
 	s = s1;
 	f = f1;
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorAssignationTest, nonEmptyAssign) {
-	std::vector<int> s(sample.begin(), sample.end());
-	std::vector<int> s1;
-	ft::vector<int> f(sample.begin(), sample.end());
-	ft::vector<int> f1;
+TEST_F(DequeAssignationTest, nonEmptyAssign) {
+	std::deque<int> s(sample.begin(), sample.end());
+	std::deque<int> s1;
+	ft::deque<int> f(sample.begin(), sample.end());
+	ft::deque<int> f1;
 
 	s = s1;
 	f = f1;
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorAssignationTest, nonEmptyAssignCapacityCheck) {
-	std::vector<int> s(sample.begin(), sample.end());
-	std::vector<int> s1;
-	ft::vector<int> f(sample.begin(), sample.end());
-	ft::vector<int> f1;
-
-	s1.reserve(30);
-	f1.reserve(30);
+TEST_F(DequeAssignationTest, nonEmptyAssignCapacityCheck) {
+	std::deque<int> s(sample.begin(), sample.end());
+	std::deque<int> s1;
+	ft::deque<int> f(sample.begin(), sample.end());
+	ft::deque<int> f1;
 
 	s1 = s;
 	f1 = f;
-	EXPECT_EQ(s1.capacity(), 30);
-	EXPECT_EQ(f1.capacity(), 30) << "Capacity should not be changed if you're assigning a smaller vector";
 	checkIfVectorsAreEqual(f, s);
 }
 
-class VectorAccessTest : public ::testing::Test {
+
+class DequeAccessTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
@@ -339,18 +330,18 @@ protected:
 	std::vector<int> sample;
 };
 
-TEST_F(VectorAccessTest, operatorBrackets) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeAccessTest, operatorBrackets) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
 	for (size_t i = 0; i < 10; ++i) {
 		EXPECT_EQ(f[i], s[i]) << "operator[] fails on " << i << " iteration";
 	}
 }
 
-TEST_F(VectorAccessTest, at) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeAccessTest, at) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 	int nouse = 0;
 
 	for (size_t i = 0; i < 10; ++i) {
@@ -360,67 +351,33 @@ TEST_F(VectorAccessTest, at) {
 	EXPECT_THROW(nouse += f.at(10), std::out_of_range) << "at() does not throw std::out_of_range";
 }
 
-TEST_F(VectorAccessTest, frontBack) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeAccessTest, frontBack) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
 	EXPECT_EQ(s.front(), f.front());
 	EXPECT_EQ(s.back(), f.back());
 }
 
-class VectorReserveTest : public ::testing::Test {
+class DequeInsertIntTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
 			sample.push_back(i);
 		}
 	}
-	std::vector<int> sample;
+	std::deque<int> sample;
+	ft::deque<int>::iterator itf;
+	ft::deque<int>::iterator itfe;
+	ft::deque<int>::iterator itfret;
+	std::deque<int>::iterator its;
+	std::deque<int>::iterator itse;
+	std::deque<int>::iterator itsret;
 };
 
-TEST_F(VectorReserveTest, reserveEmpty) {
-	std::vector<int> s;
-	ft::vector<int> f;
-	std::vector<int> s1(sample.begin(), sample.end());
-	ft::vector<int> f1(sample.begin(), sample.end());
-
-	s.reserve(10);
-	f.reserve(10);
-	EXPECT_GE(s.capacity(), 10);
-	EXPECT_GE(f.capacity(), 10);
-	s1.reserve(11);
-	f1.reserve(11);
-	EXPECT_GE(s1.capacity(), 11);
-	EXPECT_GE(f1.capacity(), 11);
-	checkIfVectorsAreEqual(f1, s1);
-	f1.reserve(200000);
-	s1.reserve(200000);
-	EXPECT_GE(s1.capacity(), 200000);
-	EXPECT_GE(f1.capacity(), 200000);
-	checkIfVectorsAreEqual(f1, s1);
-	EXPECT_THROW(f1.reserve(f1.max_size() + 1), std::length_error);
-	EXPECT_THROW(s1.reserve(s1.max_size() + 1), std::length_error);
-}
-
-class VectorInsertIntTest : public ::testing::Test {
-protected:
-	virtual void SetUp() {
-		for (int i = 0; i < 10; ++i) {
-			sample.push_back(i);
-		}
-	}
-	std::vector<int> sample;
-	ft::vector<int>::iterator itf;
-	ft::vector<int>::iterator itfe;
-	ft::vector<int>::iterator itfret;
-	std::vector<int>::iterator its;
-	std::vector<int>::iterator itse;
-	std::vector<int>::iterator itsret;
-};
-
-TEST_F(VectorInsertIntTest, insertIntInPosition1) { // insert into begin with reallocation
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntInPosition1) { // insert into begin with reallocation
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itfret = f.insert(f.begin(), 42);
 	itsret = s.insert(s.begin(), 42);
@@ -429,29 +386,9 @@ TEST_F(VectorInsertIntTest, insertIntInPosition1) { // insert into begin with re
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorInsertIntTest, insertIntInPosition2) { // insert into begin without reallocation
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	s.reserve(30);
-
-	itf = f.begin(); itfe = f.end();
-	its = s.begin(); itse = s.end();
-
-	itfret = f.insert(itf, 42);
-	itsret = s.insert(its, 42);
-	checkIfVectorsAreEqual(f, s);
-	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
-	checkVectorsAreEqualIt(itf, f.end(), its, s.end());
-}
-
-TEST_F(VectorInsertIntTest, insertIntInPosition3) { // insert into mid with reallocation
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-//	itf = f.begin(); itfe = f.end();
-//	its = s.begin(); itse = s.end();
+TEST_F(DequeInsertIntTest, insertIntInPosition3) { // insert into mid with reallocation
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itfret = f.insert(++++f.begin(), 42);
 	itsret = s.insert(++++s.begin(), 42);
@@ -459,26 +396,9 @@ TEST_F(VectorInsertIntTest, insertIntInPosition3) { // insert into mid with real
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorInsertIntTest, insertIntInPosition4) { // insert into mid without reallocation
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	s.reserve(30);
-
-	itf = ++f.begin(); itfe = f.end();
-	its = ++s.begin(); itse = s.end();
-
-	itfret = f.insert(++++f.begin(), 42);
-	itsret = s.insert(++++s.begin(), 42);
-	checkIfVectorsAreEqual(f, s);
-	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
-	checkVectorsAreEqualIt(itf, f.end(), its, s.end()); // itf and its should remain valid
-}
-
-TEST_F(VectorInsertIntTest, insertIntInPosition5) { // insert into end with reallocation
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntInPosition5) { // insert into end with reallocation
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 //	itf = --f.end(); itfe = f.end();
 //	its = --s.end(); itse = s.end();
@@ -489,49 +409,9 @@ TEST_F(VectorInsertIntTest, insertIntInPosition5) { // insert into end with real
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorInsertIntTest, insertIntInPosition6) { // insert into end without reallocation
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	s.reserve(30);
-
-	itf = --f.end(); itfe = f.end();
-	its = --s.end(); itse = s.end();
-
-	itfret = f.insert(f.end(), 42);
-	itsret = s.insert(s.end(), 42);
-	checkIfVectorsAreEqual(f, s);
-	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
-	checkVectorsAreEqualIt(itf, f.end(), its, s.end()); // itf and its should remain valid
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN1) {	// insert into begin with reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.insert(f.begin(), 5, 42);
-	s.insert(s.begin(), 5,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN2) {	// insert into begin without reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), 5, 42);
-	s.insert(s.begin(), 5,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN3) {	// insert into begin with reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntRangeN4) {	// insert into begin without reallocation, greater then size
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	f.insert(f.begin(), 15, 42);
 	s.insert(s.begin(), 15,42);
@@ -539,91 +419,9 @@ TEST_F(VectorInsertIntTest, insertIntRangeN3) {	// insert into begin with reallo
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertIntTest, insertIntRangeN4) {	// insert into begin without reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), 15, 42);
-	s.insert(s.begin(), 15,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN5) {	// insert into mid with reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.insert(++++f.begin(), 5, 42);
-	s.insert(++++s.begin(), 5,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN6) {	// insert into mid without reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), 5, 42);
-	s.insert(++++s.begin(), 5,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN7) {	// insert into mid n with reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.insert(++++f.begin(), 15, 42);
-	s.insert(++++s.begin(), 15,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN8) {	// insert into mid without reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), 15, 42);
-	s.insert(++++s.begin(), 15,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN9) {	// insert into end with reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.insert(f.end(), 5, 42);
-	s.insert(s.end(), 5,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN10) {	// insert into end without reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), 5, 42);
-	s.insert(s.end(), 5,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeN11) {	// insert into end with reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntRangeN11) {	// insert into end with reallocation, greater then size
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	f.insert(f.end(), 15, 42);
 	s.insert(s.end(), 15,42);
@@ -631,22 +429,9 @@ TEST_F(VectorInsertIntTest, insertIntRangeN11) {	// insert into end with realloc
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertIntTest, insertIntRangeN12) {	// insert into end without reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), 15, 42);
-	s.insert(s.end(), 15,42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntRangeNMultiReallocation) {
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntRangeNMultiReallocation) {
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	f.insert(f.end(), 15000, 42);
 	s.insert(s.end(), 15000,42);
@@ -654,9 +439,9 @@ TEST_F(VectorInsertIntTest, insertIntRangeNMultiReallocation) {
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertIntTest, insertIntIterator1) {	// insert into begin with reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntIterator1) {	// insert into begin with reallocation, less then size
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	f.insert(f.begin(), sample.begin(), ++++++sample.begin());
 	s.insert(s.begin(), sample.begin(), ++++++sample.begin());
@@ -664,45 +449,10 @@ TEST_F(VectorInsertIntTest, insertIntIterator1) {	// insert into begin with real
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertIntTest, insertIntIterator2) {	// insert into begin without reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
 
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator3) {	// insert into begin with reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.insert(f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator4) {	// insert into begin without reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator5) {	// insert into mid with reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntIterator5) {	// insert into mid with reallocation, less then size
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
 	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
@@ -710,45 +460,10 @@ TEST_F(VectorInsertIntTest, insertIntIterator5) {	// insert into mid with reallo
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertIntTest, insertIntIterator6) {	// insert into mid without reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
 
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator7) {	// insert into mid n with reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator8) {	// insert into mid without reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator9) {	// insert into end with reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeInsertIntTest, insertIntIterator9) {	// insert into end with reallocation, less then size
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	f.insert(f.end(), sample.begin(), ++++sample.begin());
 	s.insert(s.end(), sample.begin(), ++++sample.begin());
@@ -756,74 +471,25 @@ TEST_F(VectorInsertIntTest, insertIntIterator9) {	// insert into end with reallo
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertIntTest, insertIntIterator10) {	// insert into end without reallocation, less then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), sample.begin(), ++++sample.begin());
-	s.insert(s.end(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator11) {	// insert into end with reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.insert(f.end(), sample.begin(), ++++sample.begin());
-	s.insert(s.end(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIterator12) {	// insert into end without reallocation, greater then size
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), sample.begin(), ++++sample.begin());
-	s.insert(s.end(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertIntTest, insertIntIteratorMultiReallocation) {
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-	for (int i = 0; i < 15000; ++i) {
-		sample.push_back(i * rand());
-	}
-
-	f.insert(f.end(), sample.begin(), sample.end());
-	s.insert(s.end(), sample.begin(), sample.end());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-class VectorInsertStrTest : public ::testing::Test {
+class DequeInsertStrTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
 			sample.push_back(std::to_string(i));
 		}
 	}
-	std::vector<std::string> sample;
-	ft::vector<std::string>::iterator itf;
-	ft::vector<std::string>::iterator itfe;
-	ft::vector<std::string>::iterator itfret;
-	std::vector<std::string>::iterator its;
-	std::vector<std::string>::iterator itse;
-	std::vector<std::string>::iterator itsret;
+	std::deque<std::string> sample;
+	ft::deque<std::string>::iterator itf;
+	ft::deque<std::string>::iterator itfe;
+	ft::deque<std::string>::iterator itfret;
+	std::deque<std::string>::iterator its;
+	std::deque<std::string>::iterator itse;
+	std::deque<std::string>::iterator itsret;
 };
 
-TEST_F(VectorInsertStrTest, insertIntInPosition1) { // insert into begin with reallocation
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntInPosition1) { // insert into begin with reallocation
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	itfret = f.insert(f.begin(), std::to_string(42));
 	itsret = s.insert(s.begin(), std::to_string(42));
@@ -832,26 +498,10 @@ TEST_F(VectorInsertStrTest, insertIntInPosition1) { // insert into begin with re
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorInsertStrTest, insertIntInPosition2) { // insert into begin without reallocation
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
 
-	f.reserve(30);
-	s.reserve(30);
-
-	itf = f.begin(); itfe = f.end();
-	its = s.begin(); itse = s.end();
-
-	itfret = f.insert(itf, std::to_string(42));
-	itsret = s.insert(its, std::to_string(42));
-	checkIfVectorsAreEqual(f, s);
-	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
-	checkVectorsAreEqualIt(itf, f.end(), its, s.end());
-}
-
-TEST_F(VectorInsertStrTest, insertIntInPosition3) { // insert into mid with reallocation
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntInPosition3) { // insert into mid with reallocation
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 //	itf = f.begin(); itfe = f.end();
 //	its = s.begin(); itse = s.end();
@@ -862,26 +512,10 @@ TEST_F(VectorInsertStrTest, insertIntInPosition3) { // insert into mid with real
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorInsertStrTest, insertIntInPosition4) { // insert into mid without reallocation
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
 
-	f.reserve(30);
-	s.reserve(30);
-
-	itf = ++f.begin(); itfe = f.end();
-	its = ++s.begin(); itse = s.end();
-
-	itfret = f.insert(++++f.begin(), std::to_string(42));
-	itsret = s.insert(++++s.begin(), std::to_string(42));
-	checkIfVectorsAreEqual(f, s);
-	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
-	checkVectorsAreEqualIt(itf, f.end(), its, s.end()); // itf and its should remain valid
-}
-
-TEST_F(VectorInsertStrTest, insertIntInPosition5) { // insert into end with reallocation
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntInPosition5) { // insert into end with reallocation
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 //	itf = --f.end(); itfe = f.end();
 //	its = --s.end(); itse = s.end();
@@ -892,49 +526,9 @@ TEST_F(VectorInsertStrTest, insertIntInPosition5) { // insert into end with real
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorInsertStrTest, insertIntInPosition6) { // insert into end without reallocation
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	s.reserve(30);
-
-	itf = --f.end(); itfe = f.end();
-	its = --s.end(); itse = s.end();
-
-	itfret = f.insert(f.end(), std::to_string(42));
-	itsret = s.insert(s.end(), std::to_string(42));
-	checkIfVectorsAreEqual(f, s);
-	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
-	checkVectorsAreEqualIt(itf, f.end(), its, s.end()); // itf and its should remain valid
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN1) {	// insert into begin with reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.insert(f.begin(), 5, std::to_string(42));
-	s.insert(s.begin(), 5,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN2) {	// insert into begin without reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), 5, std::to_string(42));
-	s.insert(s.begin(), 5,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN3) {	// insert into begin with reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntRangeN3) {	// insert into begin with reallocation, greater then size
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	f.insert(f.begin(), 15, std::to_string(42));
 	s.insert(s.begin(), 15,std::to_string(42));
@@ -942,45 +536,9 @@ TEST_F(VectorInsertStrTest, insertIntRangeN3) {	// insert into begin with reallo
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertStrTest, insertIntRangeN4) {	// insert into begin without reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), 15, std::to_string(42));
-	s.insert(s.begin(), 15,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN5) {	// insert into mid with reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.insert(++++f.begin(), 5, std::to_string(42));
-	s.insert(++++s.begin(), 5,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN6) {	// insert into mid without reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), 5, std::to_string(42));
-	s.insert(++++s.begin(), 5,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN7) {	// insert into mid n with reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntRangeN7) {	// insert into mid n with reallocation, greater then size
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	f.insert(++++f.begin(), 15, std::to_string(42));
 	s.insert(++++s.begin(), 15,std::to_string(42));
@@ -988,45 +546,9 @@ TEST_F(VectorInsertStrTest, insertIntRangeN7) {	// insert into mid n with reallo
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertStrTest, insertIntRangeN8) {	// insert into mid without reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), 15, std::to_string(42));
-	s.insert(++++s.begin(), 15,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN9) {	// insert into end with reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.insert(f.end(), 5, std::to_string(42));
-	s.insert(s.end(), 5,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN10) {	// insert into end without reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), 5, std::to_string(42));
-	s.insert(s.end(), 5,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeN11) {	// insert into end with reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntRangeN11) {	// insert into end with reallocation, greater then size
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	f.insert(f.end(), 15, std::to_string(42));
 	s.insert(s.end(), 15,std::to_string(42));
@@ -1034,22 +556,9 @@ TEST_F(VectorInsertStrTest, insertIntRangeN11) {	// insert into end with realloc
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertStrTest, insertIntRangeN12) {	// insert into end without reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), 15, std::to_string(42));
-	s.insert(s.end(), 15,std::to_string(42));
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntRangeNMultiReallocation) {
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntRangeNMultiReallocation) {
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	f.insert(f.end(), 15000, std::to_string(42));
 	s.insert(s.end(), 15000,std::to_string(42));
@@ -1057,9 +566,9 @@ TEST_F(VectorInsertStrTest, insertIntRangeNMultiReallocation) {
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertStrTest, insertIntIterator1) {	// insert into begin with reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntIterator1) {	// insert into begin with reallocation, less then size
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	f.insert(f.begin(), sample.begin(), ++++++sample.begin());
 	s.insert(s.begin(), sample.begin(), ++++++sample.begin());
@@ -1067,45 +576,9 @@ TEST_F(VectorInsertStrTest, insertIntIterator1) {	// insert into begin with real
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertStrTest, insertIntIterator2) {	// insert into begin without reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator3) {	// insert into begin with reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.insert(f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator4) {	// insert into begin without reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator5) {	// insert into mid with reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntIterator5) {	// insert into mid with reallocation, less then size
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
 	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
@@ -1113,45 +586,9 @@ TEST_F(VectorInsertStrTest, insertIntIterator5) {	// insert into mid with reallo
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertStrTest, insertIntIterator6) {	// insert into mid without reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator7) {	// insert into mid n with reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator8) {	// insert into mid without reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(++++f.begin(), sample.begin(), ++++sample.begin());
-	s.insert(++++s.begin(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator9) {	// insert into end with reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
+TEST_F(DequeInsertStrTest, insertIntIterator9) {	// insert into end with reallocation, less then size
+	ft::deque<std::string> f(sample.begin(), sample.end());
+	std::deque<std::string> s(sample.begin(), sample.end());
 
 	f.insert(f.end(), sample.begin(), ++++sample.begin());
 	s.insert(s.end(), sample.begin(), ++++sample.begin());
@@ -1159,92 +596,36 @@ TEST_F(VectorInsertStrTest, insertIntIterator9) {	// insert into end with reallo
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorInsertStrTest, insertIntIterator10) {	// insert into end without reallocation, less then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), sample.begin(), ++++sample.begin());
-	s.insert(s.end(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator11) {	// insert into end with reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.insert(f.end(), sample.begin(), ++++sample.begin());
-	s.insert(s.end(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIterator12) {	// insert into end without reallocation, greater then size
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-
-	f.reserve(30);
-	f.reserve(30);
-
-	f.insert(f.end(), sample.begin(), ++++sample.begin());
-	s.insert(s.end(), sample.begin(), ++++sample.begin());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-TEST_F(VectorInsertStrTest, insertIntIteratorMultiReallocation) {
-	ft::vector<std::string> f(sample.begin(), sample.end());
-	std::vector<std::string> s(sample.begin(), sample.end());
-	for (int i = 0; i < 15000; ++i) {
-		sample.push_back(std::to_string(i * rand()));
-	}
-
-	f.insert(f.end(), sample.begin(), sample.end());
-	s.insert(s.end(), sample.begin(), sample.end());
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-class VectorEraseTest : public ::testing::Test {
+class DequeEraseTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
 			sample.push_back(i);
 		}
 	}
-	std::vector<int> sample;
-	ft::vector<int>::iterator itf;
-	ft::vector<int>::iterator itfe;
-	ft::vector<int>::iterator itfret;
-	std::vector<int>::iterator its;
-	std::vector<int>::iterator itse;
-	std::vector<int>::iterator itsret;
+	std::deque<int> sample;
+	ft::deque<int>::iterator itf;
+	ft::deque<int>::iterator itfe;
+	ft::deque<int>::iterator itfret;
+	std::deque<int>::iterator its;
+	std::deque<int>::iterator itse;
+	std::deque<int>::iterator itsret;
 };
 
-TEST_F(VectorEraseTest, erasePos1) {		// erase from begin
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	size_t capf = f.capacity(); size_t caps = s.capacity();
+TEST_F(DequeEraseTest, erasePos1) {		// erase from begin
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itfret = f.erase(f.begin());
 	itsret = s.erase(s.begin());
-
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
 
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorEraseTest, erasePos2) {		// erase from mid
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	size_t capf = f.capacity(); size_t caps = s.capacity();
+TEST_F(DequeEraseTest, erasePos2) {		// erase from mid
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itf = ++++f.begin();
 	its = ++++s.begin();
@@ -1252,19 +633,14 @@ TEST_F(VectorEraseTest, erasePos2) {		// erase from mid
 	itfret = f.erase(----f.end());
 	itsret = s.erase(----s.end());
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
-
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itf, f.end(), its, s.end());
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorEraseTest, erasePos3) {		// erase from end
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	size_t capf = f.capacity(); size_t caps = s.capacity();
+TEST_F(DequeEraseTest, erasePos3) {		// erase from end
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itf = ++++f.begin();
 	its = ++++s.begin();
@@ -1272,51 +648,36 @@ TEST_F(VectorEraseTest, erasePos3) {		// erase from end
 	itfret = f.erase(--f.end());
 	itsret = s.erase(--s.end());
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
-
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itf, f.end(), its, s.end());
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorEraseTest, eraseIterator1) { // erase from begin
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	size_t capf = f.capacity(); size_t caps = s.capacity();
+TEST_F(DequeEraseTest, eraseIterator1) { // erase from begin
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itfret = f.erase(f.begin(), ----f.end());
 	itsret = s.erase(s.begin(), ----s.end());
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
-
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorEraseTest, eraseIterator2) { // erase from begin full
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	size_t capf = f.capacity(); size_t caps = s.capacity();
+TEST_F(DequeEraseTest, eraseIterator2) { // erase from begin full
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itfret = f.erase(f.begin(), f.end());
 	itsret = s.erase(s.begin(), s.end());
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
-
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorEraseTest, eraseIterator3) { // erase from mid
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	size_t capf = f.capacity(); size_t caps = s.capacity();
+TEST_F(DequeEraseTest, eraseIterator3) { // erase from mid
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itf = ++++f.begin();
 	its = ++++s.begin();
@@ -1324,19 +685,14 @@ TEST_F(VectorEraseTest, eraseIterator3) { // erase from mid
 	itfret = f.erase(++++++f.begin(), ----f.end());
 	itsret = s.erase(++++++s.begin(), ----s.end());
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
-
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itf, f.end(), its, s.end());
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorEraseTest, eraseIterator4) { // erase from mid till end
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
-
-	size_t capf = f.capacity(); size_t caps = s.capacity();
+TEST_F(DequeEraseTest, eraseIterator4) { // erase from mid till end
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
 	itf = ++++f.begin();
 	its = ++++s.begin();
@@ -1344,19 +700,15 @@ TEST_F(VectorEraseTest, eraseIterator4) { // erase from mid till end
 	itfret = f.erase(++++++f.begin(), f.end());
 	itsret = s.erase(++++++s.begin(), s.end());
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
-
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itf, f.end(), its, s.end());
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-TEST_F(VectorEraseTest, eraseIterator5) { // erase end, noting should happen
-	ft::vector<int> f(sample.begin(), sample.end());
-	std::vector<int> s(sample.begin(), sample.end());
+TEST_F(DequeEraseTest, eraseIterator5) { // erase end, noting should happen
+	ft::deque<int> f(sample.begin(), sample.end());
+	std::deque<int> s(sample.begin(), sample.end());
 
-	size_t capf = f.capacity(); size_t caps = s.capacity();
 
 	itf = ++++f.begin();
 	its = ++++s.begin();
@@ -1364,33 +716,30 @@ TEST_F(VectorEraseTest, eraseIterator5) { // erase end, noting should happen
 	itfret = f.erase(f.end(), f.end());
 	itsret = s.erase(s.end(), s.end());
 
-	EXPECT_EQ(caps, s.capacity());
-	EXPECT_EQ(capf, f.capacity());
-
 	checkIfVectorsAreEqual(f, s);
 	checkVectorsAreEqualIt(itf, f.end(), its, s.end());
 	checkVectorsAreEqualIt(itfret, f.end(), itsret, s.end());
 }
 
-class VectorPushBackTest : public ::testing::Test {
+class DequePushBackTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
 			sample.push_back(i);
 		}
 	}
-	std::vector<int> sample;
-	ft::vector<int>::iterator itf;
-	ft::vector<int>::iterator itfe;
-	ft::vector<int>::iterator itfret;
-	std::vector<int>::iterator its;
-	std::vector<int>::iterator itse;
-	std::vector<int>::iterator itsret;
+	std::deque<int> sample;
+	ft::deque<int>::iterator itf;
+	ft::deque<int>::iterator itfe;
+	ft::deque<int>::iterator itfret;
+	std::deque<int>::iterator its;
+	std::deque<int>::iterator itse;
+	std::deque<int>::iterator itsret;
 };
 
-TEST_F(VectorPushBackTest, toEmpty) { // to empty with reallocation
-	std::vector<int> es;
-	ft::vector<int> ef;
+TEST_F(DequePushBackTest, toEmpty) { // to empty with reallocation
+	std::deque<int> es;
+	ft::deque<int> ef;
 
 	es.push_back(42);
 	ef.push_back(42);
@@ -1398,22 +747,10 @@ TEST_F(VectorPushBackTest, toEmpty) { // to empty with reallocation
 	checkIfVectorsAreEqual(ef, es);
 }
 
-TEST_F(VectorPushBackTest, toEmptyNoRealloc) { // to empty without reallocation
-	std::vector<int> es;
-	ft::vector<int> ef;
 
-	es.reserve(10);
-	ef.reserve(10);
-
-	es.push_back(42);
-	ef.push_back(42);
-
-	checkIfVectorsAreEqual(ef, es);
-}
-
-TEST_F(VectorPushBackTest, withRealloc) { // to empty with reallocation
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequePushBackTest, withRealloc) { // to empty with reallocation
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
 	s.push_back(42);
 	f.push_back(42);
@@ -1421,38 +758,25 @@ TEST_F(VectorPushBackTest, withRealloc) { // to empty with reallocation
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorPushBackTest, withoutRealloc) { // to empty without reallocation
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	s.reserve(15);
-	f.reserve(15);
-
-	s.push_back(42);
-	f.push_back(42);
-
-	checkIfVectorsAreEqual(f, s);
-}
-
-class VectorPopBackTest : public ::testing::Test {
+class DequePopBackTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
 			sample.push_back(i);
 		}
 	}
-	std::vector<int> sample;
-	ft::vector<int>::iterator itf;
-	ft::vector<int>::iterator itfe;
-	ft::vector<int>::iterator itfret;
-	std::vector<int>::iterator its;
-	std::vector<int>::iterator itse;
-	std::vector<int>::iterator itsret;
+	std::deque<int> sample;
+	ft::deque<int>::iterator itf;
+	ft::deque<int>::iterator itfe;
+	ft::deque<int>::iterator itfret;
+	std::deque<int>::iterator its;
+	std::deque<int>::iterator itse;
+	std::deque<int>::iterator itsret;
 };
 
-TEST_F(VectorPopBackTest, single) {
-	std::vector<int> s(sample.begin(), ++sample.begin());
-	ft::vector<int> f(sample.begin(), ++sample.begin());
+TEST_F(DequePopBackTest, single) {
+	std::deque<int> s(sample.begin(), ++sample.begin());
+	ft::deque<int> f(sample.begin(), ++sample.begin());
 
 	s.pop_back();
 	f.pop_back();
@@ -1462,9 +786,9 @@ TEST_F(VectorPopBackTest, single) {
 	checkIfVectorsAreEqual(f, s);
 }
 
-TEST_F(VectorPopBackTest, simple) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequePopBackTest, simple) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
 	s.pop_back();
 	f.pop_back();
@@ -1474,172 +798,59 @@ TEST_F(VectorPopBackTest, simple) {
 	checkIfVectorsAreEqual(f, s);
 }
 
-class VectorResizeTest : public ::testing::Test {
+class DequeAssignTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 10; ++i) {
 			sample.push_back(i);
 		}
 	}
-	std::vector<int> sample;
-	ft::vector<int>::iterator itf;
-	ft::vector<int>::iterator itfe;
-	ft::vector<int>::iterator itfret;
-	std::vector<int>::iterator its;
-	std::vector<int>::iterator itse;
-	std::vector<int>::iterator itsret;
+	std::deque<int> sample;
+	ft::deque<int>::iterator itf;
+	ft::deque<int>::iterator itfe;
+	ft::deque<int>::iterator itfret;
+	std::deque<int>::iterator its;
+	std::deque<int>::iterator itse;
+	std::deque<int>::iterator itsret;
 };
 
-TEST_F(VectorResizeTest, toUp) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeAssignTest, toEmpty) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
-	for (int i = 0; i < 5; ++i) {
-		s.resize(static_cast<size_t>(12 * i));
-		f.resize(static_cast<size_t>(12 * i));
-		EXPECT_EQ(s.size(), 12 * i);
-		EXPECT_EQ(f.size(), 12 * i);
-		checkIfVectorsAreEqual(f, s);
-	}
-}
-
-TEST_F(VectorResizeTest, toDown) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	for (int i = 10; i > 0; --i) {
-		s.resize(static_cast<size_t>(i));
-		f.resize(static_cast<size_t>(i));
-		EXPECT_EQ(s.size(), i);
-		EXPECT_EQ(f.size(), i);
-		checkIfVectorsAreEqual(f, s);
-	}
-}
-
-TEST_F(VectorResizeTest, toMixed) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	s.resize(5);
-	f.resize(5);
-	EXPECT_EQ(s.size(), 5);
-	EXPECT_EQ(f.size(), 5);
-	checkIfVectorsAreEqual(f, s);
-
-	s.resize(20);
-	f.resize(20);
-	EXPECT_EQ(s.size(), 20);
-	EXPECT_EQ(f.size(), 20);
-	checkIfVectorsAreEqual(f, s);
-
-	s.resize(15);
-	f.resize(15);
-	EXPECT_EQ(s.size(), 15);
-	EXPECT_EQ(f.size(), 15);
-	checkIfVectorsAreEqual(f, s);
-}
-
-class VectorAssignTest : public ::testing::Test {
-protected:
-	virtual void SetUp() {
-		for (int i = 0; i < 10; ++i) {
-			sample.push_back(i);
-		}
-	}
-	std::vector<int> sample;
-	ft::vector<int>::iterator itf;
-	ft::vector<int>::iterator itfe;
-	ft::vector<int>::iterator itfret;
-	std::vector<int>::iterator its;
-	std::vector<int>::iterator itse;
-	std::vector<int>::iterator itsret;
-};
-
-TEST_F(VectorAssignTest, toEmpty) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	std::vector<int> s1;
-	ft::vector<int> f1;
+	std::deque<int> s1;
+	ft::deque<int> f1;
 
 	s1.assign(s.begin(), s.end());
 	f1.assign(f.begin(), f.end());
 	checkIfVectorsAreEqual(f1, s1);
 }
 
-TEST_F(VectorAssignTest, toNotEmpty) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeAssignTest, toNotEmpty) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
-	std::vector<int> s1(s);
-	ft::vector<int> f1(f);
-
-	s1.assign(++++s.begin(), --s.end());
-	f1.assign(++++f.begin(), --f.end());
-	checkIfVectorsAreEqual(f1, s1);
-}
-
-TEST_F(VectorAssignTest, capacityCheck) { // capacity check
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	std::vector<int> s1;
-	ft::vector<int> f1;
-
-	s1.reserve(30);
-	f1.reserve(30);
+	std::deque<int> s1(s);
+	ft::deque<int> f1(f);
 
 	s1.assign(++++s.begin(), --s.end());
 	f1.assign(++++f.begin(), --f.end());
-
-	EXPECT_EQ(s1.capacity(), 30);
-	EXPECT_EQ(f1.capacity(), 30);
 	checkIfVectorsAreEqual(f1, s1);
 }
 
-TEST_F(VectorAssignTest, toEmptyN) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
+TEST_F(DequeAssignTest, toNotEmptyN) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
 
-	std::vector<int> s1;
-	ft::vector<int> f1;
+	std::deque<int> s1(s);
+	ft::deque<int> f1(f);
 
 	s1.assign(42, 42);
 	f1.assign(42, 42);
 	checkIfVectorsAreEqual(f1, s1);
 }
 
-TEST_F(VectorAssignTest, toNotEmptyN) {
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	std::vector<int> s1(s);
-	ft::vector<int> f1(f);
-
-	s1.assign(42, 42);
-	f1.assign(42, 42);
-	checkIfVectorsAreEqual(f1, s1);
-}
-
-TEST_F(VectorAssignTest, capacityCheckN) { // capacity check
-	std::vector<int> s(sample.begin(), sample.end());
-	ft::vector<int> f(sample.begin(), sample.end());
-
-	std::vector<int> s1;
-	ft::vector<int> f1;
-
-	s1.reserve(50);
-	f1.reserve(50);
-
-	s1.assign(42, 42);
-	f1.assign(42, 42);
-
-	EXPECT_EQ(s1.capacity(), 50);
-	EXPECT_EQ(f1.capacity(), 50);
-	checkIfVectorsAreEqual(f1, s1);
-}
-
-class VectorSwapTest : public testing::Test {
+class DequeSwapTest : public testing::Test {
 protected:
 	virtual void SetUp() {
 		for (int i = 0; i < 100; ++i) {
@@ -1648,11 +859,11 @@ protected:
 		}
 	}
 
-	std::vector<std::string> s2, s1;
-	ft::vector<std::string>  f2, f1;
+	std::deque<std::string> s2, s1;
+	ft::deque<std::string>  f2, f1;
 };
 
-TEST_F(VectorSwapTest, integrityFullEmpty) {
+TEST_F(DequeSwapTest, integrityFullEmpty) {
 	s1.swap(s2);
 	f1.swap(f2);
 
@@ -1660,7 +871,7 @@ TEST_F(VectorSwapTest, integrityFullEmpty) {
 	checkIfVectorsAreEqual(f2, s2);
 }
 
-TEST_F(VectorSwapTest, integrityEmptyFull) {
+TEST_F(DequeSwapTest, integrityEmptyFull) {
 	s2.swap(s1);
 	f2.swap(f1);
 
@@ -1668,7 +879,7 @@ TEST_F(VectorSwapTest, integrityEmptyFull) {
 	checkIfVectorsAreEqual(f2, s2);
 }
 
-TEST_F(VectorSwapTest, integrityFullFull) {
+TEST_F(DequeSwapTest, integrityFullFull) {
 	s2.push_back("std::to_string(i)");
 	f2.push_back("std::to_string(i)");
 
@@ -1679,9 +890,9 @@ TEST_F(VectorSwapTest, integrityFullFull) {
 	checkIfVectorsAreEqual(f2, s2);
 }
 
-TEST_F(VectorSwapTest, iteratorValidity) {
-	std::vector<std::string>::iterator its = ++s1.begin();
-	ft::vector<std::string>::iterator itf = ++f1.begin();
+TEST_F(DequeSwapTest, iteratorValidity) {
+	std::deque<std::string>::iterator its = ++s1.begin();
+	ft::deque<std::string>::iterator itf = ++f1.begin();
 
 	s2.push_back("std::to_string(i)");
 	f2.push_back("std::to_string(i)");
@@ -1694,16 +905,16 @@ TEST_F(VectorSwapTest, iteratorValidity) {
 	checkVectorsAreEqualIt(itf, f2.end(), its, s2.end());
 }
 
-class VectorComprasionTest : public ::testing::Test {
+class DequeComprasionTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
 
 	}
-	std::vector<std::string> s1, s2;
-	ft::vector<std::string> f1, f2;
+	std::deque<std::string> s1, s2;
+	ft::deque<std::string> f1, f2;
 };
 
-TEST_F(VectorComprasionTest, equalSimple) {
+TEST_F(DequeComprasionTest, equalSimple) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("b"); f1.push_back("b");
 	s1.push_back("c"); f1.push_back("c");
@@ -1720,7 +931,7 @@ TEST_F(VectorComprasionTest, equalSimple) {
 	EXPECT_EQ(false, f1 < f2);
 }
 
-TEST_F(VectorComprasionTest, equalSingleElem) {
+TEST_F(DequeComprasionTest, equalSingleElem) {
 	s1.push_back("a"); f1.push_back("a");
 
 	s2.push_back("a"); f2.push_back("a");
@@ -1731,16 +942,16 @@ TEST_F(VectorComprasionTest, equalSingleElem) {
 	EXPECT_EQ(false, f1 < f2);
 }
 
-TEST_F(VectorComprasionTest, equalEmpty) {
-	ft::vector<int> sample;
-	ft::vector<int> sample2;
+TEST_F(DequeComprasionTest, equalEmpty) {
+	ft::deque<int> sample;
+	ft::deque<int> sample2;
 	EXPECT_EQ(true, s1 == s2);
 	EXPECT_EQ(true, f1 == f2);
 	EXPECT_EQ(false, s1 < s2);
 	EXPECT_EQ(false, f1 < f2);
 }
 
-TEST_F(VectorComprasionTest, lessSizeLess) {
+TEST_F(DequeComprasionTest, lessSizeLess) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("b"); f1.push_back("b");
 	s1.push_back("c"); f1.push_back("c");
@@ -1756,7 +967,7 @@ TEST_F(VectorComprasionTest, lessSizeLess) {
 	EXPECT_EQ(false, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, lessOneElem) {
+TEST_F(DequeComprasionTest, lessOneElem) {
 	s1.push_back("a"); f1.push_back("a");
 
 	s2.push_back("d"); f2.push_back("d");
@@ -1767,7 +978,7 @@ TEST_F(VectorComprasionTest, lessOneElem) {
 	EXPECT_EQ(false, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, lessCase1) {
+TEST_F(DequeComprasionTest, lessCase1) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("b"); f1.push_back("b");
 	s1.push_back("c"); f1.push_back("c");
@@ -1782,7 +993,7 @@ TEST_F(VectorComprasionTest, lessCase1) {
 	EXPECT_EQ(false, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, lessCase2) {
+TEST_F(DequeComprasionTest, lessCase2) {
 	s1.push_back("a1"); f1.push_back("a1");
 	s1.push_back("b"); f1.push_back("b");
 	s1.push_back("c"); f1.push_back("c");
@@ -1797,7 +1008,7 @@ TEST_F(VectorComprasionTest, lessCase2) {
 	EXPECT_EQ(false, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, justCase1) {
+TEST_F(DequeComprasionTest, justCase1) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
@@ -1813,7 +1024,7 @@ TEST_F(VectorComprasionTest, justCase1) {
 	EXPECT_EQ(false, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, justCase2) {
+TEST_F(DequeComprasionTest, justCase2) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
@@ -1828,7 +1039,7 @@ TEST_F(VectorComprasionTest, justCase2) {
 	EXPECT_EQ(true, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, justCase3) {
+TEST_F(DequeComprasionTest, justCase3) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
@@ -1841,7 +1052,7 @@ TEST_F(VectorComprasionTest, justCase3) {
 	EXPECT_EQ(false, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, justCase4) {
+TEST_F(DequeComprasionTest, justCase4) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
@@ -1856,7 +1067,7 @@ TEST_F(VectorComprasionTest, justCase4) {
 	EXPECT_EQ(false, f1 == f2);
 }
 
-TEST_F(VectorComprasionTest, justCase5) {
+TEST_F(DequeComprasionTest, justCase5) {
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
 	s1.push_back("a"); f1.push_back("a");
