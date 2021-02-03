@@ -369,6 +369,16 @@ public:
 		_alloc.destroy(_arr + _size - 1);
 		--_size;
 	};
+
+	void push_front (const value_type& val) {
+		if (_capacity == 0) {
+			_capacity = 1;
+			_size = 1;
+			_arr = createVector(val);
+		} else
+			insert(begin(), val);
+	};
+	void pop_front() { erase(begin()); };
 	iterator insert (iterator position, const value_type& val) {
 		pointer pos = position.getElem();
 		if (_size + 1  > _capacity)

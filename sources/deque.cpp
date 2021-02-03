@@ -798,6 +798,83 @@ TEST_F(DequePopBackTest, simple) {
 	checkIfVectorsAreEqual(f, s);
 }
 
+class DequePushFrontTest : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		for (int i = 0; i < 10; ++i) {
+			sample.push_back(i);
+		}
+	}
+	std::deque<int> sample;
+	ft::deque<int>::iterator itf;
+	ft::deque<int>::iterator itfe;
+	ft::deque<int>::iterator itfret;
+	std::deque<int>::iterator its;
+	std::deque<int>::iterator itse;
+	std::deque<int>::iterator itsret;
+};
+
+TEST_F(DequePushFrontTest, toEmpty) { // to empty with reallocation
+	std::deque<int> es;
+	ft::deque<int> ef;
+
+	es.push_front(42);
+	ef.push_front(42);
+
+	checkIfVectorsAreEqual(ef, es);
+}
+
+
+TEST_F(DequePushFrontTest, withRealloc) { // to empty with reallocation
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
+
+	s.push_front(42);
+	f.push_front(42);
+
+	checkIfVectorsAreEqual(f, s);
+}
+
+class DequePopFrontTest : public ::testing::Test {
+protected:
+	virtual void SetUp() {
+		for (int i = 0; i < 10; ++i) {
+			sample.push_back(i);
+		}
+	}
+	std::deque<int> sample;
+	ft::deque<int>::iterator itf;
+	ft::deque<int>::iterator itfe;
+	ft::deque<int>::iterator itfret;
+	std::deque<int>::iterator its;
+	std::deque<int>::iterator itse;
+	std::deque<int>::iterator itsret;
+};
+
+TEST_F(DequePopFrontTest, single) {
+	std::deque<int> s(sample.begin(), ++sample.begin());
+	ft::deque<int> f(sample.begin(), ++sample.begin());
+
+	s.pop_front();
+	f.pop_front();
+
+	EXPECT_EQ(s.size(), 0);
+	EXPECT_EQ(f.size(), 0);
+	checkIfVectorsAreEqual(f, s);
+}
+
+TEST_F(DequePopFrontTest, simple) {
+	std::deque<int> s(sample.begin(), sample.end());
+	ft::deque<int> f(sample.begin(), sample.end());
+
+	s.pop_front();
+	f.pop_front();
+
+	EXPECT_EQ(s.size(), 9);
+	EXPECT_EQ(f.size(), 9);
+	checkIfVectorsAreEqual(f, s);
+}
+
 class DequeAssignTest : public ::testing::Test {
 protected:
 	virtual void SetUp() {
