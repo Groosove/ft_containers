@@ -3,11 +3,8 @@
 // Copyright (c) 2020 All rights reserved.
 //
 
-#ifndef FT_CONTAINERS_LIST_HPP
-#define FT_CONTAINERS_LIST_HPP
-
+#pragma once
 #include "ft.hpp"
-#include <list>
 
 template <class T, class Alloc>
 class ft::list {
@@ -513,5 +510,3 @@ template <class T, class Alloc> bool ft::operator>=
 		(const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) { return !(lhs < rhs); };
 
 template <class T, class Alloc> void ft::swap (ft::list<T,Alloc>& x, ft::list<T,Alloc>& y) { x.swap(y); };
-
-#endif

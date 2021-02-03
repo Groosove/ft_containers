@@ -3,12 +3,7 @@
 // Copyright (c) 2020 All rights reserved.
 //
 
-#ifndef FT_CONTAINERS_FT_HPP
-#define FT_CONTAINERS_FT_HPP
-
-#include <iostream>
-#include <iterator>
-#include <deque>
+#pragma once
 
 namespace ft {
 
@@ -81,6 +76,7 @@ namespace ft {
 
 	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<std::pair<const Key, T> > >
 	class map;
-}
 
-#endif
+	template <class Key, class T, class Compare = std::less<Key>, class Allocator = std::allocator<Key > >
+	class set;
+}

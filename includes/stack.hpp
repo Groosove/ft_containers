@@ -4,10 +4,8 @@
 // Created by Артур Лутфуллин on 14.12.2020.
 // Copyright (c) 2020 Артур Лутфуллин. All right reserved. 
 //
-#ifndef FT_CONTAINERS_STACK_HPP
-#define FT_CONTAINERS_STACK_HPP
+#pragma once
 
-#include <stack>
 #include "ft.hpp"
 template <class T, class Container>
 class ft::stack {
@@ -43,5 +41,3 @@ template <class T, class Container> bool ft::operator<  (const ft::stack<T,Conta
 template <class T, class Container> bool ft::operator<= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() <= rhs.getContainer(); };
 template <class T, class Container> bool ft::operator>  (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() > rhs.getContainer(); };
 template <class T, class Container> bool ft::operator>= (const ft::stack<T,Container>& lhs, const ft::stack<T,Container>& rhs) { return lhs.getContainer() >= rhs.getContainer(); };
-
-#endif

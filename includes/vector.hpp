@@ -4,11 +4,8 @@
 // Created by Артур Лутфуллин on 31.12.2020.
 // Copyright (c) 2020 Артур Лутфуллин. All right reserved. 
 //
+#pragma once
 
-#ifndef FT_CONTAINERS_VECTOR_HPP
-# define FT_CONTAINERS_VECTOR_HPP
-
-#include <vector>
 #include "ft.hpp"
 template <class T, class Alloc>
 class ft::vector {
@@ -497,4 +494,3 @@ template <class T, class Alloc> bool ft::operator>=
 	(const ft::vector<T,Alloc>& lhs, const ft::vector<T,Alloc>& rhs) { return !(lhs < rhs); };
 
 template <class T, class Alloc> void ft::swap (ft::vector<T,Alloc>& x, ft::vector<T,Alloc>& y) { x.swap(y); };
-#endif

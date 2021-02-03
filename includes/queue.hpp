@@ -2,12 +2,10 @@
 // Created by Fenix Lavon on 12/14/20.
 // Copyright (c) 2020 All rights reserved.
 //
-
-#ifndef FT_CONTAINERS_QUEUE_HPP
-#define FT_CONTAINERS_QUEUE_HPP
+#pragma once
 
 #include "ft.hpp"
-#include <queue>
+
 template <class T, class Container>
 class ft::queue {
 public:
@@ -44,5 +42,3 @@ template <class T, class Container> bool ft::operator<  (const ft::queue<T,Conta
 template <class T, class Container> bool ft::operator<= (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return lhs.getContainer() <= rhs.getContainer(); };
 template <class T, class Container> bool ft::operator>  (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return lhs.getContainer() > rhs.getContainer(); };
 template <class T, class Container> bool ft::operator>= (const ft::queue<T,Container>& lhs, const ft::queue<T,Container>& rhs) { return  lhs.getContainer() >= rhs.getContainer(); };
-
-#endif

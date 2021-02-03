@@ -6,18 +6,18 @@
 #pragma once
 
 #include "ft.hpp"
-
+#include <set>
 template <class Key, class T, class Compare, class Alloc>
-class ft::map {
+class ft::set {
 public:
 	class iterator;
 	class const_iterator;
 	class reverse_iterator;
 	class const_reverse_iterator;
 	typedef Key											key_type;
-	typedef T											mapped_type;
-	typedef std::pair<const key_type, mapped_type>		value_type;
+	typedef key_type 									value_type;
 	typedef Compare										key_compare;
+	typedef key_compare 								value_compare;
 	typedef Alloc										allocator_type;
 	typedef value_type &								reference;
 	typedef const value_type &							const_reference;
@@ -25,16 +25,6 @@ public:
 	typedef const value_type *							const_pointer;
 	typedef size_t 										size_type;
 	typedef ptrdiff_t 									difference_type;
-
-	class value_compare : public std::binary_function<value_type, value_type, bool> {
-	public:
-		key_compare comp;
-
-		explicit value_compare(key_compare c) : comp(c) {};
-	public:
-		bool operator()(const value_type& x, const value_type& y) const { return comp(x.first, y.first); };
-	};
-
 
 private:
 	const static bool black = false;
@@ -59,7 +49,7 @@ private:
 	allocator_rebind_type _allocator_rebind;
 	allocator_type _alloc;
 
-	 _MapNode * createNode(Node *parent, const_reference val, bool color, size_type size) {
+	_MapNode * createNode(Node *parent, const_reference val, bool color, size_type size) {
 		Node *newNode = _allocator_rebind.allocate(1);
 		newNode->left = nullptr;
 		newNode->right = nullptr;
@@ -105,7 +95,7 @@ private:
 	}
 
 	std::pair<iterator, bool> _insertTree(_MapNode *node, const_reference val) {
-		int comp = _compare(val.first, node->content->first) + _compare(node->content->first, val.first) * 2;
+		int comp = _compare(val.first, node->content) + _compare(node->content, val.first) * 2;
 
 		if (comp == 0)
 			return std::make_pair(iterator(node), false);
@@ -136,11 +126,11 @@ private:
 	}
 
 	inline void linkParentWithNewNode(_MapNode* parent, _MapNode* oldNode, _MapNode* newNode) {
-	 	if (!parent) {
+		if (!parent) {
 			newNode->parent = nullptr;
 			return;
 		}
-	 	(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
+		(parent->left == oldNode ? linkLeft : linkRight)(parent, newNode);
 	};
 
 	_MapNode *rotateLeft(_MapNode* currentNode) {
@@ -169,8 +159,6 @@ private:
 		currentNode->color = red;
 		return leftNode;
 	}
-
-	inline static bool isEnd(_MapNode *node) { return (node) ? !(node->content) : false; }
 
 	inline void invertColor(_MapNode *currentNode) {
 		if (currentNode->right != _end_node && currentNode->right)
@@ -556,31 +544,31 @@ public:
 	};
 
 	/* Constructor */
-	explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-	: _node(nullptr), _size(0), _compare(comp), _alloc(alloc) { createBeginAndEndNode(); };
+	explicit set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+			: _node(nullptr), _size(0), _compare(comp), _alloc(alloc) { createBeginAndEndNode(); };
 
 	template <class InputIterator>
-	map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
-	: _node(nullptr), _size(0), _compare(comp), _alloc(alloc) {
+	set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(), typename ft::enable_if<std::__is_input_iterator<InputIterator>::value>::type* = 0)
+			: _node(nullptr), _size(0), _compare(comp), _alloc(alloc) {
 		createBeginAndEndNode();
 		insert(first, last);
 	};
 
 	/* Copy constructor */
-	map (const map& x): _size(0), _allocator_rebind(x._allocator_rebind), _alloc(x._alloc) {
+	set (const set& x): _size(0), _allocator_rebind(x._allocator_rebind), _alloc(x._alloc) {
 		createBeginAndEndNode();
 		*this = x;
 	};
 
 	/* Assignation operator */
-	map& operator= (const map& x) {
+	set& operator= (const set& x) {
 		clear();
 		insert(x.begin(), x.end());
 		return *this;
 	};
 
 	/* Destructor */
-	~map() {
+	~set() {
 		clear();
 		_allocator_rebind.deallocate(_begin_node, 1);
 		_allocator_rebind.deallocate(_end_node, 1);
@@ -602,9 +590,6 @@ public:
 	bool empty() const { return _size == 0; };
 	size_type size() const { return _size; };
 	size_type max_size() const { return std::numeric_limits<size_type>::max() / sizeof(_node); };
-
-	/* Element access */
-	mapped_type& operator[] (const key_type& k) { return insert(std::make_pair(k, mapped_type())).first->second; };
 
 	/* Modifiers */
 	std::pair<iterator, bool> insert (const_reference val) {
@@ -636,7 +621,7 @@ public:
 			erase(first++);
 	};
 
-	void swap (map& x) {
+	void swap (set& x) {
 		_MapNode *tmp = _node;
 		_node = x._node;
 		x._node = tmp;
@@ -671,13 +656,13 @@ public:
 	};
 	const_iterator	find (const key_type& k) const {
 		for (const_iterator it = ++begin(), ite = end(); it != ite; ++it)
-			if (it->first == k)
+			if (*it == k)
 				return it;
 		return end();
 	};
 	size_type		count (const key_type& k) const {
 		for (const_iterator it = begin(), ite = end(); it != ite; ++it)
-			if (it->first == k)
+			if (*it == k)
 				return 1;
 		return 0;
 	};
